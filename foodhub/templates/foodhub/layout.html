@@ -1,0 +1,49 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'foodhub/styles.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />    
+    <title>{% block title %}Foodhub{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <div class="logo"><a href="{% url 'index' %}">Foodhub</a></div>
+        <input type="checkbox" id="menu-bar">
+        <label for="menu-bar"><i class="fas fa-bars"></i></label>
+        <nav>
+            <ul>
+                <li><a href="{% url 'create_recipe' %}">Create Recipe</a></li>
+                <li><a href="{% url 'recipes' %}">Recipes</a></li>
+                <li>
+                    <a href="{% url 'categories' %}">Categories</a>
+                    <ul>
+                        {% for category in featured_categories %}
+                            <li><a href="{% url 'category' category.0 %}">{{ category.1 }}</a></li>
+                        {% endfor %}
+                        <li><a href="{% url 'categories' %}">View All</a></li>
+                    </ul>
+                </li>
+                {% if not request.user.is_authenticated %}
+                    <li class="nav-btn"><a href="{% url 'login_view' %}">Login</a></li>
+                {% else %}
+                    <li class="nav-btn"><a href="{% url 'logout' %}">Logout</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% if request.user.is_authenticated %}
+            <a href="{% url 'profile' request.user.username %}" class="user-icon"><i class="fa fa-user" aria-hidden="true"></i></a>
+        {% endif %}
+    </header>
+    <div class="body">
+        {% block body %}
+        {% endblock %}
+    </div>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{% static 'foodhub/foodhub.js' %}"></script>
+</body>
+</html>

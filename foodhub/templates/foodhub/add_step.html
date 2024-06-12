@@ -1,0 +1,77 @@
+{% extends "foodhub/layout.html" %}
+
+{% block body %}   
+<div class="container-and-link">
+    <div class="button-container">
+        <button>
+            <a href="{% url 'add_ingredient' recipe.name %}">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+        </button>
+        <span class="button-label">Add Ingredients</span>
+    </div>
+    <div class="direction-form-container">
+        <h1>Add Directions to: </h1><span>{{ recipe.name }}</span>
+        <div class="direction-content">
+            <div class="direction-form-image">
+                <img src="{{ recipe.image.url }}" alt="" width="100%" height="100%">
+            </div>
+            <div class="direction-form">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div id="direction-forms">
+                        <div class="direction-form">
+                            <h3>Description: </h3>{{ form.description }}
+                            <div class="direction-add-media">
+                                <label class="direction-add-image" id="add-step-image" for="image-upload">
+                                    <input type="file" id="image-upload" accept="image/*" style="display: none;">
+                                    <i class="fa-solid fa-camera"></i>
+                                </label>
+                                <h3>Add Image</h3>
+                                
+                                <label class="direction-add-video" id="add-step-video" for="video-upload">
+                                    <input type="file" id="video-upload" accept="video/*" style="display: none;">
+                                    <i class="fa-solid fa-video"></i>
+                                </label>
+                                <h3>Add Video</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="button-container">
+        <button>
+            <a href="{% url 'add_step' recipe.name %}">
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </button>
+        <span class="button-label">Add Allergens</span>
+    </div>
+</div>
+<div class="directions-container">
+    <h1>Directions</h1>
+    <ul class="directions-list">
+        {% for step in steps %}
+            <li>{{ step.description }}</li>
+            {% if step.image %}
+                <div class="direction-image">
+                    <img src="{{ step.image.url }}" alt="Step Image">
+                </div>
+            {% endif %}
+            {% if step.video %}
+                <div class="direction-video">
+                    <video controls>
+                        <source src="{{ step.video.url }}" type="video/mp4">
+                        <source src="{{ step.video.webm_url }}" type="video/webm">
+                        <source src="{{ step.video.ogv_url }}" type="video/ogg">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

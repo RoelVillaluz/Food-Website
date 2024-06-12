@@ -1,0 +1,39 @@
+{% extends "foodhub/layout.html" %}
+
+{% block body %}
+{% if header_recipe %}
+<div class="category-header">
+    <a href="{% url 'recipe' header_recipe.name %}">
+        <img src="{{ header_recipe.image.url }}" alt="">
+    </a>
+    <div class="category-name">
+        <h1>{{ category.capitalize }}</h1>
+    </div>
+    <div class="category-header-details">
+        <h2>{{ header_recipe.name }}</h2>
+        <p>{{ header_recipe.description }}</p>
+    </div>
+</div>
+{% endif %}
+{% if recipes %}
+    <h1 class="all-recipe-header">All Recipes <span>({{ recipes.count }})</span></h1>
+{% else %}
+    <h1 class="all-recipe-header">No recipes yet</h1>
+{% endif %}
+<div class="all-recipes-card-container">
+    {% for recipe in recipes %}
+    <div class="recipe-item">
+        {% if request.user in recipe.likes.all %}
+            <div class="like-btn liked" data-id="{{ recipe.id }}"><i class="fa-regular fa-heart"></i></div>
+        {% else %}
+            <div class="like-btn" data-id="{{ recipe.id }}"><i class="fa-regular fa-heart"></i></div>
+        {% endif %}
+        <a href="{% url 'recipe' recipe.name %}">
+            <img src="{{ recipe.image.url }}" alt="">
+        </a>
+        <h2>{{ recipe.name }}</h2>
+        <span>{{ recipe.category }}</span>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,217 @@
+{% extends "foodhub/layout.html" %}
+
+{% block body %}
+    <div class="recipe-container">
+        <div class="recipe">
+            <div class="recipe-image">
+                <img src="{{ recipe.image.url }}" alt="">
+            </div>
+            <div class="recipe-content">
+                <div class="recipe-header">
+                    <h1>{{ recipe.name }}</h1>
+                    <div class="recipe-category">
+                        <a href="{% url 'category' recipe.category %}">{{ recipe.category }}</a>
+                    </div>
+                </div>
+                <div class="recipe-ratings">
+                    <i class="fa fa-star fa-regular average-review-star"></i>
+                    <i class="fa fa-star fa-regular average-review-star"></i>
+                    <i class="fa fa-star fa-regular average-review-star"></i>
+                    <i class="fa fa-star fa-regular average-review-star"></i>
+                    <i class="fa fa-star fa-regular average-review-star"></i>
+                    <span class="average-review">{{ average_rating|floatformat:1 }}</span>
+                    {% if reviews.count > 1 %}
+                        <span class="review-count">({{ reviews.count }} <a href="#">Reviews)</a></span>
+                    {% elif reviews.count == 1 %}
+                        <span class="review-count">({{ reviews.count }} <a href="#">Review)</a></span>
+                    {% else %}
+                        <span class="review-count">No Reviews Yet</span>
+                    {% endif %}
+                </div>
+                <div class="recipe-author">
+                    <p class="recipe-user">By: <a href="{% url 'profile' recipe.user %}"><span>{{ recipe.user }}</span></a></p>
+                    <p class="recipe-date">Published on {{ recipe.formatted_date }}</p>
+                </div>
+                <div class="recipe-description">
+                    {{ recipe.description }}
+                </div>
+                <div class="recipe-details">
+                    {% if recipe.duration %}
+                        <div class="recipe-cook-time">
+                            <h4>Cook Time: </h4>
+                            <i class="fas fa-clock"></i> {{ recipe.duration }}
+                        </div>
+                    {% endif %}
+                    {% if recipe.difficulty %}
+                        <div class="recipe-difficulty">
+                            <h4>Difficulty: </h4>
+                            {{ recipe.difficulty }}
+                        </div>
+                    {% endif %}
+                    {% if recipe.servings %}
+                        <div class="recipe-difficulty">
+                            <h4>Servings: </h4>
+                            <i class="fa-solid fa-utensils"></i> 
+                            {% if recipe.servings == 1 %}
+                                {{ recipe.servings }} Serving
+                            {% else %}
+                                {{ recipe.servings }} Servings
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                    {% if recipe.cost %}
+                        <div class="recipe-cost">
+                            <h4>Cost: </h4>
+                            <i class="fa-solid fa-money-bill"></i>
+                            {{ recipe.cost }} 
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ingredients-container">
+        <h1>Ingredients</h1>
+        <ul class="ingredients-list">
+            {% for ingredient in ingredients %}
+                {% if ingredient.unit_of_measurement == 'none' %}
+                    <li>{{ ingredient.quantity }} {{ ingredient.name  }}</li>
+                {% else %}
+                    <li>{{ ingredient }}</li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        {% if recipe.user == request.user %}
+        <button class="add-btn">
+            <a href="{% url 'add_ingredient' recipe.name %}">Add Ingredient</a>
+            <i class="fa-solid fa-plus"></i>
+        </button>
+        {% endif %}
+    </div>
+    <div class="directions-container">
+        <h1>Directions</h1>
+        <ul class="directions-list">
+            {% for step in steps %}
+                <li>{{ step.description }}</li>
+                {% if step.image %}
+                    <div class="direction-image">
+                        <img src="{{ step.image.url }}" alt="Step Image">
+                    </div>
+                {% endif %}
+                {% if step.video %}
+                    <div class="direction-video">
+                        <video controls>
+                            <source src="{{ step.video.url }}" type="video/mp4">
+                            <source src="{{ step.video.webm_url }}" type="video/webm">
+                            <source src="{{ step.video.ogv_url }}" type="video/ogg">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        {% if recipe.user == request.user %}
+        <button class="add-btn">
+            <a href="{% url 'add_step' recipe.name %}">Add Directions</a>
+            <i class="fa-solid fa-plus"></i>
+        </button>
+        {% endif %}
+    </div>
+    <div class="allergens-container">
+        <h1>Allergens</h1>
+        <ul class="allergens-list">
+            {% if allergens %}
+                {% for allergen in allergens %}
+                    <li>{{ allergen }}</li>
+                {% endfor %}
+            {% else %}
+                <p>No Allergens</p>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="rating-distribution">
+        <h1>Rating Distribution</h1>
+        <div class="stars">
+            {% for i in "54321" %}
+                <div class="star-bar" id="star-{{ i }}">
+                    <span>{{ i }} stars</span>
+                    <div class="bar">
+                        <div class="filled-bar" style="width: 0%;"></div>
+                    </div>
+                    <span class="percentage" id="percentage-{{ i }}">0%</span>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="review-container">
+        <div class="review-list">
+            <div class="review-list-header">
+                All Reviews 
+            </div>
+            {% if reviews.count > 1 %}
+                <h1>{{ reviews.count }} Reviews</h1>
+            {% elif reviews.count == 1 %}
+                <h1>{{ reviews.count }} Review</h1>
+            {% else %}
+                <h1>No Reviews Yet</h1>
+            {% endif %}
+            <div class="review-form">
+                {% if request.user.is_authenticated and not user_reviewed %}
+                    <img src="{{ my_profile.image.url }}" class="review-user-image" alt="">
+                        <h1>Leave a Review</h1>
+                        <form action="{% url 'create_review' recipe.name %}" method="POST">
+                            {% csrf_token %}
+                            <div class="rating">
+                                <label for="rating">Rating:</label>
+                                <input type="radio" id="star1" name="rating" value="1" /><label for="star1"></label>
+                                <input type="radio" id="star2" name="rating" value="2" /><label for="star2"></label>
+                                <input type="radio" id="star3" name="rating" value="3" /><label for="star3"></label>
+                                <input type="radio" id="star4" name="rating" value="4" /><label for="star4"></label>
+                                <input type="radio" id="star5" name="rating" value="5" /><label for="star5"></label>
+                            </div>
+                            <textarea id="review-description" name="description" placeholder="What did you think of this recipe?"></textarea>
+                            <input type="submit" value="Submit">
+                        </form>
+                {% endif %}
+            </div>
+            {% for review in reviews %}
+                <div class="review">
+                    <div class="review-user">
+                        {% for profile in profiles %}
+                            {% if profile.user == review.user %}
+                                {% if profile.image %}
+                                    <img src="{{ profile.image.url }}" class="review-user-image" alt="{{ profile.user.username }}">
+                                {% else %}
+                                    <img src="media/default.png" class="review-user-image" alt="{{ profile.user.username }}">
+                                {% endif %}
+                                <p>{{ profile.user.username }}</p>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="review-rating" data-rating="{{ review.rating }}">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <div class="review-details">
+                        <p>{{ review.description }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- <form id="ratingForm" method="post" action="{% url 'create_review' recipe.name %}">
+        {% csrf_token %}
+        <div class="rating">
+            <input type="radio" id="star5" name="rating" value="5" /><label for="star5"></label>
+            <input type="radio" id="star4" name="rating" value="4" /><label for="star4"></label>
+            <input type="radio" id="star3" name="rating" value="3" /><label for="star3"></label>
+            <input type="radio" id="star2" name="rating" value="2" /><label for="star2"></label>
+            <input type="radio" id="star1" name="rating" value="1" /><label for="star1"></label>
+        </div>
+        {{ review_form.description }}
+        <button type="submit">Submit Rating</button>
+    </form> -->
+{% endblock %}

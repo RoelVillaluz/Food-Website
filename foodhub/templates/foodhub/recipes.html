@@ -1,0 +1,167 @@
+{% extends "foodhub/layout.html" %}
+
+{% block body %}
+<div class="container">
+    <div class="floating-btn-container">
+        <button id="toggle-sidebar" class="floating-button"><i class="fa-solid fa-angle-right"></i></i></button>
+    </div>
+    <div class="sidebar" id="sidebar">
+        <form id="filter-form" method="GET" action="{% url 'recipes' %}">
+            <div class="filter-section">
+                <h1>Filters</h1>
+                <button class="reset">Reset Filters</button>
+                <h3>Categories</h3>
+                {% for category in categories %}
+                <label class="radio-label" id="category-label-{{ category.0 }}">
+                    <div>
+                        <input type="radio" name="category" value="{{ category.0 }}"
+                               {% if selected_category == category.0 %} checked {% endif %}>
+                        <span>{{ category.1 }}</span>
+                    </div>
+                </label>
+                {% endfor %}
+            </div>
+        
+            <div class="filter-section">
+                <h3>Cook Time</h3>
+                {% for duration in durations %}
+                <label class="radio-label" id="duration-label-{{ duration.0 }}">
+                    <div>
+                        <input type="radio" name="duration" value="{{ duration.0 }}"
+                               {% if selected_duration == duration.0 %} checked {% endif %}>
+                        <span>{{ duration.1 }}</span>
+                    </div>
+                </label>
+                {% endfor %}
+            </div>
+        
+            <div class="filter-section">
+                <h3>Difficulty Level</h3>
+                {% for difficulty in difficulties %}
+                <label class="radio-label" id="difficulty-label-{{ difficulty.0 }}">
+                    <div>
+                        <input type="radio" name="difficulty" value="{{ difficulty.0 }}"
+                               {% if selected_difficulty == difficulty.0 %} checked {% endif %}>
+                        <span>{{ difficulty.1 }}</span>
+                    </div>
+                </label>
+                {% endfor %}
+            </div>
+        
+            <div class="filter-section">
+                <h3>Costs</h3>
+                {% for cost in costs %}
+                <label class="radio-label" id="cost-label-{{ cost.0 }}">
+                    <div>
+                        <input type="radio" name="cost" value="{{ cost.0 }}"
+                               {% if selected_cost == cost.0 %} checked {% endif %}>
+                        <span>{{ cost.1 }}</span>
+                    </div>
+                </label>
+                {% endfor %}
+            </div>
+        </form>
+    </div>
+    <div class="recipes">
+        <div class="sorters">
+            <div class="recipes-sort">
+                <div class="sort-dropdown">
+                    <span class="sort-type">Sort By</span>
+                    <i class="fa-solid fa-angle-down"></i>
+                    <div class="sort-content">
+                        <form class="sort-form" action="{% url 'recipes' %}" method="get">
+                            <label>
+                                <input type="radio" name="sort" value="name" {% if sort_type == 'name' %} checked {% endif %}> A-Z
+                            </label>
+                            <label>
+                                <input type="radio" name="sort" value="-name" {% if sort_type == '-name' %} checked {% endif %}> Z-A
+                            </label>
+                            <label>
+                                <input type="radio" name="sort" value="date" {% if sort_type == 'date' %} checked {% endif %}> Oldest-Newest
+                            </label>
+                            <label>
+                                <input type="radio" name="sort" value="-date" {% if sort_type == '-date' %} checked {% endif %}> Newest-Oldest
+                            </label>
+                        </form>
+                    </div>
+                </div>
+            
+                <div class="filter-rating">
+                    <span>Filter by Rating</span>
+                    <i class="fa-solid fa-angle-down"></i>
+                    <div class="rating-content">
+                        <form class="sort-rating" action="{% url 'recipes' %}" method="get">
+                            <label for="rating1">
+                                <input type="radio" name="rating" id="rating1" value="1" {% if selected_rating == '1' %}checked{% endif %}>
+                                1+
+                            </label><br>
+                            <label for="rating2">
+                                <input type="radio" name="rating" id="rating2" value="2" {% if selected_rating == '2' %}checked{% endif %}>
+                                2+
+                            </label><br>
+                            <label for="rating3">
+                                <input type="radio" name="rating" id="rating3" value="3" {% if selected_rating == '3' %}checked{% endif %}>
+                                3+
+                            </label><br>
+                            <label for="rating4">
+                                <input type="radio" name="rating" id="rating4" value="4" {% if selected_rating == '4' %}checked{% endif %}>
+                                4+
+                            </label><br>
+                            <label for="rating5">
+                                <input type="radio" name="rating" id="rating5" value="5" {% if selected_rating == '5' %}checked{% endif %}>
+                                5
+                            </label><br>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="toggle-container">
+                <div class="toggle-allergens">
+                    <form class="hide-allergens" action="{% url 'recipes' %}" method="get">
+                        <label for="toggle-allergens">Hide allergens</label>
+                        <label class="switch">
+                            <input type="checkbox" id="toggle-allergens-btn" name="toggle-allergens-btn" {% if toggle_allergens %}checked{% endif %}>
+                            <span class="slider round"></span>
+                        </label>
+                    </form>
+                </div> 
+                <div class="toggle-likes">
+                    <form class="show-liked" action="{% url 'recipes' %}" method="get">
+                        <label for="toggle-likes">Show liked only</label>
+                        <label class="switch">
+                            <input type="checkbox" id="toggle-likes-btn" name="toggle-likes-btn" {% if toggle_likes %}checked{% endif %}>
+                            <span class="slider round"></span>
+                        </label>
+                    </form>
+                </div>        
+            </div>
+        </div>
+        <div id="notification"></div>
+        <div class="all-recipe-search">
+            <div class="all-recipe-search-bar">
+                <form action="{% url 'recipes' %}" method="GET">
+                    <input type="text" name="q" placeholder="Search recipes...">
+                    <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </form>
+            </div>
+        </div>
+        <h1 class="all-recipe-header">All Recipes <span>({{ recipes.count }})</span></h1>
+        <div class="all-recipes-card-container">
+            {% for recipe in recipes %}
+            <div class="recipe-item">
+                {% if request.user in recipe.likes.all %}
+                    <div class="like-btn liked" data-id="{{ recipe.id }}"><i class="fa-regular fa-heart"></i></div>
+                {% else %}
+                    <div class="like-btn" data-id="{{ recipe.id }}"><i class="fa-regular fa-heart"></i></div>
+                {% endif %}
+                <a href="{% url 'recipe' recipe.name %}">
+                    <img src="{{ recipe.image.url }}" alt="">
+                </a>
+                <h2>{{ recipe.name }}</h2>
+                <span>{{ recipe.category }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

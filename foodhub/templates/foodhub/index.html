@@ -1,0 +1,149 @@
+{% extends "foodhub/layout.html" %}
+
+{% block body %}   
+    <div class="video-container">
+        <video autoplay loop muted plays-inline class="background-clip">
+            <source src="media/sushi.mp4" type="video/mp4">
+        </video>
+        <div class="content">
+            <h1>Foodhub</h1>
+            <p>Step into a world of culinary inspiration</p>
+            <div class="search-bar">
+                <form action="{% url 'recipes' %}" method="GET">
+                    <input type="text" name="q" placeholder="Search recipes...">
+                    <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <section class="popular">
+        <div class="heading">
+            <h1>Popular Recipes</h1>
+            <h3>From fan favorites to kitchen classics: explore our hits!</h3>
+        </div>
+        <div class="recipe-card-container">
+            {% for recipe in popular %}
+                <div class="recipe-card">
+                    <div class="recipe-card-image">
+                        <a href="{% url 'recipe' recipe.name %}">
+                            <img src="{{ recipe.image.url }}" alt="">
+                        </a>
+                    </div>
+                    <div class="recipe-card-content">
+                        <div class="recipe-card-name">{{ recipe.name }}</div>
+                        {% if recipe.category %}
+                            <div class="recipe-card-category">
+                                <a href="{% url 'category' recipe.category %}">{{ recipe.category }}</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+    <section class="community">
+        <div class="community-left">
+            <h1>Our Community</h1>
+            <p>Our kitchen isn't just about recipes; it's a gathering place for food enthusiasts, home chefs, and everyone hungry for inspiration. Here, we celebrate the art of cooking and the joy of sharing delicious moments with others.</p>
+          <img src="media/pexels-gramma3768146.jpg" alt="">
+        </div>
+        <div class="community-right">
+            <div class="community-people">
+                <img src="media/pexels-olly-774909.jpg" alt="">
+                <img src="media/pexels-danxavier-1212984.jpg" alt="">
+                <img src="media/pexels-divinetechygirl-1181686.jpg" alt="">
+                <img src="media/pexels-justin-shaifer-501272-1222271.jpg" alt="">
+                <img src="media/pexels-moose-photos-170195-1587009.jpg" alt="">
+            </div>
+            <p>Join our vibrant community and explore a treasure trove of mouthwatering recipes, from comforting classics to adventurous culinary creations. Whether you're a seasoned cook or just starting your culinary journey, there's something here for everyone.</p>
+            <p>But we're more than just a recipe hub. We're a place where stories are shared, tips are exchanged, and friendships are formed over a shared love of food. So dive in, get cooking, and let's create something wonderful together!</p>
+            <div class="community-link">
+                <a href="#">About Us</a>
+            </div>
+        </div>
+    </section>
+    <section class="summer">
+        <div class="summer-header">
+            <h1>Summer Favorites</h1>
+            <p>Beat the heat with these cool summer culinary creations!</p>
+        </div>
+        <div class="summer-card-container">
+            <div class="summer-left">
+                <div class="summer-cards">
+                    <img src="media/summer-1.jpeg" alt="">
+                    <img src="media/summer-2.jpg" alt="">
+                </div>
+            </div>
+            <div class="summer-right">
+                <a href="/recipe/Halo Halo">
+                    <img src="media/halo halo.jpg" alt="">
+                </a>
+                <h1>Halo Halo</h1>
+            </div>
+        </div>
+    </section>
+    <section class="categories">
+        <div class="heading">
+            <h1>Popular Categories</h1>
+            <h3>Discover Your Flavor Palette: Explore These Popular Categories!</h3>
+        </div>
+        <div class="category-card-container">
+            <div class="category-card">
+                <div class="category-card-image">
+                    <a href="/category/italian/">
+                        <img src="media/italian.jpg" alt="">
+                    </a>
+                </div>
+                <div class="category-card-name">
+                    <h4>Italian</h4>
+                </div>
+            </div>
+            <div class="category-card">
+                <div class="category-card-image">
+                    <a href="/category/french/">
+                        <img src="media/french food.jpg" alt="">
+                    </a>
+                </div>
+                <div class="category-card-name">
+                    <h4>French</h4>
+                </div>
+            </div>
+            <div class="category-card">
+                <div class="category-card-image">
+                    <a href="/category/chinese/">
+                        <img src="media/chinese food.webp" alt="">
+                    </a>
+                </div>
+                <div class="category-card-name">
+                    <h4>Chinese</h4>
+                </div>
+            </div>
+            <div class="category-card">
+                <div class="category-card-image">
+                    <a href="/category/mexican/">
+                        <img src="media/mexican food.jpg" alt="">
+                    </a>
+                </div>
+                <div class="category-card-name">
+                    <h4>Mexican</h4>
+                </div>
+            </div>
+            <div class="category-card">
+                <div class="category-card-image">
+                    <a href="/category/filipino/">
+                        <img src="media/filipino food.webp" alt="">
+                    </a>
+                </div>
+                <div class="category-card-name">
+                    <h4>Filipino</h4>
+                </div>
+            </div>
+        </div>
+        <div class="category-button">
+            <a href="{% url 'categories' %}">Explore Categories</a>
+        </div>
+    </section>
+    <footer>
+        
+    </footer>
+{% endblock %}
