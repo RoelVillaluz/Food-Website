@@ -286,29 +286,6 @@ function updateSelectedOptions(fieldName, value) {
     }
 }
 
-// // JavaScript function to update URL parameters
-// function updateUrlParams(paramName, paramValue) {
-//     var url = new URL(window.location.href);
-//     var params = new URLSearchParams(url.search);
-    
-//     // Update or append the parameter value
-//     params.set(paramName, paramValue);
-    
-//     // Set the updated parameters to the URL
-//     url.search = params.toString();
-    
-//     // Redirect to the updated URL
-//     window.location.href = url;
-// }
-
-// // JavaScript function to reset filters
-// function resetFilters() {
-//     var url = new URL(window.location.href);
-//     url.search = '';
-//     window.location.href = url;
-// }
-
-
 // editing profile featured recipe 
 document.addEventListener('DOMContentLoaded', function() {
     const editButton = document.querySelector('.edit-featured');
@@ -457,5 +434,20 @@ document.addEventListener("DOMContentLoaded", function() {
             toggleToLogin.style.display = "none";
             loginButton.style.display = "none";
         }, 500); // Match the transition duration
+    });
+});
+
+
+// date picker for choosing date on calendar for mealplans
+document.addEventListener('DOMContentLoaded', function() {
+    var dateInput = document.getElementById('id_date_input');
+    var hiddenDateInput = document.getElementById('id_date');
+    
+    // Set initial value of hidden input to match date_input
+    hiddenDateInput.value = dateInput.value + 'T00:00';
+
+    // Update hidden input when date_input changes
+    dateInput.addEventListener('change', function() {
+        hiddenDateInput.value = this.value + 'T00:00';
     });
 });

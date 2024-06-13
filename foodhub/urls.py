@@ -20,4 +20,6 @@ urlpatterns = [
     path("profile_allergen/<str:username>", views.profile_allergen, name="profile_allergen"),
     # path("profile/<str:username>/edit", views.edit_profile, name="edit_profile"),
     path("edit_bio", views.edit_bio, name="edit_bio"),
+    path("create_mealplan", views.create_mealplan, name="create_mealplan"),
+    path("mealplan/<str:mealplan_name>", views.mealplan, name="mealplan"),
 ]

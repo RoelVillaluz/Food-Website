@@ -170,12 +170,12 @@ class Review(models.Model):
     def average_rating(self):
         return self.ratings.aggregate(Avg('rating'))['rating__avg'] or 0
 
-    # add feature where after signing up, the user gets asked:
-    # - allergens
-    # - preferences
-    # - favorite cuisines
-    # - culinary level (beginner, intermediate, advanced)
+class MealPlan(models.Model):
+    name = models.CharField(max_length=100)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    description = models.TextField(blank=True, null=True)
+    recipes = models.ManyToManyField(Recipe)
+    date = models.DateField()
 
-    # for recipes:
-    # - budget ($, $$, $$$)
-    # - time (quick: 1 clock, medium: 2 clocks, long: 3 clocks:)
+    def __str__(self):
+        return self.name

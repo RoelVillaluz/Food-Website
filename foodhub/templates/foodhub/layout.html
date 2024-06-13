@@ -16,7 +16,10 @@
         <label for="menu-bar"><i class="fas fa-bars"></i></label>
         <nav>
             <ul>
-                <li><a href="{% url 'create_recipe' %}">Create Recipe</a></li>
+                {% if request.user.is_authenticated %}
+                    <li><a href="{% url 'create_recipe' %}">Create Recipe</a></li>
+                    <li><a href="{% url 'create_mealplan' %}">Create Mealplan</a></li>
+                {% endif %}
                 <li><a href="{% url 'recipes' %}">Recipes</a></li>
                 <li>
                     <a href="{% url 'categories' %}">Categories</a>
@@ -44,6 +47,8 @@
     </div>
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/datepicker/datepicker.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="{% static 'foodhub/foodhub.js' %}"></script>
 </body>
 </html>

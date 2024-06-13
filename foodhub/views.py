@@ -14,7 +14,7 @@ import json
 
 from django.urls import reverse
 
-from .models import User, Ingredient, Step, Recipe, Profile, Allergen, Review
+from .models import User, Ingredient, Step, Recipe, Profile, Allergen, Review, MealPlan
 
 class NewRecipeForm(forms.ModelForm):
     class Meta:
@@ -47,6 +47,17 @@ class StepForm(forms.ModelForm):
     class Meta:
         model = Step
         fields = ['description', 'image', 'video']
+
+class DateInput(forms.DateInput):
+    input_type = 'date'
+
+class MealPlanForm(forms.ModelForm):
+    class Meta:
+        model = MealPlan
+        fields = ['name', 'description', 'recipes', 'date']
+        widgets = {
+            'date': DateInput()
+        }
     
 # Create your views here.
 def index(request):
@@ -501,4 +512,31 @@ def profile_info(request, username):
     pass
 
 def create_mealplan(request):
-    pass
+    if request.method == 'POST':
+        form = MealPlanForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data["name"]
+            description = form.cleaned_data["description"]
+            recipes = form.cleaned_data["recipes"]
+            date = form.cleaned_data["date"]
+            user = request.user
+            
+            mealplan = MealPlan.objects.create(name=name, description=description, date=date, user=user)
+            mealplan.recipes.set(recipes)
+            
+            return HttpResponseRedirect(reverse("mealplan", kwargs={'mealplan_name': mealplan.name}))
+    else:
+        form = MealPlanForm()
+    
+    return render(request, "foodhub/create_mealplan.html", {
+        "form": form
+    })
+
+def mealplan(request, mealplan_name):
+    if request.method == 'GET':
+        mealplan = MealPlan.objects.get(name=mealplan_name)
+        recipes = mealplan.recipes.all()
+        return render(request, "foodhub/mealplan.html", {
+            "mealplan": mealplan,
+            "recipes": recipes
+        })

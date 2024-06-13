@@ -1,0 +1,9 @@
+{% extends 'foodhub/layout.html' %}
+
+{% block body %}
+<h2>Mealplan: {{ mealplan.name }}</h2>
+    <span>{{ mealplan.date }}</span>
+    {% for recipe in recipes %}
+        {{recipe }}
+    {% endfor %}
+{% endblock %}
