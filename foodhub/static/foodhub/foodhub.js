@@ -139,20 +139,19 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // for dynamically populating calendar as well as adding functionality for the mealplan date selection
-const months = ['January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'];
-
 document.addEventListener('DOMContentLoaded', function() {
+    const months = ['January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'];
+
     const currentDate = new Date();
     let currentMonth = currentDate.getMonth();
     let currentYear = currentDate.getFullYear();
 
     const prevButton = document.querySelector('.calendar-header .prev');
-    const nextButton = document.querySelector('.calendar-header .left');
+    const nextButton = document.querySelector('.calendar-header .next');
     const dateDisplay = document.querySelector('#date');
     const daysContainer = document.querySelector('.calendar-container .days');
     const monthListDiv = document.querySelector('.month-list');
-
     const yearSlider = document.querySelector('.current-year');
     yearSlider.textContent = currentYear;
 
@@ -165,18 +164,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const lastDayOfMonth = new Date(currentYear, currentMonth, daysInMonth).getDay();
 
         const daysFromPrevMonth = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
-        let daysFromNextMonth = lastDayOfMonth === 6 ? 0 : 6 - lastDayOfMonth;
+        const daysFromNextMonth = lastDayOfMonth === 6 ? 0 : 6 - lastDayOfMonth;
 
         const prevMonth = currentMonth === 0 ? 11 : currentMonth - 1;
         const prevYear = currentMonth === 0 ? currentYear - 1 : currentYear;
         const daysInPrevMonth = new Date(prevYear, prevMonth + 1, 0).getDate();
-
-        if (daysFromNextMonth > 0) {
-            const totalDays = daysInMonth + daysFromPrevMonth + daysFromNextMonth;
-            if (totalDays % 7 !== 0) {
-                daysFromNextMonth += 7 - (totalDays % 7);
-            }
-        }
 
         for (let i = daysInPrevMonth - daysFromPrevMonth + 1; i <= daysInPrevMonth; i++) {
             const dayElement = document.createElement('div');
@@ -189,6 +181,13 @@ document.addEventListener('DOMContentLoaded', function() {
             const dayElement = document.createElement('div');
             dayElement.classList.add('day', 'current-month');
             dayElement.textContent = i;
+            dayElement.addEventListener('click', function() {
+                const activeDay = document.querySelector('.day.active');
+                if (activeDay) {
+                    activeDay.classList.remove('active');
+                }
+                dayElement.classList.add('active');
+            });
             daysContainer.appendChild(dayElement);
         }
 
@@ -199,16 +198,16 @@ document.addEventListener('DOMContentLoaded', function() {
             daysContainer.appendChild(dayElement);
         }
 
-        // Update active month in the list
         const currentActive = document.querySelector('.month-item.active');
         if (currentActive) {
             currentActive.classList.remove('active');
         }
         const monthItems = document.querySelectorAll('.month-item');
         monthItems[currentMonth].classList.add('active');
+
+        yearSlider.textContent = currentYear;
     }
 
-    // Populate month list
     months.forEach((month, index) => {
         const monthDiv = document.createElement('div');
         monthDiv.classList.add('month-item');
@@ -219,6 +218,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         monthListDiv.appendChild(monthDiv);
     });
+
+    updateCalendar();
 
     prevButton.addEventListener('click', function() {
         currentMonth--;
@@ -238,7 +239,19 @@ document.addEventListener('DOMContentLoaded', function() {
         updateCalendar();
     });
 
-    updateCalendar(); // Initial calendar update
+    const prevYearBtn = document.querySelector('.year-prev');
+    const nextYearBtn = document.querySelector('.year-next');
+
+    prevYearBtn.addEventListener('click', function() {
+        currentYear--;
+        updateCalendar();
+    });
+
+    nextYearBtn.addEventListener('click', function() {
+        currentYear++;
+        updateCalendar();
+    });
+
 });
 
 document.addEventListener("DOMContentLoaded", function() {

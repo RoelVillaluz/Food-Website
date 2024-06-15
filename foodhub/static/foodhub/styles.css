@@ -2579,6 +2579,11 @@ input[type="checkbox"] {
     color: #666;
 }
 
+.day.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
 .event-container {
     width: 35%;
 }
