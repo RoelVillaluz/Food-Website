@@ -1,10 +1,46 @@
 {% extends 'foodhub/layout.html' %}
 
+{% block title %} Create Mealplan {% endblock %}
 {% block body %}
-<h2>Create a New Meal Plan</h2>
+<div class="create-mealplan-container">
+    <div class="months-sidebar">
+        <div class="year-slider">
+            <i class="fa-solid fa-angle-left year-prev"></i>
+            <div class="current-year"></div>
+            <i class="fa-solid fa-angle-right year-left"></i>
+        </div>
+        <div class="month-list">
+
+        </div>
+    </div>
+    <div class="calendar-container">
+        <div class="calendar-header">
+            <i class="fa-solid fa-angle-left prev"></i>
+            <div class="date" id="date"></div>
+            <i class="fa-solid fa-angle-right left"></i>
+        </div>
+        <div class="weekdays">
+            <div>sun</div>
+            <div>mon</div>
+            <div>tue</div>
+            <div>wed</div>
+            <div>thu</div>
+            <div>fri</div>
+            <div>sat</div>
+        </div>
+        <div class="days">
+
+        </div>
+    </div>
+    <div class="event-container">
+    </div>
+</div>
+{% endblock %}
+<!-- edit code later to initially display big calendar, and then when user selects date, displays a 
+new screen overlay about creating mealplan -->
+<!-- <h2>Create a New Meal Plan</h2>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Create Meal Plan</button>
-    </form>
-{% endblock %}
+    </form> -->

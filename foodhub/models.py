@@ -8,7 +8,6 @@ from django.db.models import Avg
 class User(AbstractUser):
     pass
 
-
 class Ingredient(models.Model):
     UNIT_CHOICES = [
         ('g', 'grams'),

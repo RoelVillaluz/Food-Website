@@ -138,6 +138,108 @@ document.addEventListener('DOMContentLoaded', function() {
     updateSortByText(initialSortType);
 });
 
+// for dynamically populating calendar as well as adding functionality for the mealplan date selection
+const months = ['January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'];
+
+document.addEventListener('DOMContentLoaded', function() {
+    const currentDate = new Date();
+    let currentMonth = currentDate.getMonth();
+    let currentYear = currentDate.getFullYear();
+
+    const prevButton = document.querySelector('.calendar-header .prev');
+    const nextButton = document.querySelector('.calendar-header .left');
+    const dateDisplay = document.querySelector('#date');
+    const daysContainer = document.querySelector('.calendar-container .days');
+    const monthListDiv = document.querySelector('.month-list');
+
+    const yearSlider = document.querySelector('.current-year');
+    yearSlider.textContent = currentYear;
+
+    function updateCalendar() {
+        daysContainer.innerHTML = '';
+        dateDisplay.textContent = `${months[currentMonth]} ${currentYear}`;
+
+        const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+        const firstDayOfMonth = new Date(currentYear, currentMonth, 2).getDay();
+        const lastDayOfMonth = new Date(currentYear, currentMonth, daysInMonth).getDay();
+
+        const daysFromPrevMonth = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
+        let daysFromNextMonth = lastDayOfMonth === 6 ? 0 : 6 - lastDayOfMonth;
+
+        const prevMonth = currentMonth === 0 ? 11 : currentMonth - 1;
+        const prevYear = currentMonth === 0 ? currentYear - 1 : currentYear;
+        const daysInPrevMonth = new Date(prevYear, prevMonth + 1, 0).getDate();
+
+        if (daysFromNextMonth > 0) {
+            const totalDays = daysInMonth + daysFromPrevMonth + daysFromNextMonth;
+            if (totalDays % 7 !== 0) {
+                daysFromNextMonth += 7 - (totalDays % 7);
+            }
+        }
+
+        for (let i = daysInPrevMonth - daysFromPrevMonth + 1; i <= daysInPrevMonth; i++) {
+            const dayElement = document.createElement('div');
+            dayElement.classList.add('day', 'prev-month');
+            dayElement.textContent = i;
+            daysContainer.appendChild(dayElement);
+        }
+
+        for (let i = 1; i <= daysInMonth; i++) {
+            const dayElement = document.createElement('div');
+            dayElement.classList.add('day', 'current-month');
+            dayElement.textContent = i;
+            daysContainer.appendChild(dayElement);
+        }
+
+        for (let i = 1; i <= daysFromNextMonth; i++) {
+            const dayElement = document.createElement('div');
+            dayElement.classList.add('day', 'next-month');
+            dayElement.textContent = i;
+            daysContainer.appendChild(dayElement);
+        }
+
+        // Update active month in the list
+        const currentActive = document.querySelector('.month-item.active');
+        if (currentActive) {
+            currentActive.classList.remove('active');
+        }
+        const monthItems = document.querySelectorAll('.month-item');
+        monthItems[currentMonth].classList.add('active');
+    }
+
+    // Populate month list
+    months.forEach((month, index) => {
+        const monthDiv = document.createElement('div');
+        monthDiv.classList.add('month-item');
+        monthDiv.textContent = month;
+        monthDiv.addEventListener('click', () => {
+            currentMonth = index;
+            updateCalendar();
+        });
+        monthListDiv.appendChild(monthDiv);
+    });
+
+    prevButton.addEventListener('click', function() {
+        currentMonth--;
+        if (currentMonth < 0) {
+            currentMonth = 11;
+            currentYear--;
+        }
+        updateCalendar();
+    });
+
+    nextButton.addEventListener('click', function() {
+        currentMonth++;
+        if (currentMonth > 11) {
+            currentMonth = 0;
+            currentYear++;
+        }
+        updateCalendar();
+    });
+
+    updateCalendar(); // Initial calendar update
+});
 
 document.addEventListener("DOMContentLoaded", function() {
     var reviewCountLink = document.querySelector('.review-count a');
@@ -398,56 +500,3 @@ function hideEditForm() {
     document.querySelector('.edit-bio').style.display = 'block';
     document.getElementById('edit-bio-form').style.display = 'none';
 }
-
-
-document.addEventListener("DOMContentLoaded", function() {
-    const signUpButton = document.getElementById("signUpButton");
-    const loginButton = document.getElementById("loginButton");
-    const registerForm = document.getElementById("registerForm");
-    const loginForm = document.getElementById("loginForm");
-    const toggleToRegister = document.getElementById("toggleToRegister");
-    const toggleToLogin = document.getElementById("toggleToLogin");
-
-    signUpButton.addEventListener("click", function(event) {
-        event.preventDefault();
-        loginForm.classList.remove("form-visible");
-        loginForm.classList.add("form-hidden");
-        setTimeout(() => {
-            registerForm.classList.remove("form-hidden");
-            registerForm.classList.add("form-visible");
-            toggleToRegister.style.display = "none";
-            signUpButton.style.display = "none";
-            toggleToLogin.style.display = "block";
-            loginButton.style.display = "block";
-        }, 500); // Match the transition duration
-    });
-
-    loginButton.addEventListener("click", function(event) {
-        event.preventDefault();
-        registerForm.classList.remove("form-visible");
-        registerForm.classList.add("form-hidden");
-        setTimeout(() => {
-            loginForm.classList.remove("form-hidden");
-            loginForm.classList.add("form-visible");
-            toggleToRegister.style.display = "block";
-            signUpButton.style.display = "block";
-            toggleToLogin.style.display = "none";
-            loginButton.style.display = "none";
-        }, 500); // Match the transition duration
-    });
-});
-
-
-// date picker for choosing date on calendar for mealplans
-document.addEventListener('DOMContentLoaded', function() {
-    var dateInput = document.getElementById('id_date_input');
-    var hiddenDateInput = document.getElementById('id_date');
-    
-    // Set initial value of hidden input to match date_input
-    hiddenDateInput.value = dateInput.value + 'T00:00';
-
-    // Update hidden input when date_input changes
-    dateInput.addEventListener('change', function() {
-        hiddenDateInput.value = this.value + 'T00:00';
-    });
-});
