@@ -2586,6 +2586,55 @@ input[type="checkbox"] {
 
 .event-container {
     width: 35%;
+    padding: 20px;
+    background-color: #f1f1f1;
+}
+
+.event-date {
+    color: black;
+    font-weight: 700;
+    font-size: 36px;
+}
+
+.add-mealplan-btn, .view-mealplan-btn {
+    display: inline-block;
+    border-radius: 5px;
+    color: white;
+    background-color: #89a4c2;
+    padding: 5px 10px;
+    font-weight: 500;
+    font-size: 20px;
+    transition: 0.3s;
+    margin-top: 12px;
+}
+
+.add-mealplan-btn:hover, .view-mealplan-btn:hover  {
+    cursor: pointer;
+    transform: scale(110%);
+}
+
+.empty-meal-date {
+    font-size: 20px;
+    color: #666;
+}
+
+.mealplan-details {
+    margin-top: 16px;
+}
+
+.mealplan-name {
+    color: #6e8297;
+    border-top: solid 1px #333;
+}
+
+.meal-list {
+    list-style-type: none;
+    margin-top: 6px;
+}
+
+.meal-item {
+    font-weight: 500;
+    font-size: 18px;
 }
 
 @media (max-width:991px) {

@@ -540,3 +540,18 @@ def mealplan(request, mealplan_name):
             "mealplan": mealplan,
             "recipes": recipes
         })
+    
+def get_mealplan_by_date(request, date):
+    if request.method == 'GET':
+        try:
+            mealplan = MealPlan.objects.get(date=date, user=request.user)
+            recipes = mealplan.recipes.all()
+            return JsonResponse({
+                "mealplan": {
+                    "name": mealplan.name,
+                    "description": mealplan.description,
+                },
+                "recipes": [recipe.name for recipe in recipes]
+            })
+        except MealPlan.DoesNotExist:
+            return JsonResponse({"mealplan": None})
