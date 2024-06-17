@@ -529,7 +529,7 @@ def create_mealplan(request):
         form = MealPlanForm()
     
     return render(request, "foodhub/create_mealplan.html", {
-        "form": form
+        "form": form,
     })
 
 def mealplan(request, mealplan_name):

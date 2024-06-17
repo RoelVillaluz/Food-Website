@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 .then(data => {
                     if (data.mealplan) {
                         dayElement.classList.add('booked');
-                        dayElement.classList.remove('current-month')
+                        dayElement.classList.remove('current-month');
                     }
                 })
                 .catch(error => {
@@ -284,39 +284,55 @@ document.addEventListener('DOMContentLoaded', function() {
     const viewMealplanBtn = document.querySelector('.view-mealplan-btn');
 
     function fetchMealplanForDate(year, month, day) {
-    const date = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-    fetch(`/api/mealplan/${date}/`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.mealplan) {
-                mealplanDetails.innerHTML = `<h1 class="mealplan-name">${data.mealplan.name}</h1>
-                             <p class="mealplan-info">${data.mealplan.description}</p>
-                             <ul class="meal-list">${data.recipes.map(recipe =>
-                                 `<li class="meal-item">
-                                     <img src="${recipe.image}" alt="${recipe.name}" class="recipe-image">
-                                     <span class="recipe-name">${recipe.name}</span>
-                                 </li>`
-                             ).join('')}</ul>`;
-                addMealPlanBtn.style.display = 'none';
-                viewMealplanBtn.style.display = 'inline-block';                                                 
-            } else {
-                mealplanDetails.innerHTML = `<span class="empty-meal-date">No meal plan for ${date}</span>`;
-                addMealPlanBtn.style.display = 'inline-block'
-                viewMealplanBtn.style.display = 'none'
-            }
-        })
-        .catch(error => {
-            mealplanDetails.innerHTML = `<p>Error fetching meal plan for ${date}</p>`;
-            console.error('Error fetching meal plan:', error);
-        });
-}
+        const date = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        fetch(`/api/mealplan/${date}/`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.mealplan) {
+                    mealplanDetails.innerHTML = `
+                        <h1 class="mealplan-name">${data.mealplan.name}</h1>
+                        <p class="mealplan-info">${data.mealplan.description}</p>
+                        <ul class="meal-list">
+                            ${data.recipes.map(recipe =>
+                                `<li class="meal-item">
+                                    <span class="recipe-name">${recipe.name}</span>
+                                </li>`
+                            ).join('')}
+                        </ul>
+                    `;
+                    viewMealplanBtn.style.display = 'inline-block';
+                    addMealPlanBtn.style.display = 'none';
+                    
+                    mealplanContainer.innerHTML = '';
 
-    const mealplanContainer = document.querySelector('.mealplan-container')
+                    // Add images to mealplanContainer
+                    data.recipes.forEach(recipe => {
+                        const recipeElement = document.createElement('div');
+                        recipeElement.classList.add('recipe');
+                        recipeElement.innerHTML = `
+                            <h3>${recipe.name}</h3>
+                            ${recipe.image ? `<img src="${recipe.image}" alt="${recipe.name}">` : ''}
+                        `;
+                        mealplanContainer.appendChild(recipeElement);
+                    });
+
+                } else {
+                    mealplanDetails.innerHTML = `<span class="empty-meal-date">No meal plan for ${date}</span>`;
+                    viewMealplanBtn.style.display = 'none';
+                    addMealPlanBtn.style.display = 'inline-block';
+                }
+            })
+            .catch(error => {
+                mealplanDetails.innerHTML = `<p>Error fetching meal plan for ${date}</p>`;
+                console.error('Error fetching meal plan:', error);
+            });
+    }
+
+    const mealplanContainer = document.querySelector('.mealplan-container');
 
     viewMealplanBtn.addEventListener('click', function() {
         mealplanContainer.classList.add('visible');
-
-    })
+    });
 
     window.addEventListener('click', function(event) {
         if (!mealplanContainer.contains(event.target) && !viewMealplanBtn.contains(event.target)) {
