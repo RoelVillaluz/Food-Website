@@ -551,7 +551,10 @@ def get_mealplan_by_date(request, date):
                     "name": mealplan.name,
                     "description": mealplan.description,
                 },
-                "recipes": [recipe.name for recipe in recipes]
+                "recipes": [{
+                    "name": recipe.name,
+                    "image": recipe.image.url if recipe.image else None,  
+                } for recipe in recipes]
             })
         except MealPlan.DoesNotExist:
             return JsonResponse({"mealplan": None})

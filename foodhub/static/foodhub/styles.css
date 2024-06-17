@@ -2015,7 +2015,7 @@ border-radius: 50%;
 
 .edit-recipes-container {
     position: fixed;
-    bottom: -600px; /* Initially hidden below the viewport */
+    bottom: -600px; 
     padding: 20px;
     left: 50%;
     transform: translateX(-50%);
@@ -2025,7 +2025,7 @@ border-radius: 50%;
     background-color: white;
     box-shadow: 0px 12px 12px rgba(0, 0, 0, .1);
     z-index: 1;
-    overflow: hidden;
+    overflow: visible;
     transition: bottom 0.3s ease; /
 }
 
@@ -2500,7 +2500,6 @@ input[type="checkbox"] {
     color: white;
 }
 
-
 .month-item:hover {
     cursor: pointer;
     background-color: #89a4c2;
@@ -2509,6 +2508,28 @@ input[type="checkbox"] {
 .active {
     background-color: #89a4c2;
 }
+
+.booked {
+    color: var(--primary-color);
+    font-weight: 700;
+    position: relative; 
+}
+
+.booked::after {
+    content: '';
+    position: absolute;
+    bottom: 15px; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    width: 30px; 
+    height: 3px;
+    background-color: var(--primary-color); 
+}
+
+.booked:hover::after {
+    background-color: white;
+}
+
 
 .calendar-container {
     width: 55%;
@@ -2635,6 +2656,26 @@ input[type="checkbox"] {
 .meal-item {
     font-weight: 500;
     font-size: 18px;
+}
+
+.mealplan-container {
+    position: fixed;
+    width: 80%;
+    height: 600px; 
+    bottom: -600px;
+    transform: translateX(-50%);
+    margin: 0 auto;
+    background-color: white;
+    box-shadow: 0px 12px 12px rgba(0, 0, 0, .1);
+    z-index: 1;
+    left: 50%;
+    overflow-y: auto;
+    padding: 20px;
+    transition: 0.3s ease;
+}
+
+.visible {
+    bottom: 0;
 }
 
 @media (max-width:991px) {

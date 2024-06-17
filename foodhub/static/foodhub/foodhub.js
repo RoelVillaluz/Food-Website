@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // for dynamically populating calendar as well as adding functionality for the mealplan date selection
 document.addEventListener('DOMContentLoaded', function() {
     const months = ['January', 'February', 'March', 'April', 'May', 'June',
-        'July', 'August', 'September', 'October', 'November', 'December'];
+                    'July', 'August', 'September', 'October', 'November', 'December'];
 
     const currentDate = new Date();
     let currentMonth = currentDate.getMonth();
@@ -160,62 +160,79 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateCalendar() {
         daysContainer.innerHTML = '';
         dateDisplay.textContent = `${months[currentMonth]} ${currentYear}`;
-
+    
         const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
         const firstDayOfMonth = new Date(currentYear, currentMonth, 2).getDay();
         const lastDayOfMonth = new Date(currentYear, currentMonth, daysInMonth).getDay();
-
+    
         const daysFromPrevMonth = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
         const daysFromNextMonth = lastDayOfMonth === 6 ? 0 : 6 - lastDayOfMonth;
-
+    
         const prevMonth = currentMonth === 0 ? 11 : currentMonth - 1;
         const prevYear = currentMonth === 0 ? currentYear - 1 : currentYear;
         const daysInPrevMonth = new Date(prevYear, prevMonth + 1, 0).getDate();
-
+    
         for (let i = daysInPrevMonth - daysFromPrevMonth + 1; i <= daysInPrevMonth; i++) {
             const dayElement = document.createElement('div');
             dayElement.classList.add('day', 'prev-month');
             dayElement.textContent = i;
             daysContainer.appendChild(dayElement);
         }
-
+    
         addMealPlanBtn.style.display = 'none';
-
+    
         for (let i = 1; i <= daysInMonth; i++) {
             const dayElement = document.createElement('div');
             dayElement.classList.add('day', 'current-month');
             dayElement.textContent = i;
+    
+            // Check if there is a meal plan for this day
+            const date = new Date(currentYear, currentMonth, i);
+            const formattedDate = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+    
+            fetch(`/api/mealplan/${formattedDate}/`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.mealplan) {
+                        dayElement.classList.add('booked');
+                        dayElement.classList.remove('current-month')
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking meal plan:', error);
+                });
+    
             dayElement.addEventListener('click', function() {
                 const activeDay = document.querySelector('.day.active');
                 if (activeDay) {
                     activeDay.classList.remove('active');
                 }
                 dayElement.classList.add('active');
-
+    
                 // Display the selected date
                 eventDateDisplay.textContent = `${months[currentMonth]} ${i}, ${currentYear}`;
                 addMealPlanBtn.style.display = 'inline-block';
-
+    
                 // Fetch and display meal plan for the selected date
                 fetchMealplanForDate(currentYear, currentMonth + 1, i);
             });
             daysContainer.appendChild(dayElement);
         }
-
+    
         for (let i = 1; i <= daysFromNextMonth; i++) {
             const dayElement = document.createElement('div');
             dayElement.classList.add('day', 'next-month');
             dayElement.textContent = i;
             daysContainer.appendChild(dayElement);
         }
-
+    
         const currentActive = document.querySelector('.month-item.active');
         if (currentActive) {
             currentActive.classList.remove('active');
         }
         const monthItems = document.querySelectorAll('.month-item');
         monthItems[currentMonth].classList.add('active');
-
+    
         yearSlider.textContent = currentYear;
     }
 
@@ -264,31 +281,48 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     const mealplanDetails = document.querySelector('.mealplan-details');
-    const viewMealplanBtn = document.querySelector('.view-mealplan-btn')
+    const viewMealplanBtn = document.querySelector('.view-mealplan-btn');
 
     function fetchMealplanForDate(year, month, day) {
-        const date = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-        fetch(`/api/mealplan/${date}/`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.mealplan) {
-                    mealplanDetails.innerHTML = `<h1 class="mealplan-name">${data.mealplan.name}</h1>
-                                                 <p class="mealplan-info">${data.mealplan.description}</p>
-                                                 <ul class="meal-list">${data.recipes.map(recipe => `<li class="meal-item">${recipe}</li>`).join('')}</ul>`;
-                                                 addMealPlanBtn.style.display = 'none'
-                                                 viewMealplanBtn.style.display = 'inline-block'
-                                                 
-                } else {
-                    mealplanDetails.innerHTML = `<span class="empty-meal-date">No meal plan for ${date}</span>`;
-                    addMealPlanBtn.style.display = 'inline-block'
-                    viewMealplanBtn.style.display = 'none'
-                }
-            })
-            .catch(error => {
-                mealplanDetails.innerHTML = `<p>Error fetching meal plan for ${date}</p>`;
-                console.error('Error fetching meal plan:', error);
-            });
-    }
+    const date = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    fetch(`/api/mealplan/${date}/`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.mealplan) {
+                mealplanDetails.innerHTML = `<h1 class="mealplan-name">${data.mealplan.name}</h1>
+                             <p class="mealplan-info">${data.mealplan.description}</p>
+                             <ul class="meal-list">${data.recipes.map(recipe =>
+                                 `<li class="meal-item">
+                                     <img src="${recipe.image}" alt="${recipe.name}" class="recipe-image">
+                                     <span class="recipe-name">${recipe.name}</span>
+                                 </li>`
+                             ).join('')}</ul>`;
+                addMealPlanBtn.style.display = 'none';
+                viewMealplanBtn.style.display = 'inline-block';                                                 
+            } else {
+                mealplanDetails.innerHTML = `<span class="empty-meal-date">No meal plan for ${date}</span>`;
+                addMealPlanBtn.style.display = 'inline-block'
+                viewMealplanBtn.style.display = 'none'
+            }
+        })
+        .catch(error => {
+            mealplanDetails.innerHTML = `<p>Error fetching meal plan for ${date}</p>`;
+            console.error('Error fetching meal plan:', error);
+        });
+}
+
+    const mealplanContainer = document.querySelector('.mealplan-container')
+
+    viewMealplanBtn.addEventListener('click', function() {
+        mealplanContainer.classList.add('visible');
+
+    })
+
+    window.addEventListener('click', function(event) {
+        if (!mealplanContainer.contains(event.target) && !viewMealplanBtn.contains(event.target)) {
+            mealplanContainer.classList.remove('visible');
+        }
+    });
 });
 
 document.addEventListener("DOMContentLoaded", function() {
