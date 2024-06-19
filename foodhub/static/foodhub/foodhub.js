@@ -286,7 +286,12 @@ document.addEventListener('DOMContentLoaded', function() {
     function fetchMealplanForDate(year, month, day) {
         const date = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
         fetch(`/api/mealplan/${date}/`)
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Network response was not ok: ${response.statusText}`);
+                }
+                return response.json();
+            })
             .then(data => {
                 if (data.mealplan) {
                     mealplanDetails.innerHTML = `
@@ -294,28 +299,44 @@ document.addEventListener('DOMContentLoaded', function() {
                         <p class="mealplan-info">${data.mealplan.description}</p>
                         <ul class="meal-list">
                             ${data.recipes.map(recipe =>
-                                `<li class="meal-item">
-                                    <span class="recipe-name">${recipe.name}</span>
-                                </li>`
-                            ).join('')}
+                            `<li class="meal-item">${recipe.name}</li>`).join('')}
                         </ul>
                     `;
                     viewMealplanBtn.style.display = 'inline-block';
                     addMealPlanBtn.style.display = 'none';
-                    
-                    mealplanContainer.innerHTML = '';
-
-                    // Add images to mealplanContainer
+    
+                    const mealplanSidebar = document.querySelector('.mealplan-sidebar');
+                    const mealplanRecipes = document.querySelector('.mealplan-recipes');
+    
+                    if (!mealplanSidebar || !mealplanRecipes) {
+                        throw new Error("Required elements not found in the DOM");
+                    }
+    
+                    mealplanSidebar.innerHTML = '';
+                    mealplanRecipes.innerHTML = '';
+    
+                    const mealplanNameElement = document.createElement('h1');
+                    mealplanNameElement.textContent = data.mealplan.name;
+                    mealplanSidebar.appendChild(mealplanNameElement);
+    
+                    const recipeListElement = document.createElement('ul');
+                    data.recipes.forEach(recipe => {
+                        const listItemElement = document.createElement('li');
+                        listItemElement.textContent = recipe.name;
+                        recipeListElement.appendChild(listItemElement);
+                    });
+                    mealplanSidebar.appendChild(recipeListElement);
+    
                     data.recipes.forEach(recipe => {
                         const recipeElement = document.createElement('div');
-                        recipeElement.classList.add('recipe');
+                        recipeElement.classList.add('mealplan-recipe');
                         recipeElement.innerHTML = `
+                            ${recipe.image ? `<img src="${recipe.image}" class="mealplan-recipe-image">` : ''}
                             <h3>${recipe.name}</h3>
-                            ${recipe.image ? `<img src="${recipe.image}" alt="${recipe.name}">` : ''}
                         `;
-                        mealplanContainer.appendChild(recipeElement);
+                        mealplanRecipes.appendChild(recipeElement);
                     });
-
+    
                 } else {
                     mealplanDetails.innerHTML = `<span class="empty-meal-date">No meal plan for ${date}</span>`;
                     viewMealplanBtn.style.display = 'none';
@@ -332,11 +353,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     viewMealplanBtn.addEventListener('click', function() {
         mealplanContainer.classList.add('visible');
+        document.body.classList.add('blurred');
     });
-
+    
     window.addEventListener('click', function(event) {
         if (!mealplanContainer.contains(event.target) && !viewMealplanBtn.contains(event.target)) {
             mealplanContainer.classList.remove('visible');
+            document.body.classList.remove('blurred');
         }
     });
 });
@@ -497,8 +520,10 @@ document.addEventListener('DOMContentLoaded', function() {
     function toggleEditContainer() {
         if (editContainer.style.bottom === '0px') {
             editContainer.style.bottom = '-600px';
+            document.body.classList.remove('blurred'); // Remove blur when hiding edit container
         } else {
             editContainer.style.bottom = '0px';
+            document.body.classList.add('blurred'); // Add blur when showing edit container
         }
     }
 
@@ -513,6 +538,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Check if the clicked element is not within the edit container
         if (!editContainer.contains(event.target) && event.target !== editButton) {
             editContainer.style.bottom = '-600px';
+            document.body.classList.remove('blurred');
         }
     });
 });
