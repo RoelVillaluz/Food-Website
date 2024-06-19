@@ -2129,6 +2129,7 @@ border-radius: 50%;
     display: flex;
     justify-content: space-between;
     padding: 10px 0px;
+    flex-wrap: wrap;
 }
 
 .create-recipe-image {
@@ -2186,6 +2187,7 @@ border-radius: 50%;
 
 .ingredient-form-container {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-around;
     align-items: center;
     width: 70%;
@@ -2993,6 +2995,63 @@ input[type="checkbox"] {
         padding: 0px 10px;
     }
     
+    .form-container {
+        width: 90%;
+        padding: 15px;
+    }
+    .create-form-right {
+        max-width: 100%;
+    }
+    .create-recipe-image {
+        max-width: 100%;
+    }
+
+    .container-and-link {
+        margin-top: 40px;
+    }
+
+    .ingredient-form-container {
+        position: relative; 
+        flex-direction: column;
+        width: 90%;
+        padding: 20px;
+    }
+
+    .ingredient-form-image, .direction-form-image {
+        width: 100%;
+        max-width: none;
+    }
+
+    .ingredient-form {
+        width: 100%;
+    }
+
+    .ingredient-form input, .ingredient-form select {
+        width: 100%;
+    }
+
+    .button-container {
+        position: absolute; 
+        top: 50%; 
+        right: 0; 
+        z-index: 10; 
+        margin-top: 0; 
+    }
+
+    .button-container button {
+        background-color: var(--primary-color);
+        border-radius: 50%;
+        border: none;
+        box-shadow: 0px 8px 12px rgba(0, 0, 0, .1);
+        display: inline-block;
+        padding: 10px 12px;
+        cursor: pointer;
+    }
+
+    .button-container .button-label  {
+        display: none; 
+    }
+    
 }
 
 @media (max-width:480px) {
@@ -3017,9 +3076,9 @@ input[type="checkbox"] {
     }
 
     .recipe-card {
-        margin: 10px auto; /* Center the cards horizontally */
-        max-width: 480px; /* Limit the maximum width of the cards */
-        width: 100%; /* Take up 100% width */
+        margin: 10px auto; 
+        max-width: 480px;
+        width: 100%; 
     }
 
     .recipe-card-content {
@@ -3130,6 +3189,33 @@ input[type="checkbox"] {
     .category-image {
         width: 100%;
         height: 300px;
+    }
+
+    .form-container {
+        margin-top: 40px;
+    }
+
+    .create-form-right {
+        width: 100%;
+    }
+
+    .ingredient-form-container {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .ingredient-form-container span {
+        font-size: 28px;
+    }
+
+    .ingredient-form-container input, select {
+        font-size: 16px;
+        padding: 5px;
+    }
+
+    .ingredient-form-container button, .create-form button, .direction-form button {
+        font-size: 18px;
+        padding: 8px 16px;
     }
 
 }
