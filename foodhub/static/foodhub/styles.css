@@ -3221,6 +3221,10 @@ input[type="checkbox"] {
         padding: 2px 10px;
     }
 
+    .category-header h1 {
+        font-size: 50px;
+    }
+
     .category-header-details h2 {
         font-size: 30px;
     }
