@@ -2187,14 +2187,18 @@ border-radius: 50%;
 
 .ingredient-form-container {
     display: flex;
-    flex-wrap: wrap;
     justify-content: space-around;
     align-items: center;
     width: 70%;
     margin: 0 auto;
     box-shadow: 0px 12px 12px rgba(0, 0, 0, .1);
-    padding: 20px 0px;
+    padding: 20px;
     animation: Appear 1s ease forwards;
+}
+
+.ingredient-form {
+    width: 100%;
+    padding: 10px;
 }
 
 .ingredient-form-container h1, .form-container h1, .direction-form-container h1 {
@@ -2211,7 +2215,7 @@ border-radius: 50%;
 }
 
 .ingredient-form-image, .direction-form-image {
-    width: 500px;
+    width: 100%;
 }
 
 .ingredient-form-image img, .direction-form-image img {
@@ -2264,6 +2268,10 @@ border-radius: 50%;
     align-items: flex-start;
 }
 
+.direction-forms {
+    width: 100%;
+}
+
 .direction-form {
     margin: 0px 10px;
 }
@@ -2279,6 +2287,7 @@ border-radius: 50%;
 
 .direction-add-media {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-evenly;
 }
@@ -2683,7 +2692,7 @@ input[type="checkbox"] {
     font-size: 18px;
 }
 
-.mealplan-container {
+.mealplan-container, .add-meal-form {
     display: flex;
     position: fixed;
     width: 80%;
@@ -2695,7 +2704,7 @@ input[type="checkbox"] {
     box-shadow: 0px 12px 12px rgba(0, 0, 0, .1);
     z-index: 1;
     left: 50%;
-    overflow-y: auto;
+    overflow-y: none;
     transition: 0.3s ease;
 }
 
@@ -2709,6 +2718,7 @@ input[type="checkbox"] {
     background-color: #eeeeee;
     box-shadow: 0px 12px 12px rgba(0, 0, 0, .1);
     box-sizing: border-box;
+    position: sticky;
 }
 
 .mealplan-sidebar h1 {
@@ -2733,7 +2743,7 @@ input[type="checkbox"] {
     width: 70%;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 10px;
+    gap: 20px;
     padding: 20px;
     box-sizing: border-box;
     overflow-y: auto;
@@ -2765,7 +2775,6 @@ input[type="checkbox"] {
 }
 
 .mealplan-recipe h3 {
-    position: absolute;
     font-weight: 600;
     font-size: 20px;
     color: black;
@@ -3022,10 +3031,6 @@ input[type="checkbox"] {
         max-width: none;
     }
 
-    .ingredient-form {
-        width: 100%;
-    }
-
     .ingredient-form input, .ingredient-form select {
         width: 100%;
     }
@@ -3051,6 +3056,36 @@ input[type="checkbox"] {
     .button-container .button-label  {
         display: none; 
     }
+
+    .ingredient-form-container, .direction-form-container {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .direction-content {
+        display: block; 
+        width: 100%;
+    }
+
+    .direction-form textarea {
+        width: 100%;
+        margin: 0 -10px;
+    }
+
+    .direction-add-media {
+        justify-content: flex-start; 
+        flex-wrap: wrap;
+        margin: 0px -20px;
+    }
+
+    .direction-add-image,
+    .direction-add-video {
+        width: 80px;
+        height: 80px;
+        margin: 10px 20px;
+    }
+
+
     
 }
 
@@ -3199,12 +3234,7 @@ input[type="checkbox"] {
         width: 100%;
     }
 
-    .ingredient-form-container {
-        width: 100%;
-        padding: 10px;
-    }
-
-    .ingredient-form-container span {
+    .ingredient-form-container span, .direction-form-container span {
         font-size: 28px;
     }
 
@@ -3216,6 +3246,32 @@ input[type="checkbox"] {
     .ingredient-form-container button, .create-form button, .direction-form button {
         font-size: 18px;
         padding: 8px 16px;
+    }
+
+    .direction-content {
+        display: block; 
+        width: 100%;
+    }
+
+    .direction-form textarea {
+        width: calc(100% + 20px); 
+        margin: 0 -10px; 
+    }
+
+    .direction-add-media {
+        flex-wrap: wrap;
+        margin: 0px -10px; 
+    }
+
+    .direction-add-image,
+    .direction-add-video {
+        width: 50px; 
+        height: 50px; 
+        margin: 10px; 
+    }
+
+    .direction-add-media h3 {
+        font-size: 14px;
     }
 
 }

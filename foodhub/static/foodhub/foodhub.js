@@ -331,7 +331,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         const recipeElement = document.createElement('div');
                         recipeElement.classList.add('mealplan-recipe');
                         recipeElement.innerHTML = `
-                            ${recipe.image ? `<img src="${recipe.image}" class="mealplan-recipe-image">` : ''}
+                            <a href="/recipe/${encodeURIComponent(recipe.name)}">
+                            ${recipe.image ? `<img src="${recipe.image}" class="mealplan-recipe-image">
+                            </a> ` : ''}
                             <h3>${recipe.name}</h3>
                         `;
                         mealplanRecipes.appendChild(recipeElement);
@@ -348,17 +350,30 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error('Error fetching meal plan:', error);
             });
     }
-
+    
     const mealplanContainer = document.querySelector('.mealplan-container');
+    const addMealForm = document.querySelector('.add-meal-form');
 
     viewMealplanBtn.addEventListener('click', function() {
         mealplanContainer.classList.add('visible');
         document.body.classList.add('blurred');
     });
-    
+
+    addMealPlanBtn.addEventListener('click', function() {
+        addMealForm.classList.add('visible');
+        document.body.classList.add('blurred');
+    });
+
     window.addEventListener('click', function(event) {
         if (!mealplanContainer.contains(event.target) && !viewMealplanBtn.contains(event.target)) {
             mealplanContainer.classList.remove('visible');
+        }
+
+        if (!addMealForm.contains(event.target) && !addMealPlanBtn.contains(event.target)) {
+            addMealForm.classList.remove('visible');
+        }
+
+        if (!mealplanContainer.classList.contains('visible') && !addMealForm.classList.contains('visible')) {
             document.body.classList.remove('blurred');
         }
     });

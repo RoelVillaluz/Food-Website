@@ -33,6 +33,9 @@
         </div>
     </div>
     <div class="event-container">
+        <div class="event-search">
+            add search bar here for date mm/dd/yyyy
+        </div>
         <div class="event-date"></div>
         <div class="mealplan-details"></div>
         <div class="add-mealplan-btn">
@@ -40,6 +43,14 @@
             <i class="fa-solid fa-plus"></i>
         </div>
         <div class="view-mealplan-btn" style="display: none;">View Mealplan</div>
+    </div>
+    <div class="add-meal-form">
+        <h2>Create a New Meal Plan</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Create Meal Plan</button>
+        </form>
     </div>
     <div class="mealplan-container">
         <div class="mealplan-sidebar"></div>

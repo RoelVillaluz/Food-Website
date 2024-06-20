@@ -2,7 +2,7 @@
 
 {% block body %}   
 <div class="container-and-link">
-    <div class="button-container">
+    <div class="button-container left">
         <button>
             <a href="{% url 'add_ingredient' recipe.name %}">
                 <i class="fa-solid fa-arrow-left"></i>
@@ -42,7 +42,7 @@
             </div>
         </div>
     </div>
-    <div class="button-container">
+    <div class="button-container right">
         <button>
             <a href="{% url 'add_step' recipe.name %}">
                 <i class="fa-solid fa-arrow-right"></i>
