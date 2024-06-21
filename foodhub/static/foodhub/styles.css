@@ -570,6 +570,11 @@ header label {
     margin: 20px 0px;
 }
 
+.recipe-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
 .recipe-container img {
     width: 32rem;
     height: 32rem;
@@ -2780,6 +2785,137 @@ input[type="checkbox"] {
     color: black;
 }
 
+footer {
+    background-color: #4682b4;
+    color: #fff;
+    padding: 40px 20px;
+}
+
+.footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    color: white;
+}
+
+.footer-logo {
+    flex: 2;
+    margin-top: -20px;
+}
+
+.footer-logo h1 {
+    font-family: 'Pacifico', sans-serif;
+    font-size: 60px;
+}
+
+.footer-socials {
+    margin-top: 20px;
+}
+
+.footer-socials h3 {
+    font-size: 28px;
+}
+
+.footer-icons {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.footer-icons i {
+    margin-right: 10px;
+    font-size: 40px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.footer-icons i:hover {
+    transform: translateY(-10px);
+}
+
+.newsletter {
+    width: auto; 
+}
+
+.newsletter-subscribe {
+    position: relative;
+    display: inline-block;
+    margin-top: 14px;
+    width: 100%; 
+    max-width: 400px; 
+}
+
+.newsletter input[type=text] {
+    padding: 14px 18px; 
+    padding-right: 50px; 
+    width: 100%; 
+    max-width: 400px; 
+    height: 60px;
+    font-size: 18px;
+    border: none;
+    outline: none;
+}
+
+.newsletter i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 0; 
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #a9d3ff;
+    color: white;
+    padding: 10px 20px;
+    height: 100%;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.footer-column {
+    flex: 1;
+}
+
+.footer-column h3, .footer-socials h3 {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 8px;
+}
+
+.footer-column h3::after, .footer-socials h3::after {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 2px;
+    background-color: #a9d3ff;
+    bottom: -2px;
+    left: 0;
+}
+
+.footer-column li {
+    list-style-type: none;
+}
+
+.footer-column a {
+    color: white;
+}
+
+.footer-bottom {
+    display: flex;
+    justify-content: center;
+    width: 100vw; 
+    background-color: #8dbadf;
+    padding: 20px 0;
+    position: relative; /* Ensure it's relative to the viewport */
+    left: 50%; 
+    margin-top: 20px;
+    margin-bottom: -40px;
+    transform: translateX(-50%); 
+}
+
 @media (max-width:991px) {
 
     header {
@@ -2826,7 +2962,13 @@ input[type="checkbox"] {
     }
 
     .recipe-image {
-        margin-bottom: 20px; 
+        width: 100%;
+        margin-bottom: 0px 20px; 
+        margin-right: 0;
+    }
+
+    .recipe-image img {
+        width: 100%;
     }
 
     .recipe-details {
@@ -3084,6 +3226,26 @@ input[type="checkbox"] {
         height: 80px;
         margin: 10px 20px;
     }
+
+    .footer-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-logo {
+        margin-top: 0;
+        margin-bottom: 20px;
+        width: 100%;
+    }
+
+    .footer-column {
+        margin-bottom: 20px;
+    }
+
+    .footer-icons {
+        justify-content: center;
+    }
     
 }
 
@@ -3283,6 +3445,35 @@ input[type="checkbox"] {
     }
 
     .direction-add-media h3 {
+        font-size: 14px;
+    }
+
+    footer {
+        margin: 50px -20px -20px -20px;
+    }
+
+    .footer-logo h1 {
+        font-size: 40px;
+    }
+
+    .footer-socials h3 {
+        font-size: 24px;
+    }
+
+    .footer-icons i {
+        font-size: 30px;
+    }
+
+    .newsletter i {
+        padding: 10px;
+        font-size: 16px;
+    }
+
+    .footer-column h3 {
+        font-size: 20px;
+    }
+
+    .footer-bottom p {
         font-size: 14px;
     }
 

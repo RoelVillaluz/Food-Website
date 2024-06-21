@@ -34,17 +34,58 @@
                     <li class="nav-btn"><a href="{% url 'login_view' %}">Login</a></li>
                 {% else %}
                     <li class="nav-btn"><a href="{% url 'logout' %}">Logout</a></li>
+                    <li><a href="{% url 'profile' request.user.username %}" class="user-icon"><i class="fa fa-user" aria-hidden="true"></i></a></li>
                 {% endif %}
             </ul>
         </nav>
-        {% if request.user.is_authenticated %}
-            <a href="{% url 'profile' request.user.username %}" class="user-icon"><i class="fa fa-user" aria-hidden="true"></i></a>
-        {% endif %}
-    </header>
+    </header>    
     <div class="body">
         {% block body %}
         {% endblock %}
     </div>
+    <footer>
+        <div class="footer-container">
+            <div class="footer-logo"> 
+                <h1>Foodhub</h1>
+                <div class="newsletter">
+                    <p>Stay updated with the latest culinary creations:</p>
+                    <div class="newsletter-subscribe">
+                        <input type="text" placeholder="Subscribe to our newsletter">
+                        <i class="fa-regular fa-paper-plane"></i>
+                    </div>
+                </div>
+                <div class="footer-socials">
+                    <h3>Follow us!</h3>
+                    <div class="footer-icons">
+                        <i class="fa-brands fa-instagram"></i>
+                        <i class="fa-brands fa-youtube"></i>
+                        <i class="fa-brands fa-facebook"></i>
+                        <i class="fa-brands fa-tiktok"></i>
+                        <i class="fa-brands fa-pinterest"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Info</h3>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Contact Us</h3>
+                <ul>
+                    <li>Email: Foodhub@gmail.com</li>
+                    <li>Number: (+63) 947 508 7518</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>Foodhub 2024 <i class="fa-regular fa-copyright"></i> All rights reserved.</p>
+        </div>
+    </footer>
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/datepicker/datepicker.min.js"></script>
