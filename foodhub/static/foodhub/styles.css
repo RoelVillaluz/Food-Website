@@ -2749,29 +2749,30 @@ input[type="checkbox"] {
 }
 
 .mealplan-sidebar {
-    width: 30%;
+    flex: 1;
     height: 100%;
     background-color: #eeeeee;
     box-shadow: 0px 12px 12px rgba(0, 0, 0, .1);
     box-sizing: border-box;
     position: sticky;
+    overflow-y: auto; 
 }
 
 .mealplan-sidebar h1 {
     color: white;
     font-weight: 600;
-    font-size: 56px;
+    font-size: 36px; 
     background-color: var(--primary-color);
     padding: 10px 15px;
-    line-height: -20;
     text-shadow: 2px 2px rgba(0, 0, 0, .1);
+    margin: 0;
 }
 
 .mealplan-sidebar li {
     list-style-type: none;
     font-weight: 500;
     padding: 10px;
-    font-size: 24px;
+    font-size: 20px; 
     color: black;
     cursor: pointer;
 }
@@ -2782,13 +2783,13 @@ input[type="checkbox"] {
 }
 
 .mealplan-recipes {
-    width: 70%;
+    flex: 2;
+    height: 100%; 
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px;
     padding: 20px;
-    box-sizing: border-box;
-    overflow-y: auto;
+    overflow-y: scroll; 
 }
 
 .mealplan-recipe {
@@ -2820,6 +2821,148 @@ input[type="checkbox"] {
     font-weight: 600;
     font-size: 20px;
     color: black;
+}
+
+.mealplan-recipe-view {
+    flex: 2;
+    height: 100%; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    display: none; 
+    position: relative;
+    overflow-y: scroll;
+}
+
+.mealplan-recipe-view.active {
+    display: flex; 
+}
+
+.back-btn {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    width: 40px;
+    height: 40px;
+    border: none;
+    outline: none;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+}
+
+.meal-image {
+    height: 400px;
+    position: relative;
+    cursor: pointer;
+}
+
+.meal-image img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.image-overlay {
+    text-align: left;
+    position: absolute;
+    bottom: 0; 
+    left: 0;
+    width: 100%;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0)); 
+    opacity: 0;
+    color: white;
+    padding: 20px;
+    transition: 0.3s ease;
+}
+
+.meal-image:hover .image-overlay {
+    opacity: 1; 
+}
+
+.meal-header {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.meal-header h1 {
+    font-family: "Poetsen One", sans-serif;
+    font-size: 44px;
+    color: #333;
+}
+
+.meal-header h2 {
+    font-weight: 500;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    margin-left: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.meal-ingredients, .meal-steps {
+    margin-top: 40px;
+}
+
+.meal-ingredients h3, .meal-steps h3 {
+    font-size: 24px;
+    position: relative;
+    display: inline-block;
+}
+
+.meal-ingredients h3:after, .meal-steps h3:after {
+    position: absolute;
+    content: "";
+    background-color: var(--primary-color);
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 4px;
+}
+
+.meal-ingredients li, .meal-steps li {
+    font-size: 18px;
+    font-weight: 400;
+    list-style-type: none;
+    counter-increment: my-counter;
+    line-height: 28px;
+    position: relative;
+    padding-left: 32px;
+    margin-top: 14px;
+}
+
+.meal-ingredients li::before, .meal-steps li:before {
+    content: counter(my-counter);
+    counter-increment: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.meal-steps img, .meal-steps video {
+    width: auto;
+    height: 200px;
+}
+
+
+
+.meal-header h3 {
+    margin-top: 20px;
+    font-size: 20px;
 }
 
 footer {

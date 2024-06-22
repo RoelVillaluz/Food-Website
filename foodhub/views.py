@@ -537,17 +537,36 @@ def get_mealplan_by_date(request, date):
         try:
             mealplan = MealPlan.objects.get(date=date, user=request.user)
             recipes = mealplan.recipes.all()
-            return JsonResponse({
+            mealplan_data = {
                 "mealplan": {
                     "name": mealplan.name,
                     "description": mealplan.description,
                 },
-                "recipes": [{
-                    "name": recipe.name,
-                    "image": recipe.image.url if recipe.image else None, 
-                    "category": recipe.category,
-                    "description": recipe.description 
-                } for recipe in recipes]
-            })
+                "recipes": []
+            }
+
+            for recipe in recipes:
+                recipe_data = forms.model_to_dict(recipe, fields=['name', 'image', 'category', 'description'])
+                recipe_data['image'] = recipe.image.url if recipe.image else None
+
+                # Retrieve ingredients for the current recipe
+                ingredients = Ingredient.objects.filter(recipe=recipe)
+                recipe_data['ingredients'] = [{
+                    "name": ingredient.name,
+                    "quantity": ingredient.quantity,
+                    "unit": ingredient.unit_of_measurement
+                } for ingredient in ingredients]
+
+                # Retrieve steps for the current recipe
+                steps = Step.objects.filter(recipe=recipe)
+                recipe_data['steps'] = [{
+                    "description": step.description,
+                    "image": step.image.url if step.image else None,
+                    "video": step.video.url if step.video else None
+                } for step in steps]
+
+                mealplan_data['recipes'].append(recipe_data)
+
+            return JsonResponse(mealplan_data)
         except MealPlan.DoesNotExist:
             return JsonResponse({"mealplan": None})
