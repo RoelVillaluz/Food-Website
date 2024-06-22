@@ -1,8 +1,7 @@
-<!--  -->
 {% extends "foodhub/layout.html" %}
 
 {% block body %}
-<div class="login-container">
+<div class="register-container">
     <div class="login-forms">
         <form action="{% url 'register' %}" method="post">
             <div class="login-title">
@@ -33,7 +32,7 @@
             <span>Already have an account?</span><a href="{% url 'login_view' %}">Login</a>
         </div>
     </div>
-    <div class="login-image">
+    <div class="register-image">
         <img src="media/pexels-valeriya-burger-1199957.jpg" alt="">
     </div>
 </div>

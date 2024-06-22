@@ -1461,7 +1461,7 @@ border-radius: 50%;
     color: #0056b3;
 }
 
-.login-container {
+.login-container, .register-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -1472,12 +1472,12 @@ border-radius: 50%;
     padding: 0; 
 }
 
-.login-image {
+.login-image, .register-image {
     width: 400px;
     height: 100%;
 }
 
-.login-container img {
+.login-container img, .register-container img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -3116,11 +3116,11 @@ footer {
 
     header nav ul {
         display: flex;
-        flex-direction: column; /* Display items vertically */
-        align-items: flex-start; /* Align items to the start of the container */
+        flex-direction: column; 
+        align-items: flex-start; 
         list-style: none;
-        margin: 0; /* Remove default margin */
-        padding: 0; /* Remove default padding */
+        margin: 0; 
+        padding: 0; 
     }
 
     header nav ul li {
@@ -3426,6 +3426,56 @@ footer {
     .footer-icons {
         justify-content: center;
     }
+
+    .login-container {
+        flex-direction: column;
+        width: 100%;
+        height: auto;
+        margin-top: 50px;
+    }
+
+    .register-container {
+        flex-direction: column-reverse;
+        width: 100%;
+        height: auto;
+        margin-top: 50px;
+    }
+
+    .login-image, .register-image {
+        width: 100%;
+        height: 400px;
+        padding: 20px;
+    } 
+
+    .login-title {
+        font-size: 22px;
+    }
+
+    .login-forms {
+        width: 100%;
+        margin-top: -20px;
+    }
+
+    .login-forms {
+        padding: 20px 10px;
+    }
+
+    .login-forms .form-group {
+        margin: 0;
+    }
+
+    .login-forms .form-group i {
+        left: 10px;
+        font-size: 24px;
+    }
+
+    .login-forms input[type=text]
+    , .login-forms input[type=password]
+    , .login-forms input[type=submit]
+    , .login-forms input[type=email] {
+        padding: 14px 14px 14px 40px;
+        font-size: 20px;
+    }
     
 }
 
@@ -3655,6 +3705,14 @@ footer {
 
     .footer-bottom p {
         font-size: 14px;
+    }
+
+    .login-container, .register-container {
+        margin-top: 0px;
+    }
+
+    .login-title {
+        font-size: 16px;
     }
 
 }
