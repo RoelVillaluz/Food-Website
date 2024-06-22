@@ -1047,7 +1047,7 @@ header label {
     padding: 20px;
     border-radius: 5px;
     background-color: white;
-    box-shadow: 0px 12px 12px rgba(0, 0, 0, .1);
+    box-shadow: 0px 0px 12px rgba(0, 0, 0, .1);
 }
 
 .floating-button {
@@ -2650,6 +2650,37 @@ input[type="checkbox"] {
     background-color: #f1f1f1;
 }
 
+.event-search {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.event-search input[type=search] {
+    width: 100%;
+    padding: 8px;
+    font-size: 18px;
+    border: solid 1px #aaa;
+    outline: none;
+}
+
+#search-event {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    padding: 0px 20px;
+    background-color: var(--secondary-color);
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#search-event i {
+    color: white;
+    font-size: 18px;
+}
+
 .event-date {
     color: black;
     font-weight: 700;
@@ -2739,9 +2770,15 @@ input[type="checkbox"] {
 .mealplan-sidebar li {
     list-style-type: none;
     font-weight: 500;
-    margin: 10px;
+    padding: 10px;
     font-size: 24px;
     color: black;
+    cursor: pointer;
+}
+
+.mealplan-sidebar li:hover {
+    background-color: var(--secondary-color);
+    color: white;
 }
 
 .mealplan-recipes {

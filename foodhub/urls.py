@@ -21,6 +21,5 @@ urlpatterns = [
     # path("profile/<str:username>/edit", views.edit_profile, name="edit_profile"),
     path("edit_bio", views.edit_bio, name="edit_bio"),
     path("create_mealplan", views.create_mealplan, name="create_mealplan"),
-    path("mealplan/<str:mealplan_name>", views.mealplan, name="mealplan"),
     path('api/mealplan/<str:date>/', views.get_mealplan_by_date, name='get_mealplan_by_date'),
 ]

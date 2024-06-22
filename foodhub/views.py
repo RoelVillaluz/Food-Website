@@ -531,15 +531,6 @@ def create_mealplan(request):
     return render(request, "foodhub/create_mealplan.html", {
         "form": form,
     })
-
-def mealplan(request, mealplan_name):
-    if request.method == 'GET':
-        mealplan = MealPlan.objects.get(name=mealplan_name)
-        recipes = mealplan.recipes.all()
-        return render(request, "foodhub/mealplan.html", {
-            "mealplan": mealplan,
-            "recipes": recipes
-        })
     
 def get_mealplan_by_date(request, date):
     if request.method == 'GET':
@@ -553,7 +544,9 @@ def get_mealplan_by_date(request, date):
                 },
                 "recipes": [{
                     "name": recipe.name,
-                    "image": recipe.image.url if recipe.image else None,  
+                    "image": recipe.image.url if recipe.image else None, 
+                    "category": recipe.category,
+                    "description": recipe.description 
                 } for recipe in recipes]
             })
         except MealPlan.DoesNotExist:

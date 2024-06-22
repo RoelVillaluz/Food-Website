@@ -155,6 +155,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const yearSlider = document.querySelector('.current-year');
     const eventDateDisplay = document.querySelector('.event-date');
     const addMealPlanBtn = document.querySelector('.add-mealplan-btn');
+    const searchForm = document.getElementById('search-form');
+    const searchInput = document.getElementById('search-input');
     yearSlider.textContent = currentYear;
 
     function updateCalendar() {
@@ -235,6 +237,20 @@ document.addEventListener('DOMContentLoaded', function() {
     
         yearSlider.textContent = currentYear;
     }
+
+    searchForm.addEventListener('submit', function(event) {
+        event.preventDefault(); 
+        const searchValue = searchInput.value.trim();
+        const [month, year] = searchValue.split('/').map(Number);
+
+        if (month >= 1 && month <= 12 && year) {
+            currentMonth = month - 1;
+            currentYear = year;
+            updateCalendar();
+        } else {
+            alert('Please enter a valid date in mm/yyyy format.');
+        }
+    });
 
     months.forEach((month, index) => {
         const monthDiv = document.createElement('div');
@@ -322,6 +338,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     const recipeListElement = document.createElement('ul');
                     data.recipes.forEach(recipe => {
                         const listItemElement = document.createElement('li');
+                        listItemElement.classList.add('mealplan-list-item')
                         listItemElement.textContent = recipe.name;
                         recipeListElement.appendChild(listItemElement);
                     });
@@ -330,12 +347,24 @@ document.addEventListener('DOMContentLoaded', function() {
                     data.recipes.forEach(recipe => {
                         const recipeElement = document.createElement('div');
                         recipeElement.classList.add('mealplan-recipe');
+                    
                         recipeElement.innerHTML = `
                             <a href="/recipe/${encodeURIComponent(recipe.name)}">
-                            ${recipe.image ? `<img src="${recipe.image}" class="mealplan-recipe-image">
-                            </a> ` : ''}
+                                ${recipe.image ? `<img src="${recipe.image}" class="mealplan-recipe-image">` : ''}
+                            </a>
                             <h3>${recipe.name}</h3>
                         `;
+                    
+                        recipeElement.addEventListener('click', function() {
+                            recipeElement.classList.toggle('active');
+                    
+                            if (recipeElement.classList.contains('active')) {
+                                console.log(`${recipe.name} activated`);
+                            } else {
+                                console.log(`${recipe.name} deactivated`);
+                            }
+                        });
+                    
                         mealplanRecipes.appendChild(recipeElement);
                     });
     
@@ -377,18 +406,6 @@ document.addEventListener('DOMContentLoaded', function() {
             document.body.classList.remove('blurred');
         }
     });
-});
-
-document.addEventListener("DOMContentLoaded", function() {
-    var reviewCountLink = document.querySelector('.review-count a');
-
-    if(reviewCountLink) {
-        reviewCountLink.addEventListener('click', function(event) {
-            event.preventDefault();
-            var reviewsSection = document.querySelector('.review-list');
-            reviewsSection.scrollIntoView({ behavior: 'smooth' });
-        });
-    }
 });
 
 document.addEventListener("DOMContentLoaded", function() {
