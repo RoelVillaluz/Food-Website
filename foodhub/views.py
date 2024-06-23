@@ -18,7 +18,7 @@ from .models import User, Ingredient, Step, Recipe, Profile, Allergen, Review, M
 
 class NewRecipeForm(forms.ModelForm):
     class Meta:
-        model = Recipe
+        model: Recipe
         fields = ["name", "description", "image", "category", "servings", "duration", "difficulty", "cost"]
         widgets = {
             'name': forms.TextInput(attrs={"class": "form-control"}),
@@ -570,3 +570,37 @@ def get_mealplan_by_date(request, date):
             return JsonResponse(mealplan_data)
         except MealPlan.DoesNotExist:
             return JsonResponse({"mealplan": None})
+        
+def recipe_recommender(request):
+    categories = [
+        category for category in Recipe.CATEGORY_CHOICES 
+        if Recipe.objects.filter(category=category[0]).exists()
+    ]
+    durations = Recipe.DURATION_CHOICES
+    difficulty = Recipe.DIFFICULTY_CHOICES
+    cost = Recipe.COST_CHOICES
+
+    filters = {
+        'category': request.GET.get('category'),
+        'duration': request.GET.get('duration'),
+        'difficulty': request.GET.get('difficulty'),
+        'cost': request.GET.get('cost')
+    }
+
+    # Remove empty filter values
+    filters = {key: value for key, value in filters.items() if value}
+
+    # Filter recipes based on selected criteria
+    recipes = Recipe.objects.filter(**filters)
+
+    return render(request, "foodhub/recipe_recommender.html", {
+        "categories": categories,
+        "durations": durations,
+        "difficulty": difficulty,
+        "cost": cost,
+        "recipes": recipes,
+        "selected_category": filters.get('category'),
+        "selected_duration": filters.get('duration'),
+        "selected_difficulty": filters.get('difficulty'),
+        "selected_cost": filters.get('cost')
+    })

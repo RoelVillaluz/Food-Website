@@ -1,0 +1,15 @@
+{% extends "foodhub/layout.html" %}
+
+{% block title%}Recipe Recommender{% endblock%}
+{% block body %}
+    <div class="test-container">
+        <h1>What's your favorite cuisine?</h1>
+        <form action="{% url 'recipe_recommender' %}" method="POST">
+            <div class="category-test">
+                {% for category in categories %}
+                    <h1>{{ category.1 }}</h1>
+                {% endfor %}
+            </div>
+        </form>
+    </div>
+{% endblock %}
