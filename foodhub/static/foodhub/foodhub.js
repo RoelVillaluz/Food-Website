@@ -68,6 +68,82 @@ radioButtons.forEach(button => {
     });
 });
 
+// for recipe recommendation buttons
+document.addEventListener('DOMContentLoaded', function() {
+    const choices = document.querySelectorAll('input[type="radio"]');
+    const submitBtn = document.querySelector('.test-container button[type="submit"]');
+    const form = document.getElementById('test-form');
+    const recommendedRecipe = document.querySelector('.recommended-recipe');
+
+    // Hide submit button initially
+    submitBtn.style.display = 'none';
+
+    function handleRadioClick(event) {
+        const clickedInput = event.target;
+        const container = clickedInput.closest('div[id^="choices"]');
+        
+        if (clickedInput.name === 'category' && clickedInput.checked) {
+            hideAllContainers();
+            showNextContainer(container);
+            showSubmitButton();
+        } else if (clickedInput.name === 'duration' && clickedInput.checked) {
+            hideAllContainers();
+            showNextContainer(container);
+            showSubmitButton();
+        } else if (clickedInput.name === 'difficulty' && clickedInput.checked) {
+            hideAllContainers();
+            showNextContainer(container);
+            showSubmitButton();
+        }
+    }
+
+    function hideAllContainers() {
+        const containers = document.querySelectorAll('div[id^="choices"]');
+        containers.forEach(container => {
+            container.style.display = 'none';
+        });
+    }
+
+    function showNextContainer(currentContainer) {
+        const nextContainer = currentContainer.nextElementSibling;
+        if (nextContainer) {
+            nextContainer.style.display = 'grid';
+        }
+    }
+
+    function showSubmitButton() {
+        submitBtn.style.display = 'block';
+    }
+
+    choices.forEach(input => {
+        input.addEventListener('click', handleRadioClick);
+    });
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        hideAllContainers();
+
+        const xhr = new XMLHttpRequest();
+        const formData = new FormData(form);
+        xhr.open('GET', form.action + '?' + new URLSearchParams(formData).toString(), true);
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(xhr.responseText, 'text/html');
+                const newContent = doc.querySelector('.recommended-recipe').innerHTML;
+                recommendedRecipe.innerHTML = newContent;
+                recommendedRecipe.style.display = 'block';
+                submitBtn.style.display = 'none';
+            }
+        };
+
+        xhr.send();
+    });
+});
+
+
 document.addEventListener('DOMContentLoaded', function() {
     // for sort type
     const sortDropdown = document.querySelector('.sort-dropdown');
@@ -567,24 +643,6 @@ document.addEventListener('DOMContentLoaded', function () {
         this.form.submit();
     });
 });
-
-
-var selectedCategory = "{{ selected_category }}";
-var selectedDuration = "{{ selected_duration }}";
-var selectedCost = "{{ selected_cost }}";
-var selectedDifficulty = "{{ selected_difficulty }}";
-
-function updateSelectedOptions(fieldName, value) {
-    if (fieldName === "category") {
-        selectedCategory = value;
-    } else if (fieldName === "duration") {
-        selectedDuration = value;
-    } else if (fieldName === "cost") {
-        selectedCost = value;
-    } else if (fieldName === "difficulty") {
-        selectedDifficulty = value;
-    }
-}
 
 // editing profile featured recipe 
 document.addEventListener('DOMContentLoaded', function() {

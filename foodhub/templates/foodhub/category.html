@@ -1,5 +1,6 @@
 {% extends "foodhub/layout.html" %}
 
+{% block title%}{{ category.capitalize }}{% endblock%}
 {% block body %}
 {% if header_recipe %}
 <div class="category-header">

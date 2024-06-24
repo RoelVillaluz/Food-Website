@@ -2,14 +2,70 @@
 
 {% block title%}Recipe Recommender{% endblock%}
 {% block body %}
-    <div class="test-container">
-        <h1>What's your favorite cuisine?</h1>
-        <form action="{% url 'recipe_recommender' %}" method="POST">
-            <div class="category-test">
+<div class="test-container">
+    <form action="{% url 'recipe_recommender' %}" method="GET" id="test-form">
+        <div class="category-test" id="choices">
+            <h1>What's your favorite cuisine?</h1>
+            <div class="choice-grid">
                 {% for category in categories %}
-                    <h1>{{ category.1 }}</h1>
+                    <label class="test-label" id="test-category-label-{{ category.0 }}">
+                        <div>
+                            <input type="radio" id="category-{{ forloop.counter }}" name="category" value="{{ category.0 }}"
+                                {% if selected_category == category.0 %} checked {% endif %}>
+                            <span>{{ category.1 }}</span>
+                        </div>
+                    </label>
                 {% endfor %}
             </div>
-        </form>
+        </div>
+        <div class="duration-test" id="choices">
+            <h1>Preferred cooking duration?</h1>
+            <div class="choice-grid">
+                {% for duration in durations %}
+                    <label class="test-label" id="test-duration-label-{{ duration.0 }}">
+                        <div>
+                            <input type="radio" id="duration-{{ forloop.counter }}" name="duration" value="{{ duration.0 }}"
+                                {% if selected_duration == duration.0 %} checked {% endif %}>
+                            <span>{{ duration.1 }}</span>
+                        </div>
+                    </label>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="difficulty-test" id="choices">
+            <h1>What's your cooking level?</h1>
+            <div class="choice-grid">
+                {% for level in difficulty %}
+                    <label class="test-label" id="test-difficulty-label-{{ level.0 }}">
+                        <div>
+                            <input type="radio" id="difficulty-{{ forloop.counter }}" name="difficulty" value="{{ level.0 }}"
+                                {% if selected_difficulty == level.0 %} checked {% endif %}>
+                            <span>{{ level.1 }}</span>
+                        </div>
+                    </label>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="cost-test" id="choices">
+            <h1>What's your budget range?</h1>
+            <div class="choice-grid">
+                {% for cost in cost %}
+                    <label class="test-label" id="test-cost-label-{{ cost.0 }}">
+                        <div>
+                            <input type="radio" id="cost-{{ forloop.counter }}" name="cost" value="{{ cost.0 }}"
+                                {% if selected_cost == cost.0 %} checked {% endif %}>
+                            <span>{{ cost.1 }}</span>
+                        </div>
+                    </label>
+                {% endfor %}
+            </div>
+        </div>
+        <button type="submit">Get Recipe Recommendation</button>
+    </form>
+    <div class="recommended-recipe">
+        <div class="recommended-recipe-image">
+            <img src="{{ recipe.image.url }}" alt="">
+        </div>
     </div>
+</div>
 {% endblock %}

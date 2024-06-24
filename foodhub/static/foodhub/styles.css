@@ -2434,6 +2434,57 @@ border-radius: 50%;
     color: #333;
 }
 
+#choices h1 {
+    font-size: 40px;
+    text-align: center;
+    animation: textAppear 1s ease;
+}
+
+#choices input[type="radio"] {
+    display: none;
+}
+
+.choice-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+    margin-top: 40px;
+}
+
+.test-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    font-size: 20px;
+    box-shadow: 2px 2px 12px rgba(0, 0, 0, .1);
+    cursor: pointer;
+    transition: all 0.3s;
+    animation: tileAppear 1s ease;
+}
+
+.test-label:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.test-container button {
+    padding: 15px 20px;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    outline: none;
+    margin: 20px auto;
+    cursor: pointer;
+}
+
+.duration-test, .difficulty-test, .cost-test, .recommended-recipe {
+    display: none;
+}
+
 /* Keyframes for text appearance */
 @keyframes textAppear {
     from {

@@ -18,7 +18,7 @@ from .models import User, Ingredient, Step, Recipe, Profile, Allergen, Review, M
 
 class NewRecipeForm(forms.ModelForm):
     class Meta:
-        model: Recipe
+        model = Recipe
         fields = ["name", "description", "image", "category", "servings", "duration", "difficulty", "cost"]
         widgets = {
             'name': forms.TextInput(attrs={"class": "form-control"}),
@@ -524,7 +524,7 @@ def create_mealplan(request):
             mealplan = MealPlan.objects.create(name=name, description=description, date=date, user=user)
             mealplan.recipes.set(recipes)
             
-            return HttpResponseRedirect(reverse("mealplan", kwargs={'mealplan_name': mealplan.name}))
+            return render(request, "foodhub/create_mealplan.html")
     else:
         form = MealPlanForm()
     
@@ -587,20 +587,18 @@ def recipe_recommender(request):
         'cost': request.GET.get('cost')
     }
 
-    # Remove empty filter values
     filters = {key: value for key, value in filters.items() if value}
 
-    # Filter recipes based on selected criteria
-    recipes = Recipe.objects.filter(**filters)
+    recipe = Recipe.objects.filter(**filters).order_by('?').first()
 
     return render(request, "foodhub/recipe_recommender.html", {
         "categories": categories,
         "durations": durations,
         "difficulty": difficulty,
         "cost": cost,
-        "recipes": recipes,
-        "selected_category": filters.get('category'),
-        "selected_duration": filters.get('duration'),
-        "selected_difficulty": filters.get('difficulty'),
-        "selected_cost": filters.get('cost')
+        "recipe": recipe,
+        "test_category": filters.get('category'),
+        "test_duration": filters.get('duration'),
+        "test_difficulty": filters.get('difficulty'),
+        "test_cost": filters.get('cost')
     })
