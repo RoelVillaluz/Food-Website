@@ -7,7 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.core.serializers.json import DjangoJSONEncoder
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.contrib import messages
 
 import json
@@ -589,7 +589,37 @@ def recipe_recommender(request):
 
     filters = {key: value for key, value in filters.items() if value}
 
-    recipe = Recipe.objects.filter(**filters).order_by('?').first()
+    recipe = None
+
+    # Prioritize filtering by category first
+    if 'category' in filters:
+        category_filter = Q(category=filters['category'])
+        other_filters = Q(**{key: value for key, value in filters.items() if key != 'category'})
+        filtered_recipes = Recipe.objects.filter(category_filter & other_filters)
+    else:
+        filtered_recipes = Recipe.objects.filter(**filters)
+
+    if filtered_recipes.exists():
+        recipe = filtered_recipes.order_by('?').first()
+    else:
+        # If no exact match, relax other filters progressively
+        max_iterations = len(filters) - 1
+        while max_iterations > 0:
+            if 'duration' in filters:
+                del filters['duration']
+            elif 'difficulty' in filters:
+                del filters['difficulty']
+            elif 'cost' in filters:
+                del filters['cost']
+            max_iterations -= 1
+
+            filtered_recipes = Recipe.objects.filter(**filters)
+            if filtered_recipes.exists():
+                recipe = filtered_recipes.order_by('?').first()
+                break
+
+    if recipe is None:
+        recipe = Recipe.objects.order_by('?').first()  
 
     return render(request, "foodhub/recipe_recommender.html", {
         "categories": categories,

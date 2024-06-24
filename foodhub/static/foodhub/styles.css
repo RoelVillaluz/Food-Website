@@ -2468,6 +2468,10 @@ border-radius: 50%;
     color: white;
 }
 
+.test-label i {
+    margin-right: 8px;
+}
+
 .active {
     background-color: var(--primary-color);
     color: white;
@@ -2486,8 +2490,75 @@ border-radius: 50%;
     cursor: pointer;
 }
 
-.duration-test, .difficulty-test, .cost-test, .recommended-recipe {
+.duration-test, .difficulty-test, .cost-test, .animation-header, .recommended-recipe {
     display: none;
+}
+
+.animation-header h1 {
+    text-align: center;
+    font-size: 64px;
+    animation: textAppear 1s ease;
+}
+
+.recommended-recipe {
+    justify-content: center;
+    margin: 40px 0px;
+}
+
+.recommended-recipe-image {
+    flex: 1;
+    width: 80%;
+    height: 400px;
+    padding: 20px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, .1);
+    margin-bottom: 20px;
+    animation: tileAppear 3s ease;
+}
+
+.recommended-recipe-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.recommended-recipe .content {
+    flex: 1;
+    animation: tileAppear 3s ease;
+    text-align: center;
+}
+
+.recommended-recipe .content h1 {
+    font-size: 54px;
+}
+
+.recommended-recipe .details {
+    margin-top: 20px;
+    margin-left: 20px;
+    width: 100%;
+}
+
+.recommended-recipe .details .detail {
+    display: flex;
+    justify-content: space-between;
+    align-self: center;
+    width: 100%;
+    margin: 20px 0px;
+    padding: 20px;
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, .1);
+    border-radius: 5px;
+}
+
+.recommended-recipe .details h3 {
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.recommended-recipe .details i {
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    margin-left: 10px;
+    padding: 10px;
 }
 
 /* Keyframes for text appearance */

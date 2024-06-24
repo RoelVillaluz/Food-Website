@@ -151,8 +151,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(xhr.responseText, 'text/html');
                 const newContent = doc.querySelector('.recommended-recipe').innerHTML;
+                const animationHeader = document.querySelector('.animation-header');
+                animationHeader.style.display = 'block'
                 recommendedRecipe.innerHTML = newContent;
-                recommendedRecipe.style.display = 'block';
+                recommendedRecipe.style.display = 'flex';
                 submitBtn.style.display = 'none';
             }
         };
