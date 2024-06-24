@@ -70,7 +70,7 @@ radioButtons.forEach(button => {
 
 // for recipe recommendation buttons
 document.addEventListener('DOMContentLoaded', function() {
-    const choices = document.querySelectorAll('input[type="radio"]');
+    const choices = document.querySelectorAll('.test-container input[type="radio"]');
     const submitBtn = document.querySelector('.test-container button[type="submit"]');
     const form = document.getElementById('test-form');
     const recommendedRecipe = document.querySelector('.recommended-recipe');
@@ -83,17 +83,35 @@ document.addEventListener('DOMContentLoaded', function() {
         const container = clickedInput.closest('div[id^="choices"]');
         
         if (clickedInput.name === 'category' && clickedInput.checked) {
+            addActiveClass(clickedInput);
             hideAllContainers();
             showNextContainer(container);
             showSubmitButton();
         } else if (clickedInput.name === 'duration' && clickedInput.checked) {
+            addActiveClass(clickedInput);
             hideAllContainers();
             showNextContainer(container);
             showSubmitButton();
         } else if (clickedInput.name === 'difficulty' && clickedInput.checked) {
+            addActiveClass(clickedInput);
             hideAllContainers();
             showNextContainer(container);
             showSubmitButton();
+        } else if (clickedInput.name === 'cost' && clickedInput.checked) {
+            addActiveClass(clickedInput);
+            showSubmitButton();
+        }
+    }
+
+    function addActiveClass(input) {
+        const allLabels = document.querySelectorAll('.test-label');
+        allLabels.forEach(label => label.classList.remove('active'));
+        
+        const labelId = `test-${input.name}-label-${input.value}`;
+        const label = document.getElementById(labelId);
+        if (label) {
+            label.classList.add('active');
+            console.log(labelId)
         }
     }
 
