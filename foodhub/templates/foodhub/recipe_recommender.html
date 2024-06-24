@@ -83,25 +83,35 @@
         <div class="content">
             <h1>{{ recipe.name }}</h1>
             <div class="details">
-                <div class="detail">
-                    {% if recipe.category %}
-                        <h3>{{ recipe.category.capitalize }}</h3><i class="fa-solid fa-check"></i>
+                <div class="detail" data-filter="category">
+                    {% if 'category' in matched_filters and recipe.category %}
+                        <h3>{{ recipe.category|capfirst }}</h3><i class="fa-solid fa-circle-check"></i>
                     {% endif %}
                 </div>
-                <div class="detail">
-                    {% if recipe.duration %}
-                        <h3>{{ recipe.duration }}</h3><i class="fa-solid fa-check"></i>
+                <div class="detail" data-filter="duration">
+                    {% if 'duration' in matched_filters and recipe.duration %}
+                        <h3>{{ recipe.duration }}</h3><i class="fa-solid fa-circle-check"></i>
+                    {% else %}
+                        <h3>{{ recipe.duration }}</h3><i class="fa-solid fa-circle-xmark" id="wrong"></i>
                     {% endif %}
                 </div>
-                <div class="detail">
-                    {% if recipe.difficulty %}
-                        <h3>{{ recipe.difficulty }}</h3><i class="fa-solid fa-check"></i>
+                <div class="detail" data-filter="difficulty">
+                    {% if 'difficulty' in matched_filters and recipe.difficulty %}
+                        <h3>{{ recipe.difficulty }}</h3><i class="fa-solid fa-circle-check"></i>
+                    {% else %}
+                        <h3>{{ recipe.difficulty }}</h3><i class="fa-solid fa-circle-xmark" id="wrong"></i>
                     {% endif %}
                 </div>
-                <div class="detail">
-                    {% if recipe.cost %}
-                        <h3>{{ recipe.cost }}</h3><i class="fa-solid fa-check"></i>
+                <div class="detail" data-filter="cost">
+                    {% if 'cost' in matched_filters and recipe.cost %}
+                        <h3>{{ recipe.cost }}</h3><i class="fa-solid fa-circle-check"></i>
+                    {% else %}
+                        <h3>{{ recipe.cost }}</h3><i class="fa-solid fa-circle-xmark" id="wrong"></i>
                     {% endif %}
+                </div>
+                <div class="link">
+                    <a href="{% url 'recipe' recipe.name %}">View Full Recipe</a>
+                    <i class="fa-solid fa-angle-right"></i>
                 </div>
             </div>
         </div>

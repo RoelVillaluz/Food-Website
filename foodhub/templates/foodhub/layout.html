@@ -17,8 +17,13 @@
         <nav>
             <ul>
                 {% if request.user.is_authenticated %}
-                    <li><a href="{% url 'create_recipe' %}">Create Recipe</a></li>
-                    <li><a href="{% url 'create_mealplan' %}">Create Mealplan</a></li>
+                <li>
+                    <a href="{% url 'create_recipe' %}">Create</a>
+                    <ul>
+                        <li><a href="{% url 'create_recipe' %}">Create Recipe</a></li>
+                        <li><a href="{% url 'create_mealplan' %}">Create Mealplan</a></li>
+                    </ul>
+                </li>
                 {% endif %}
                 <li><a href="{% url 'recipes' %}">Recipes</a></li>
                 <li>
@@ -30,6 +35,7 @@
                         <li><a href="{% url 'categories' %}">View All</a></li>
                     </ul>
                 </li>
+                <li><a href="{% url 'recipe_recommender' %}">Recommender</a></li>
                 {% if not request.user.is_authenticated %}
                     <li class="nav-btn"><a href="{% url 'login_view' %}">Login</a></li>
                 {% else %}

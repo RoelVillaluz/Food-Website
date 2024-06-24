@@ -590,6 +590,7 @@ def recipe_recommender(request):
     filters = {key: value for key, value in filters.items() if value}
 
     recipe = None
+    matched_filters = []
 
     # Prioritize filtering by category first
     if 'category' in filters:
@@ -601,6 +602,7 @@ def recipe_recommender(request):
 
     if filtered_recipes.exists():
         recipe = filtered_recipes.order_by('?').first()
+        matched_filters = list(filters.keys())
     else:
         # If no exact match, relax other filters progressively
         max_iterations = len(filters) - 1
@@ -616,10 +618,11 @@ def recipe_recommender(request):
             filtered_recipes = Recipe.objects.filter(**filters)
             if filtered_recipes.exists():
                 recipe = filtered_recipes.order_by('?').first()
+                matched_filters = list(filters.keys())
                 break
 
     if recipe is None:
-        recipe = Recipe.objects.order_by('?').first()  
+        recipe = Recipe.objects.order_by('?').first()
 
     return render(request, "foodhub/recipe_recommender.html", {
         "categories": categories,
@@ -630,5 +633,6 @@ def recipe_recommender(request):
         "test_category": filters.get('category'),
         "test_duration": filters.get('duration'),
         "test_difficulty": filters.get('difficulty'),
-        "test_cost": filters.get('cost')
+        "test_cost": filters.get('cost'),
+        "matched_filters": matched_filters
     })

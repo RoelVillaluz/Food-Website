@@ -156,12 +156,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 recommendedRecipe.innerHTML = newContent;
                 recommendedRecipe.style.display = 'flex';
                 submitBtn.style.display = 'none';
+
+                showMatchingFilters();
             }
         };
 
         xhr.send();
     });
-});
+
+    function showMatchingFilters() {
+        const matchedFilters = Array.from(form.querySelectorAll('input[type="radio"]:checked')).map(input => input.name);
+        const details = document.querySelectorAll('.detail');
+        details.forEach(detail => {
+            const filterName = detail.getAttribute('data-filter');
+            if (!matchedFilters.includes(filterName)) {
+                detail.style.display = 'none';
+            }
+        });
+    }
+})
 
 
 document.addEventListener('DOMContentLoaded', function() {
