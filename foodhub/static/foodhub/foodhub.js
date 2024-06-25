@@ -87,6 +87,11 @@ document.addEventListener('DOMContentLoaded', function() {
             hideAllContainers();
             showNextContainer(container);
             showSubmitButton();
+        } else if (clickedInput.name === 'include_allergens' && clickedInput.checked) {
+            addActiveClass(clickedInput);
+            hideAllContainers();
+            showNextContainer(container);
+            showSubmitButton();
         } else if (clickedInput.name === 'duration' && clickedInput.checked) {
             addActiveClass(clickedInput);
             hideAllContainers();

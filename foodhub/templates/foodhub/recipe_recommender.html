@@ -18,6 +18,28 @@
                 {% endfor %}
             </div>
         </div>
+        {% if request.user.is_authenticated %}
+            <div class="allergen-test" id="choices">
+                <h1>Show Recipes with your allergens?</h1>
+                <div class="choice-grid">
+                    <label class="test-label">
+                        <div>
+                            <input type="radio" id="allergen_yes" name="include_allergens" value="yes" {% if include_allergens %}checked{% endif %}>
+                            {% if include_allergens %}checked{% endif %}
+                            <span>Yes</span>
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+                    </label>
+                    <label class="test-label">
+                        <div>
+                            <input type="radio" id="allergen_no" name="include_allergens" value="no" {% if not include_allergens %}checked{% endif %}> 
+                            <span>No</span>
+                            <i class="fa-solid fa-circle-xmark" id="wrong"></i>
+                        </div>
+                    </label>
+                </div>
+            </div>
+        {% endif %}
         <div class="duration-test" id="choices">
             <h1>Preferred cooking duration?</h1>
             <div class="choice-grid">
@@ -86,6 +108,15 @@
                 <div class="detail" data-filter="category">
                     {% if 'category' in matched_filters and recipe.category %}
                         <h3>{{ recipe.category|capfirst }}</h3><i class="fa-solid fa-circle-check"></i>
+                    {% else %}
+                        <h3>{{ recipe.category|capfirst }}</h3><i class="fa-solid fa-circle-xmark" id="wrong"></i>
+                    {% endif %}
+                </div>
+                <div class="detail" data-filter="include_allergens">
+                    {% if not include_allergens %}
+                        <h3>Allergens Excluded</h3><i class="fa-solid fa-circle-check"></i>
+                    {% else %}
+                        <h3>Allergens Included</h3><i class="fa-solid fa-circle-xmark" id="wrong"></i>
                     {% endif %}
                 </div>
                 <div class="detail" data-filter="duration">

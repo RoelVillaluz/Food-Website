@@ -2474,7 +2474,7 @@ border-radius: 50%;
 }
 
 .test-label i {
-    margin-right: 8px;
+    margin: 0px 10px;
 }
 
 .active {
@@ -2483,6 +2483,7 @@ border-radius: 50%;
 }
 
 .test-container button {
+    display: none;
     padding: 15px 20px;
     background-color: var(--primary-color);
     color: white;

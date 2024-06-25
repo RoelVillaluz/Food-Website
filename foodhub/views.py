@@ -589,40 +589,49 @@ def recipe_recommender(request):
 
     filters = {key: value for key, value in filters.items() if value}
 
+    user_profile = Profile.objects.get(user=request.user)
+    user_allergens = user_profile.allergens.all()
+
     recipe = None
     matched_filters = []
 
-    # Prioritize filtering by category first
-    if 'category' in filters:
-        category_filter = Q(category=filters['category'])
-        other_filters = Q(**{key: value for key, value in filters.items() if key != 'category'})
-        filtered_recipes = Recipe.objects.filter(category_filter & other_filters)
-    else:
+    include_allergens = request.GET.get('include_allergens', 'no') == 'yes'
+
+    def exclude_allergens(queryset):
+        if not include_allergens:
+            for allergen in user_allergens:
+                queryset = queryset.exclude(allergens=allergen)
+        return queryset
+
+    def get_filtered_recipes(filters):
         filtered_recipes = Recipe.objects.filter(**filters)
+        filtered_recipes = exclude_allergens(filtered_recipes)
+        return filtered_recipes
 
-    if filtered_recipes.exists():
-        recipe = filtered_recipes.order_by('?').first()
-        matched_filters = list(filters.keys())
-    else:
-        # If no exact match, relax other filters progressively
-        max_iterations = len(filters) - 1
-        while max_iterations > 0:
-            if 'duration' in filters:
-                del filters['duration']
-            elif 'difficulty' in filters:
-                del filters['difficulty']
-            elif 'cost' in filters:
-                del filters['cost']
-            max_iterations -= 1
-
-            filtered_recipes = Recipe.objects.filter(**filters)
+    # Prioritize category as most important filter
+    if 'category' in filters:
+        filtered_recipes = get_filtered_recipes({'category': filters['category']})
+        if filtered_recipes.exists():
+            recipe = filtered_recipes.order_by('?').first()
+            matched_filters = ['category']
+        else:
+            # If no recipe found for the exact category, try relaxing other filters
+            relaxed_filters = {key: value for key, value in filters.items() if key != 'category'}
+            filtered_recipes = get_filtered_recipes(relaxed_filters)
             if filtered_recipes.exists():
                 recipe = filtered_recipes.order_by('?').first()
-                matched_filters = list(filters.keys())
-                break
+                matched_filters = list(relaxed_filters.keys())
 
+    # If still no recipe found, fallback to random selection
     if recipe is None:
         recipe = Recipe.objects.order_by('?').first()
+
+    # Track which filters actually matched for the final recipe
+    for key in filters.keys():
+        if getattr(recipe, key, None) == filters[key]:
+            matched_filters.append(key)
+
+    random.shuffle(matched_filters)
 
     return render(request, "foodhub/recipe_recommender.html", {
         "categories": categories,
@@ -634,5 +643,6 @@ def recipe_recommender(request):
         "test_duration": filters.get('duration'),
         "test_difficulty": filters.get('difficulty'),
         "test_cost": filters.get('cost'),
-        "matched_filters": matched_filters
+        "matched_filters": matched_filters,
+        "include_allergens": include_allergens
     })
