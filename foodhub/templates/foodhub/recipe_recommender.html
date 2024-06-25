@@ -113,10 +113,18 @@
                     {% endif %}
                 </div>
                 <div class="detail" data-filter="include_allergens">
-                    {% if not include_allergens %}
-                        <h3>Allergens Excluded</h3><i class="fa-solid fa-circle-check"></i>
+                    {% if include_allergens %}
+                        {% if recipe.allergens.all %}
+                            {% if recipe_allergens_match_user %}
+                                <h3>No {{ user_allergens|join:"," }}</h3><i class="fa-solid fa-circle-xmark" id="wrong"></i>
+                            {% else %}
+                                <h3>No {{ user_allergens|join:"," }}</h3><i class="fa-solid fa-circle-check"></i>
+                            {% endif %}
+                        {% else %}
+                            <h3>No allergens</h3><i class="fa-solid fa-circle-check"></i>
+                        {% endif %}
                     {% else %}
-                        <h3>Allergens Included</h3><i class="fa-solid fa-circle-xmark" id="wrong"></i>
+                            <h3>No {{ user_allergens|join:"," }}</h3><i class="fa-solid fa-circle-check"></i>
                     {% endif %}
                 </div>
                 <div class="detail" data-filter="duration">
