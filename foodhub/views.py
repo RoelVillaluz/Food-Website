@@ -410,6 +410,7 @@ def categories(request):
         "featured_categories": categories_with_recipes[:6],
         "letters": "ABCDEFGHIJKLMNOPQRSTUVWXYZ",  
         "query": query,
+        "categories_count": len(categories_with_recipes)
     })
 
 def category(request, category):
@@ -631,7 +632,8 @@ def recipe_recommender(request):
         if getattr(recipe, key, None) == filters[key]:
             matched_filters.append(key)
 
-    random.shuffle(matched_filters)
+    # Determine if recipe allergens match user allergens
+    recipe_allergens_match_user = all(allergen in user_allergens for allergen in recipe.allergens.all())
 
     return render(request, "foodhub/recipe_recommender.html", {
         "categories": categories,
@@ -644,5 +646,8 @@ def recipe_recommender(request):
         "test_difficulty": filters.get('difficulty'),
         "test_cost": filters.get('cost'),
         "matched_filters": matched_filters,
-        "include_allergens": include_allergens
+        "user_allergens": user_allergens,
+        "include_allergens": include_allergens,
+        "recipe_allergens": recipe.allergens.all(),
+        "recipe_allergens_match_user": recipe_allergens_match_user
     })

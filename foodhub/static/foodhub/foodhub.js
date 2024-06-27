@@ -86,22 +86,18 @@ document.addEventListener('DOMContentLoaded', function() {
             addActiveClass(clickedInput);
             hideAllContainers();
             showNextContainer(container);
-            showSubmitButton();
         } else if (clickedInput.name === 'include_allergens' && clickedInput.checked) {
             addActiveClass(clickedInput);
             hideAllContainers();
             showNextContainer(container);
-            showSubmitButton();
         } else if (clickedInput.name === 'duration' && clickedInput.checked) {
             addActiveClass(clickedInput);
             hideAllContainers();
             showNextContainer(container);
-            showSubmitButton();
         } else if (clickedInput.name === 'difficulty' && clickedInput.checked) {
             addActiveClass(clickedInput);
             hideAllContainers();
             showNextContainer(container);
-            showSubmitButton();
         } else if (clickedInput.name === 'cost' && clickedInput.checked) {
             addActiveClass(clickedInput);
             showSubmitButton();
@@ -180,7 +176,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 })
-
 
 document.addEventListener('DOMContentLoaded', function() {
     // for sort type
