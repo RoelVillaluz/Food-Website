@@ -326,6 +326,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
                 // Fetch and display meal plan for the selected date
                 fetchMealplanForDate(currentYear, currentMonth + 1, i);
+                addMealPlanDetails(new Date(currentYear, currentMonth, i));
             });
             daysContainer.appendChild(dayElement);
         }
@@ -558,6 +559,28 @@ document.addEventListener('DOMContentLoaded', function() {
             document.body.classList.remove('blurred');
         }
     });
+    function addMealPlanDetails(date) {
+        const header = document.querySelector('.add-meal-form h1');
+        const dateText = `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+        header.textContent = `Create mealplan for ${dateText}`;
+    
+        const recipeChoice = document.querySelectorAll('.recipe-image');
+        recipeChoice.forEach(choice => {
+            choice.onclick = function() {
+                console.log(choice.dataset.value);
+                console.log(dateText);
+            };
+        });
+    
+        // Automatically fill the date input field with the selected date
+        const dateInput = document.querySelector('.add-meal-form input[type="date"]');
+        if (dateInput) {
+            const year = date.getFullYear();
+            const month = ('0' + (date.getMonth() + 1)).slice(-2); 
+            const day = ('0' + date.getDate()).slice(-2); 
+            dateInput.value = `${year}-${month}-${day}`; 
+        }
+    }
 });
 
 document.addEventListener("DOMContentLoaded", function() {

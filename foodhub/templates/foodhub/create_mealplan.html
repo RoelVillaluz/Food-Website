@@ -48,10 +48,20 @@
         <div class="view-mealplan-btn" style="display: none;">View Mealplan</div>
     </div>
     <div class="add-meal-form">
-        <h2>Create a New Meal Plan</h2>
+        <h1>Create a New Meal Plan</h1>
         <form method="post">
             {% csrf_token %}
-            {{ form.as_p }}
+            <h3>Name: {{ form.name }}</h3>
+            <h3>Recipes:</h3>
+            <h3>{{ form.recipes }}</h3>
+            <div class="recipe-images">
+                {% for recipe in all_recipes %}
+                    <div class="recipe-image" data-value="{{recipe.name}}">
+                        <img src="{{ recipe.image.url }}" alt="">
+                    </div>
+                {% endfor %}
+            </div>
+            <h3 id="form-date" name="date">{{ form.date }}</h3>
             <button type="submit">Create Meal Plan</button>
         </form>
     </div>

@@ -3054,6 +3054,73 @@ input[type="checkbox"] {
     transition: 0.3s ease;
 }
 
+.add-meal-form .left {
+    width: 30%;
+}
+
+.add-meal-form .left img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.add-meal-form form {
+    padding: 8px 20px;
+}
+
+.add-meal-form h1 {
+    font-size: 40px;
+    font-weight: 600;
+}
+
+.add-meal-form h3 {
+    font-weight: 400;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+.add-meal-form .form-list {
+    margin-top: 10px;
+}
+
+.add-meal-form input[type="text"] {
+    width: 100%;
+    height: 40px;
+    padding: 5px;
+    font-size: 18px;
+    outline: none;
+}
+
+.add-meal-form textarea {
+    width: 100%;
+    padding: 5px;
+    font-size: 18px;
+    outline: none;
+    resize: none;
+}
+
+.add-meal-form .next-form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    float: right;
+    padding: 10px 20px;
+    margin-top: 8px;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.add-meal-form .next-form:hover {
+    background-color: #369bff;
+}
+
+.add-meal-form .next-form i {
+    margin-left: 10px;
+}
+
 .visible {
     bottom: 0;
 }
@@ -3268,12 +3335,6 @@ input[type="checkbox"] {
     height: 200px;
 }
 
-
-
-.meal-header h3 {
-    margin-top: 20px;
-    font-size: 20px;
-}
 
 footer {
     background-color: #4682b4;
