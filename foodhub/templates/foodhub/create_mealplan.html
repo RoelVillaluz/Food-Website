@@ -48,21 +48,31 @@
         <div class="view-mealplan-btn" style="display: none;">View Mealplan</div>
     </div>
     <div class="add-meal-form">
-        <h1>Create a New Meal Plan</h1>
-        <form method="post">
+        <div class="left">
+            <img src="media/cake.png" alt="">
+        </div>
+        <form id="mealPlanForm" method="post">
             {% csrf_token %}
-            <h3>Name: {{ form.name }}</h3>
-            <h3>Recipes:</h3>
-            <h3>{{ form.recipes }}</h3>
-            <div class="recipe-images">
-                {% for recipe in all_recipes %}
-                    <div class="recipe-image" data-value="{{recipe.name}}">
-                        <img src="{{ recipe.image.url }}" alt="">
-                    </div>
-                {% endfor %}
+            <h1>Create Mealplan</h1>
+            <div class="form-list">
+                <h3>Name: </h3>
+                {{ form.name }}
+                <h3>Description (Optional):</h3>
+                {{ form.description }}
+                <div class="recipe-images">
+                    {% for recipe in all_recipes %}
+                        <div class="recipe-image" data-value="{{recipe.name}}">
+                            <img src="{{ recipe.image.url }}" alt="">
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="next-form">
+                    Add Recipes
+                    <i class="fa-solid fa-angle-right"></i>
+                </div>
+                <!-- <h3 id="form-date">{{ form.date }}</h3>
+                <button type="submit">Create Meal Plan</button> -->
             </div>
-            <h3 id="form-date" name="date">{{ form.date }}</h3>
-            <button type="submit">Create Meal Plan</button>
         </form>
     </div>
     <div class="mealplan-container">
