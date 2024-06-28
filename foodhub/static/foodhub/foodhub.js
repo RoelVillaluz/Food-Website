@@ -536,6 +536,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const mealplanContainer = document.querySelector('.mealplan-container');
     const addMealForm = document.querySelector('.add-meal-form');
 
+    const nextBtn = document.querySelector('.add-meal-form .next-form');
+    const mealPlanForm = document.getElementById('mealPlanForm');
+    const mealPlanFormLeft = document.querySelector('.left');
+    const allRecipes = document.querySelector('.add-recipes');
+
     viewMealplanBtn.addEventListener('click', function() {
         mealplanContainer.classList.add('visible');
         document.body.classList.add('blurred');
@@ -546,19 +551,41 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.classList.add('blurred');
     });
 
+    // toggle between meal plan form pages (name and description, recipe picker)
+    nextBtn.addEventListener('click', function() {
+        allRecipes.classList.add('visible');
+        mealPlanForm.style.display = 'none';
+        mealPlanFormLeft.style.display = 'none';
+    
+        addMealForm.classList.remove('visible');
+        document.body.classList.add('blurred');
+    });
+    
     window.addEventListener('click', function(event) {
         if (!mealplanContainer.contains(event.target) && !viewMealplanBtn.contains(event.target)) {
             mealplanContainer.classList.remove('visible');
         }
-
+    
+        // Close add meal form if clicked outside or not on recipe choices
+        if (!allRecipes.contains(event.target) && !nextBtn.contains(event.target)) {
+            allRecipes.classList.remove('visible');
+            mealPlanForm.style.display = ''; // Restore default display (block, flex, etc.)
+            mealPlanFormLeft.style.display = ''; // Restore default display (block, flex, etc.)
+        }
+    
+        // Close add meal form if clicked outside or not on addMealPlanBtn
         if (!addMealForm.contains(event.target) && !addMealPlanBtn.contains(event.target)) {
             addMealForm.classList.remove('visible');
         }
-
-        if (!mealplanContainer.classList.contains('visible') && !addMealForm.classList.contains('visible')) {
+    
+        // Remove body blur if no modals are visible
+        if (!mealplanContainer.classList.contains('visible') &&
+            !addMealForm.classList.contains('visible') &&
+            !allRecipes.classList.contains('visible')) {
             document.body.classList.remove('blurred');
         }
     });
+    
     function addMealPlanDetails(date) {
         const header = document.querySelector('.add-meal-form h1');
         const dateText = `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
@@ -580,19 +607,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const day = ('0' + date.getDate()).slice(-2); 
             dateInput.value = `${year}-${month}-${day}`; 
         }
-
-        // toggle between meal plan form pages (name and description, recipe picker)
-        const nextBtn = document.querySelector('.add-meal-form .next-form');
-        const addMealForm = document.querySelector('.add-meal-form')
-        const mealPlanForm = document.getElementById('mealPlanForm');
-        const mealPlanFormLeft = document.querySelector('.left');
-        const allRecipes = document.querySelector('.add-recipes');
-        nextBtn.addEventListener('click', function() {
-            allRecipes.classList.add('visible')
-            mealPlanForm.style.display = 'none'
-            mealPlanFormLeft.style.display = 'none'
-            addMealForm.classList.remove('visible')
-        })
     }
 });
 
