@@ -562,7 +562,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function addMealPlanDetails(date) {
         const header = document.querySelector('.add-meal-form h1');
         const dateText = `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
-        header.textContent = `Create mealplan for ${dateText}`;
+        header.textContent = `Mealplan for ${dateText}`;
     
         const recipeChoice = document.querySelectorAll('.recipe-image');
         recipeChoice.forEach(choice => {
@@ -580,6 +580,19 @@ document.addEventListener('DOMContentLoaded', function() {
             const day = ('0' + date.getDate()).slice(-2); 
             dateInput.value = `${year}-${month}-${day}`; 
         }
+
+        // toggle between meal plan form pages (name and description, recipe picker)
+        const nextBtn = document.querySelector('.add-meal-form .next-form');
+        const addMealForm = document.querySelector('.add-meal-form')
+        const mealPlanForm = document.getElementById('mealPlanForm');
+        const mealPlanFormLeft = document.querySelector('.left');
+        const allRecipes = document.querySelector('.add-recipes');
+        nextBtn.addEventListener('click', function() {
+            allRecipes.classList.add('visible')
+            mealPlanForm.style.display = 'none'
+            mealPlanFormLeft.style.display = 'none'
+            addMealForm.classList.remove('visible')
+        })
     }
 });
 

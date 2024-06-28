@@ -513,6 +513,7 @@ def profile_info(request, username):
     pass
 
 def create_mealplan(request):
+    all_recipes = Recipe.objects.all()
     if request.method == 'POST':
         form = MealPlanForm(request.POST)
         if form.is_valid():
@@ -525,12 +526,15 @@ def create_mealplan(request):
             mealplan = MealPlan.objects.create(name=name, description=description, date=date, user=user)
             mealplan.recipes.set(recipes)
             
-            return render(request, "foodhub/create_mealplan.html")
+            return render(request, "foodhub/create_mealplan.html", {
+                "all_recipes": all_recipes
+            })
     else:
         form = MealPlanForm()
     
     return render(request, "foodhub/create_mealplan.html", {
         "form": form,
+        "all_recipes": all_recipes
     })
     
 def get_mealplan_by_date(request, date):

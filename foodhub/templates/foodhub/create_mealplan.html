@@ -53,19 +53,15 @@
         </div>
         <form id="mealPlanForm" method="post">
             {% csrf_token %}
-            <h1>Create Mealplan</h1>
+            <div class="icon">
+                <i class="fa-solid fa-utensils"></i>
+            </div>
+            <h1></h1>
             <div class="form-list">
-                <h3>Name: </h3>
+                <h3>Mealplan Name: </h3>
                 {{ form.name }}
                 <h3>Description (Optional):</h3>
                 {{ form.description }}
-                <div class="recipe-images">
-                    {% for recipe in all_recipes %}
-                        <div class="recipe-image" data-value="{{recipe.name}}">
-                            <img src="{{ recipe.image.url }}" alt="">
-                        </div>
-                    {% endfor %}
-                </div>
                 <div class="next-form">
                     Add Recipes
                     <i class="fa-solid fa-angle-right"></i>
@@ -75,6 +71,24 @@
             </div>
         </form>
     </div>
+    <div class="add-recipes">
+        <div class="header">
+            <h1>Choose Recipes</h1>
+        </div>
+        <div class="recipe-choices">
+        {% for recipe in all_recipes %}
+            <div class="recipe-checkbox">
+                <div class="image">
+                    <img src="{{ recipe.image.url }}" alt="{{ recipe.image.url }}">
+                </div>
+                <div class="content">
+                    <h3>{{ recipe.name }}</h3>
+                    <span>{{ recipe.category }}</span>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
     <div class="mealplan-container">
         <div class="mealplan-sidebar"></div>
         <div class="mealplan-recipes"></div>
@@ -82,11 +96,3 @@
     </div>
 </div>
 {% endblock %}
-<!-- edit code later to initially display big calendar, and then when user selects date, displays a 
-new screen overlay about creating mealplan -->
-<!-- <h2>Create a New Meal Plan</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Create Meal Plan</button>
-    </form> -->
