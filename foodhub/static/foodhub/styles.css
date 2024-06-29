@@ -3074,7 +3074,6 @@ input[type="checkbox"] {
     max-height: 500px
 }
 
-
 .visible {
     bottom: 0;
 }
@@ -3082,7 +3081,7 @@ input[type="checkbox"] {
 .recipe-choices {
     display: flex;
     flex-wrap: wrap;
-    padding: 10px; 
+    padding: 10px;
 }
 
 .recipe-choices .recipe-checkbox {
@@ -3091,17 +3090,56 @@ input[type="checkbox"] {
     margin: 10px;
     padding: 10px;
     box-shadow: 0px 12px 12px rgba(0, 0, 0, .1);
+    position: relative;
 }
 
 .recipe-choices .recipe-checkbox .image {
     height: 200px;
     width: 100%;
+    position: relative;
+    cursor: pointer;
 }
 
 .recipe-choices .recipe-checkbox .image img {
     height: 100%;
     width: 100%;
     object-fit: cover;
+}
+
+.recipe-choices .recipe-checkbox .image .check-ribbon {
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    width: 75px;
+    height: 75px;
+    display: none;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.recipe-choices .recipe-checkbox .image .check-ribbon::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-top: 55px solid var(--primary-color);
+    border-left: 55px solid transparent;
+}
+
+.recipe-choices .recipe-checkbox .image .check-ribbon i {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: white;
+    font-size: 20px;
+}
+
+.recipe-choices .recipe-checkbox.selected {
+    transform: translateY(-20px);
+}
+
+.recipe-choices .recipe-checkbox.selected .image .check-ribbon {
+    display: block;
 }
 
 .recipe-choices .recipe-checkbox .content {

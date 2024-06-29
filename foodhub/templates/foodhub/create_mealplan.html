@@ -51,7 +51,7 @@
         <div class="left">
             <img src="media/cake.png" alt="">
         </div>
-        <form id="mealPlanForm" method="post">
+        <form action="{% url 'create_mealplan' %}" id="mealPlanForm" method="post">
             {% csrf_token %}
             <div class="icon">
                 <i class="fa-solid fa-utensils"></i>
@@ -75,19 +75,27 @@
         <div class="header">
             <h1>Choose Recipes</h1>
         </div>
-        <div class="recipe-choices">
-        {% for recipe in all_recipes %}
-            <div class="recipe-checkbox">
-                <div class="image">
-                    <img src="{{ recipe.image.url }}" alt="{{ recipe.image.url }}">
+        <form action="{% url 'create_mealplan' %}" id="recipesForm" method="post">
+            <div class="recipe-choices">
+                {% for recipe in all_recipes %}
+                <div class="recipe-checkbox">
+                    <label>
+                        <input type="checkbox" name="selected_recipes" value="{{ recipe.name }}" class="recipe-checkbox-input">
+                        <div class="image">
+                            <img src="{{ recipe.image.url }}" alt="{{ recipe.image.url }}">
+                            <div class="check-ribbon">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                        </div>
+                        <div class="content">
+                            <h3>{{ recipe.name }}</h3>
+                            <span>{{ recipe.category }}</span>
+                        </div>
+                    </label>
                 </div>
-                <div class="content">
-                    <h3>{{ recipe.name }}</h3>
-                    <span>{{ recipe.category }}</span>
-                </div>
+                {% endfor %}
             </div>
-        {% endfor %}
-        </div>
+        </form>
     </div>
     <div class="mealplan-container">
         <div class="mealplan-sidebar"></div>

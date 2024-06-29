@@ -608,6 +608,28 @@ document.addEventListener('DOMContentLoaded', function() {
             dateInput.value = `${year}-${month}-${day}`; 
         }
     }
+
+    function updateRecipeCount() {
+        const countHeader = document.querySelector('.add-recipes .header h1');
+        const selectedCount = document.querySelectorAll('.recipe-checkbox-input:checked').length;
+
+        countHeader.textContent = `Selected Recipes (${selectedCount})`
+    }
+
+    const checkboxes = document.querySelectorAll('.recipe-checkbox-input');
+    checkboxes.forEach(function (checkbox) {
+        checkbox.addEventListener('change', function () {
+            const recipeBox = checkbox.closest('.recipe-checkbox');
+            if (this.checked) {
+                recipeBox.classList.add('selected');
+                console.log(`${checkbox.value} is selected`)
+            } else {
+                recipeBox.classList.remove('selected');
+                console.log(`${checkbox.value} deselected`)
+            }
+            updateRecipeCount();
+        });
+    });
 });
 
 document.addEventListener("DOMContentLoaded", function() {
