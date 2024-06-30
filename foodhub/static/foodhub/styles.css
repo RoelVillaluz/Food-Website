@@ -3054,12 +3054,94 @@ input[type="checkbox"] {
     transition: 0.3s ease;
 }
 
-.add-recipes {
-    display: block;
-    overflow: hidden;
+.visible {
+    bottom: 0;
 }
 
-.add-recipes .header {
+.add-meal-form .left {
+    width: 30%;
+}
+
+.add-meal-form .left img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.main-form {
+    display: block;
+    width: 70%;
+    padding: 10px;
+}
+
+.main-form .icon, .main-form h1 {
+    text-align: center;
+}
+
+.main-form .icon {
+    width: 70px; 
+    height: 70px; 
+    font-size: 20px;
+    background-color: #f0f0f0;
+    border-radius: 50%; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.main-form h1 {
+    margin-bottom: 20px;
+}
+
+.main-form h3 {
+    font-weight: 400;
+    margin: 4px 0px;
+}
+
+.main-form input {
+    width: 100%;
+    padding: 15px 10px;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    background-color: #f0f0f0;
+}
+
+.main-form textarea {
+    width: 100%;
+    height: 160px;
+    padding: 15px 10px;
+    font-size: 18px;
+    resize: none;
+    border: none;
+    outline: none;
+    background-color: #f0f0f0;
+}
+
+.main-form input:focus, .main-form textarea:focus {
+    border-bottom: solid 3px var(--primary-color);
+}
+
+.main-form .next-form {
+    float: right;
+    background-color: rgb(32, 32, 32);
+    color: white;
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.main-form .next-form:hover {
+    background-color:  rgb(48, 48, 48);
+}
+
+.add-recipes-form {
+    display: none;
+}
+
+.add-recipes-form .header {
     text-align: center;
     font-size: 40px;
     margin: 20px 0px;
@@ -3069,13 +3151,9 @@ input[type="checkbox"] {
     z-index: 1000;
 }
 
-.add-recipes .recipe-choices {
+.add-recipes-form .recipe-choices {
     overflow: scroll;
     max-height: 500px
-}
-
-.visible {
-    bottom: 0;
 }
 
 .recipe-choices {
@@ -3154,95 +3232,6 @@ input[type="checkbox"] {
 .recipe-choices .recipe-checkbox span {
     text-transform: uppercase;
     font-weight: 400;
-}
-
-.add-meal-form .left {
-    width: 30%;
-}
-
-.add-meal-form .left img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.add-meal-form form {
-    width: 70%;
-    padding: 8px 20px;
-}
-
-.icon {
-    display: flex;                
-    justify-content: center;      
-    align-items: center;  
-    text-align: center;        
-    width: 70px;                  
-    height: 70px;                
-    border-radius: 50%;           
-    background-color: #f0f0f0; 
-    margin: 10px auto;   
-}
-
-.icon i {
-    font-size: 32px;              
-    color: #333;                  
-}
-
-.add-meal-form h1 {
-    position: relative;
-    font-size: 48px;
-    text-align: center;
-    font-weight: 600;
-}
-
-.add-meal-form h3 {
-    font-weight: 400;
-    font-size: 18px;
-    margin-top: 10px;
-    margin-bottom: 5px;
-}
-
-.add-meal-form .form-list {
-    margin-top: 40px;
-}
-
-.add-meal-form input[type="text"] {
-    width: 100%;
-    height: 40px;
-    padding: 10px 15px;
-    font-size: 18px;
-    outline: none;
-    border: none;
-    background-color: #e9e9e9;
-}
-
-.add-meal-form input[type="text"]:focus, .add-meal-form textarea:focus {
-    border-bottom: solid 3px var(--primary-color);
-}
-
-.add-meal-form textarea {
-    width: 100%;
-    padding: 20px;
-    font-size: 18px;
-    height: 200px;
-    outline: none;
-    resize: none;
-    border: none;
-    background-color: #e9e9e9;
-}
-
-.add-meal-form .next-form {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    float: right;
-    padding: 10px 20px;
-    margin-top: 8px;
-    background-color: rgb(24, 23, 23);
-    color: white;
-    font-size: 18px;
-    cursor: pointer;
-    transition: 0.3s;
 }
 
 .mealplan-sidebar {

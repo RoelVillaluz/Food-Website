@@ -52,11 +52,13 @@ class DateInput(forms.DateInput):
     input_type = 'date'
 
 class MealPlanForm(forms.ModelForm):
+    recipes = forms.ModelMultipleChoiceField(queryset=Recipe.objects.all(), widget=forms.CheckboxSelectMultiple)
+
     class Meta:
         model = MealPlan
         fields = ['name', 'description', 'recipes', 'date']
         widgets = {
-            'date': DateInput()
+            'date': forms.DateInput(),
         }
     
 # Create your views here.
@@ -516,22 +518,27 @@ def create_mealplan(request):
     all_recipes = Recipe.objects.all()
     if request.method == 'POST':
         form = MealPlanForm(request.POST)
+        selected_recipes = []  
+
+        for recipe in all_recipes:
+            if f'recipe-{recipe.name}' in request.POST:  
+                selected_recipes.append(recipe)
+
         if form.is_valid():
             name = form.cleaned_data["name"]
             description = form.cleaned_data["description"]
-            recipes = form.cleaned_data["recipes"]
             date = form.cleaned_data["date"]
             user = request.user
-            
+
             mealplan = MealPlan.objects.create(name=name, description=description, date=date, user=user)
-            mealplan.recipes.set(recipes)
-            
+            mealplan.recipes.set(selected_recipes)  # Set selected recipes for the meal plan
+
             return render(request, "foodhub/create_mealplan.html", {
                 "all_recipes": all_recipes
             })
     else:
         form = MealPlanForm()
-    
+
     return render(request, "foodhub/create_mealplan.html", {
         "form": form,
         "all_recipes": all_recipes
