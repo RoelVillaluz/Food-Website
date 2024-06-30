@@ -58,11 +58,6 @@ class MealPlanForm(forms.ModelForm):
         widgets = {
             'date': forms.DateInput(),
         }
-
-class AllergenForm(forms.ModelForm):
-    class Meta:
-        model = Allergen
-        fields = ['name']
     
 # Create your views here.
 def index(request):
@@ -215,21 +210,16 @@ def add_step(request, recipe_name):
 @login_required(login_url='/login')
 def add_allergens(request, recipe_name):
     recipe = Recipe.objects.get(name=recipe_name)
+    allergens = Allergen.objects.all()
     if request.method == 'POST':
-        form = AllergenForm()
-        if form.is_valid():
-            allergen = form.save(commit=False)
-            name = form.cleaned_data["name"]
-            allergen.recipe = recipe 
-            Allergen.objects.create(name=name)
-            return redirect("add_allergens", recipe_name=recipe_name)
+        selected_allergens = request.POST.getlist("allergens")
+        recipe.allergens.set(selected_allergens)
+        recipe.save()
     else:
-        form = AllergenForm()
-    return render(request, "foodhub/add_allergens.html", {
-        "form": form,
-        "recipe": recipe,
-        "allergens": Allergen.objects.filter(recipe=recipe)
-    })
+        return render(request, "foodhub/add_allergens.html", {
+            "recipe": recipe,
+            "allergens": allergens,
+        })
 
     
 def recipes(request):

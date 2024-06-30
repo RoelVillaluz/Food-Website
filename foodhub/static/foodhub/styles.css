@@ -2299,7 +2299,7 @@ border-radius: 50%;
     }
 }
 
-.ingredient-form-container {
+.ingredient-form-container, .allergen-form-container {
     display: flex;
     justify-content: space-around;
     align-items: center;

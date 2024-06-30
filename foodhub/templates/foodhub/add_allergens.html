@@ -1,3 +1,14 @@
 {% extends 'foodhub/layout.html' %}
 
 {% block title %}Add Allergen to {{ recipe.name }} {% endblock %}
+
+{% block body %}
+<div class="allergen-form-container">
+    <h1>Add Allergens to {{ recipe.name }}</h1>
+    <form method="post"> 
+        {% for allergen in allergens %}
+        <h1>{{ allergen }}</h1>
+        {% endfor %}
+    </form>
+</div>
+{% endblock %}
