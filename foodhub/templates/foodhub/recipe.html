@@ -129,6 +129,12 @@
                 <p>No Allergens</p>
             {% endif %}
         </ul>
+        {% if recipe.user == request.user %}
+        <button class="add-btn">
+            <a href="{% url 'add_allergens' recipe.name %}">Add Allergens</a>
+            <i class="fa-solid fa-plus"></i>
+        </button>
+        {% endif %}
     </div>
     <div class="rating-distribution">
         <h1>Rating Distribution</h1>

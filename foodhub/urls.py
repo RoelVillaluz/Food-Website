@@ -9,6 +9,7 @@ urlpatterns = [
     path("create_recipe", views.create_recipe, name="create_recipe"),
     path("add_ingredient/<str:recipe_name>", views.add_ingredient, name="add_ingredient"),
     path("add_step/<str:recipe_name>", views.add_step, name="add_step"),
+    path("add_allergens/<str:recipe_name>", views.add_allergens, name="add_allergens"),
     path("recipes", views.recipes, name="recipes"),
     path("recipe/<str:recipe_name>", views.recipe, name="recipe"),
     path("recipe/<str:recipe_name>/create_review", views.create_review, name="create_review"),
