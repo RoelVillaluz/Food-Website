@@ -63,8 +63,9 @@
                     {{ form.name }}
                     <h3>Description (Optional):</h3>
                     {{ form.description }}
-                    <label for="meal-date">Select Date:</label>
-                    {{ form.date }}
+                    <div class="form-date" style="display: none;">
+                        {{ form.date }}
+                    </div>
                     <div class="next-form">
                         Add Recipes
                         <i class="fa-solid fa-angle-right"></i>

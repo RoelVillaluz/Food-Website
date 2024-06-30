@@ -593,7 +593,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     
         // Automatically fill the date input field with the selected date
-        const dateInput = document.querySelector('.add-meal-form input[type="date"]');
+        const dateInput = document.querySelector('.add-meal-form input[name="date"]');
         if (dateInput) {
             const year = date.getFullYear();
             const month = ('0' + (date.getMonth() + 1)).slice(-2); 
