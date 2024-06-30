@@ -3153,10 +3153,7 @@ input[type="checkbox"] {
 
 .add-recipes-form .recipe-choices {
     overflow: scroll;
-    max-height: 500px
-}
-
-.recipe-choices {
+    max-height: 400px;
     display: flex;
     flex-wrap: wrap;
     padding: 10px;
@@ -3242,6 +3239,18 @@ input[type="checkbox"] {
     box-sizing: border-box;
     position: sticky;
     overflow-y: auto; 
+}
+
+.add-recipes-form button {
+    background-color: rgb(32, 32, 32);
+    color: white;
+    font-size: 16px;
+    padding: 10px 20px;
+    float: right;
+    border: none;
+    outline: none;
+    margin: 0 auto;
+    cursor: pointer;
 }
 
 .mealplan-sidebar h1 {

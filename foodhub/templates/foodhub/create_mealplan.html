@@ -63,6 +63,8 @@
                     {{ form.name }}
                     <h3>Description (Optional):</h3>
                     {{ form.description }}
+                    <label for="meal-date">Select Date:</label>
+                    {{ form.date }}
                     <div class="next-form">
                         Add Recipes
                         <i class="fa-solid fa-angle-right"></i>
@@ -76,8 +78,8 @@
                 <div class="recipe-choices">
                     {% for recipe in all_recipes %}
                     <div class="recipe-checkbox">
-                        <label>
-                            <input type="checkbox" name="selected_recipes" value="{{ recipe.name }}" class="recipe-checkbox-input">
+                        <label for="recipe_{{ recipe.id }}">
+                            <input type="checkbox" name="recipes" value="{{ recipe.id }}" id="recipe_{{ recipe.id }}" class="recipe-checkbox-input">
                             <div class="image">
                                 <img src="{{ recipe.image.url }}" alt="{{ recipe.image.url }}">
                                 <div class="check-ribbon">
@@ -91,38 +93,11 @@
                         </label>
                     </div>
                     {% endfor %}
-                    <button type="submit">Submit</button>
                 </div>
+                <button type="submit">Submit</button>
             </div>
         </div>
     </form>
-    <!-- <div class="add-recipes">
-        <div class="header">
-            <h1>Choose Recipes</h1>
-        </div>
-        <form action="{% url 'create_mealplan' %}" id="recipesForm" method="post">
-            <div class="recipe-choices">
-                {% for recipe in all_recipes %}
-                <div class="recipe-checkbox">
-                    <label>
-                        <input type="checkbox" name="selected_recipes" value="{{ recipe.name }}" class="recipe-checkbox-input">
-                        <div class="image">
-                            <img src="{{ recipe.image.url }}" alt="{{ recipe.image.url }}">
-                            <div class="check-ribbon">
-                                <i class="fa-solid fa-check"></i>
-                            </div>
-                        </div>
-                        <div class="content">
-                            <h3>{{ recipe.name }}</h3>
-                            <span>{{ recipe.category }}</span>
-                        </div>
-                    </label>
-                </div>
-                {% endfor %}
-                <button type="submit">Submit</button>
-            </div>
-        </form>
-    </div> -->
     <div class="mealplan-container">
         <div class="mealplan-sidebar"></div>
         <div class="mealplan-recipes"></div>
