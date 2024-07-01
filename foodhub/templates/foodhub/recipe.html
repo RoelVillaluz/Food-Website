@@ -9,7 +9,14 @@
             </div>
             <div class="recipe-content">
                 <div class="recipe-header">
-                    <h1>{{ recipe.name }}</h1>
+                    <div class="left-section">
+                        <h1>{{ recipe.name }}</h1>
+                        {% if request.user == recipe.user %}
+                        <a href="{% url 'edit_recipe' recipe.name %}" class="edit-recipe-btn">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                        </a>
+                        {% endif %}
+                    </div>
                     <div class="recipe-category">
                         <a href="{% url 'category' recipe.category %}">{{ recipe.category }}</a>
                     </div>

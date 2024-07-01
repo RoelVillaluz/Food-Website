@@ -601,9 +601,22 @@ header label {
 
 .recipe-header {
     display: flex;
-    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+}
+
+.recipe-header .left-section {
+    display: flex;
+    align-items: center;
+}
+
+.recipe-header .edit-recipe-btn {
+    position: relative;
+    margin-left: 20px;
+    font-size: 20px;
+    cursor: pointer;
+    color: rgb(32, 32, 32);
 }
 
 .recipe-header h1 {
@@ -2269,6 +2282,11 @@ border-radius: 50%;
     display: none;
 }
 
+.create-recipe-image img {
+    width: 100%;
+    height: 100%;
+}
+
 .create-form-right {
     width: 50%;
 }
@@ -2369,9 +2387,9 @@ border-radius: 50%;
 }
 
 .ingredient-form-container button:hover, 
-.create-form button:hover, 
-.direction-form button:hover
-.allergen-form button:hover
+.create-form-container button:hover, 
+.direction-form-container button:hover,
+.allergen-form-container button:hover
 {
     cursor: pointer;
     background-color:#007bff;

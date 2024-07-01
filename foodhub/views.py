@@ -337,9 +337,26 @@ def recipe(request, recipe_name):
         "my_profile": my_profile,
         "profiles": profiles,
         "reviews": reviews,
-        "reviews_data": json.dumps(reviews_data, cls=DjangoJSONEncoder),  # Passing serialized reviews to the template
-        "rating_distribution": rating_distribution,  # Pass rating distribution to the template
+        "reviews_data": json.dumps(reviews_data, cls=DjangoJSONEncoder),  
+        "rating_distribution": rating_distribution,  
     })
+
+def edit_recipe(request, recipe_name):
+    recipe = Recipe.objects.get(name=recipe_name)
+    if request.method == "POST":
+        form = NewRecipeForm(request.POST, request.FILES, instance=recipe)
+        if form.is_valid():
+            updated_recipe_name = form.cleaned_data['name']
+            form.save()
+            return redirect('recipe', recipe_name=updated_recipe_name)
+    else:
+        form = NewRecipeForm(instance=recipe)
+
+    return render(request, "foodhub/edit_recipe.html", {
+        "recipe": recipe,
+        "form": form
+    })
+
 
 @csrf_exempt  
 @login_required(login_url='/login_view')

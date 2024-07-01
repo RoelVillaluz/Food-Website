@@ -12,6 +12,7 @@ urlpatterns = [
     path("add_allergens/<str:recipe_name>", views.add_allergens, name="add_allergens"),
     path("recipes", views.recipes, name="recipes"),
     path("recipe/<str:recipe_name>", views.recipe, name="recipe"),
+    path("edit_recipe/<str:recipe_name>", views.edit_recipe, name="edit_recipe"),
     path("recipe/<str:recipe_name>/create_review", views.create_review, name="create_review"),
     path("like_recipe/<int:id>", views.like_recipe, name="like_recipe"),
     path("follow/<int:id>", views.follow, name="follow"),

@@ -1,0 +1,28 @@
+{% extends "foodhub/layout.html" %}
+
+{% block title %} Edit Recipe {{ recipe.name }} {% endblock %}
+
+{% block body %}
+<div class="form-container">
+    <h1>Edit Recipe: {{ recipe.name }}</h1>
+    <div class="create-form">
+        <form action="{% url 'edit_recipe' recipe.name %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="create-recipe-image" id="image-container">
+                {{ form.image }}
+                <img id="selected-image" src="{{ recipe.image.url }}" alt="Selected Image" />
+            </div>
+            <div class="create-form-right">
+                <h3>Recipe Name: </h3>{{ form.name }}
+                <h3>Description: </h3>{{ form.description }}
+                <h3>Category: </h3>{{ form.category }}
+                <h3>Difficulty: </h3>{{ form.difficulty }}
+                <h3>Servings: </h3>{{ form.servings }}
+                <h3>Cook Time: </h3>{{ form.duration }}
+                <h3>Cost: </h3>{{ form.cost }}
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
