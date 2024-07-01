@@ -3,12 +3,153 @@
 {% block title %}Add Allergen to {{ recipe.name }} {% endblock %}
 
 {% block body %}
-<div class="allergen-form-container">
-    <h1>Add Allergens to {{ recipe.name }}</h1>
-    <form method="post"> 
-        {% for allergen in allergens %}
-        <h1>{{ allergen }}</h1>
-        {% endfor %}
-    </form>
+<div class="container-and-link">
+    <div class="button-container left">
+        <button>
+            <a href="{% url 'add_step' recipe.name %}">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+        </button>
+        <span class="button-label">Add Directions</span>
+    </div>
+    <div class="edit-allergen-container">
+        <div class="allergen-header">
+            <h1>Add Allergens to {{ recipe.name }}</h1>
+            <p>If none, you can just skip this part. </p>
+        </div>
+        <form method="POST" action="{% url 'add_allergens' recipe.name %}">
+            <div class="checkbox-group">
+                <div class="allergen-checkbox">
+                    <label for="dairy" class="allergen-wrapper">
+                        <input type="checkbox" id="dairy" name="recipe_allergens" 
+                        value="Dairy" class="allergen-choice"
+                        {% if "Dairy" in recipe_allergens %}checked{% endif %}>
+                        <span class="allergen-tile">
+                            <span class="check-icon">
+                                <i class="fa-solid fa-check"></i>
+                            </span>
+                            <span class="allergen-icon">
+                                <i class="fa-solid fa-cow"></i>
+                            </span>
+                            <span class="allergen-name">Dairy</span>
+                        </span>
+                    </label>
+                </div>
+                <div class="allergen-checkbox">
+                    <label for="eggs" class="allergen-wrapper">
+                        <input type="checkbox" id="eggs" name="recipe_allergens" 
+                        value="Eggs" class="allergen-choice"
+                        {% if "Eggs" in recipe_allergens %}checked{% endif %}>
+                        <span class="allergen-tile">
+                            <span class="check-icon">
+                                <i class="fa-solid fa-check"></i>
+                            </span>
+                            <span class="allergen-icon">
+                                <i class="fa-solid fa-egg"></i>
+                            </span>
+                            <span class="allergen-name">Eggs</span>
+                        </span>
+                    </label>
+                </div>
+                <div class="allergen-checkbox">
+                    <label for="fish" class="allergen-wrapper">
+                        <input type="checkbox" id="fish" name="recipe_allergens" 
+                        value="Fish" class="allergen-choice"
+                        {% if "Fish" in recipe_allergens %}checked{% endif %}>
+                        <span class="allergen-tile">
+                            <span class="check-icon">
+                                <i class="fa-solid fa-check"></i>
+                            </span>
+                            <span class="allergen-icon">
+                                <i class="fa-solid fa-fish"></i>
+                            </span>
+                            <span class="allergen-name">Fish</span>
+                        </span>
+                    </label>
+                </div>
+                <div class="allergen-checkbox">
+                    <label for="Crustacean" class="allergen-wrapper">
+                        <input type="checkbox" id="Crustacean" name="recipe_allergens" 
+                        value="Crustacean" class="allergen-choice"
+                        {% if "Crustacean" in recipe_allergens %}checked{% endif %}>
+                        <span class="allergen-tile">
+                            <span class="check-icon">
+                                <i class="fa-solid fa-check"></i>
+                            </span>
+                            <span class="allergen-icon">
+                                <i class="fa-solid fa-shrimp"></i>
+                            </span>
+                            <span class="allergen-name">Crustaceans</span>
+                        </span>
+                    </label>
+                </div>
+                <div class="allergen-checkbox">
+                    <label for="gluten" class="allergen-wrapper">
+                        <input type="checkbox" id="gluten" name="recipe_allergens" 
+                        value="Gluten" class="allergen-choice"
+                        {% if "Gluten" in recipe_allergens %}checked{% endif %}>
+                        <span class="allergen-tile">
+                            <span class="check-icon">
+                                <i class="fa-solid fa-check"></i>
+                            </span>
+                            <span class="allergen-icon">
+                                <i class="fa-solid fa-bread-slice"></i>
+                            </span>
+                            <span class="allergen-name">Gluten</span>
+                        </span>
+                    </label>
+                </div>
+                <div class="allergen-checkbox">
+                    <label for="wheat" class="allergen-wrapper">
+                        <input type="checkbox" id="wheat" name="recipe_allergens" 
+                        value="Wheat" class="allergen-choice"
+                        {% if "Wheat" in recipe_allergens %}checked{% endif %}>
+                        <span class="allergen-tile">
+                            <span class="check-icon">
+                                <i class="fa-solid fa-check"></i>
+                            </span>
+                            <span class="allergen-icon">
+                                <i class="fa-solid fa-wheat-awn"></i>
+                            </span>
+                            <span class="allergen-name">Wheat</span>
+                        </span>
+                    </label>
+                </div>
+                <div class="allergen-checkbox">
+                    <label for="Soy" class="allergen-wrapper">
+                        <input type="checkbox" id="Soy" name="recipe_allergens" 
+                        value="Soy" class="allergen-choice"
+                        {% if "Soy" in recipe_allergens %}checked{% endif %}>
+                        <span class="allergen-tile">
+                            <span class="check-icon">
+                                <i class="fa-solid fa-check"></i>
+                            </span>
+                            <span class="allergen-icon">
+                                <i class="fa-solid fa-circle-question"></i>
+                            </span>
+                            <span class="allergen-name">Soy</span>
+                        </span>
+                    </label>
+                </div>
+                <div class="allergen-checkbox">
+                    <label for="Peanuts" class="allergen-wrapper">
+                        <input type="checkbox" id="Peanuts" name="recipe_allergens" 
+                        value="Peanuts" class="allergen-choice"
+                        {% if "Peanuts" in recipe_allergens %}checked{% endif %}>
+                        <span class="allergen-tile">
+                            <span class="check-icon">
+                                <i class="fa-solid fa-check"></i>
+                            </span>
+                            <span class="allergen-icon">
+                                <i class="fa-solid fa-circle-question"></i>
+                            </span>
+                            <span class="allergen-name">Peanuts</span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+            <button type="Submit">Submit</button>
+        </form>
+    </div>
 </div>
 {% endblock %}

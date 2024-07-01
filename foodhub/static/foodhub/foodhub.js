@@ -787,15 +787,15 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// allergen checkbox function
-document.addEventListener("DOMContentLoaded", function() {
-    const allergens = document.querySelectorAll('.allergen-choice');
-    allergens.forEach(allergen => {
-        allergen.addEventListener('change', function() {
-            document.getElementById('allergen-form').submit();
-        });
-    });
-});
+// // allergen checkbox function
+// document.addEventListener("DOMContentLoaded", function() {
+//     const allergens = document.querySelectorAll('.allergen-choice');
+//     allergens.forEach(allergen => {
+//         allergen.addEventListener('change', function() {
+//             document.getElementById('allergen-form').submit();
+//         });
+//     });
+// });
 
 // choosing recipe image for create form
 document.getElementById('image-container').addEventListener('click', function() {

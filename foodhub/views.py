@@ -207,18 +207,22 @@ def add_step(request, recipe_name):
         "steps": Step.objects.filter(recipe=recipe)              
     })
 
+@csrf_exempt
 @login_required(login_url='/login')
 def add_allergens(request, recipe_name):
     recipe = Recipe.objects.get(name=recipe_name)
-    allergens = Allergen.objects.all()
     if request.method == 'POST':
-        selected_allergens = request.POST.getlist("allergens")
-        recipe.allergens.set(selected_allergens)
+        recipe_allergens = request.POST.getlist("recipe_allergens")
+        allergens = Allergen.objects.filter(name__in=recipe_allergens)
+        recipe.allergens.set(allergens)
         recipe.save()
+        return redirect("recipe", recipe_name=recipe_name)
     else:
+        recipe_allergens = recipe.allergens.values_list('name', flat=True)
         return render(request, "foodhub/add_allergens.html", {
             "recipe": recipe,
-            "allergens": allergens,
+            "allergens": Allergen.objects.all(),
+            "recipe_allergens": recipe_allergens
         })
 
     

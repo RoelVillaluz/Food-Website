@@ -5,6 +5,7 @@
 <div class="edit-allergen-container">
     <div class="allergen-header">
         <h1>Select your allergens</h1>
+        <p>If none, you can just skip this part. </p>
     </div>
     <form id="allergen-form" method="POST" action="{% url 'profile_allergen' username=user.username %}">
         <div class="checkbox-group">
@@ -137,74 +138,7 @@
                 </label>
             </div>
         </div>
+        <button type="Submit">Submit</button>
     </form>
 </div>
 {% endblock %}
-<!-- <form method="POST">
-    {% csrf_token %}
-    <h2>Select Allergens</h2>
-    <ul>
-        <li>
-            <label>
-                <input type="checkbox" name="allergens" value="Dairy"
-                {% if "Dairy" in user_allergen_names %}checked{% endif %}>
-                <i class="fa-solid fa-cow"></i>
-                Dairy
-            </label>
-        </li>
-        <li>
-            <label>
-                <input type="checkbox" name="allergens" value="Eggs"
-                {% if "Eggs" in user_allergen_names %}checked{% endif %}>
-                <i class="fa-solid fa-egg"></i>
-                Eggs
-            </label>
-        </li>
-        <li>
-            <label>
-                <input type="checkbox" name="allergens" value="Fish"
-                {% if "Fish" in user_allergen_names %}checked{% endif %}>
-                <i class="fa-solid fa-fish"></i>
-                Fish
-            </label>
-        </li>
-        <li>
-            <label>
-                <input type="checkbox" name="allergens" value="Gluten"
-                {% if "Gluten" in user_allergen_names %}checked{% endif %}>
-                <i class="fa-solid fa-wheat-awn-circle-exclamation"></i>
-                Gluten
-            </label>
-        </li>
-        <li>
-            <label>
-                <input type="checkbox" name="allergens" value="Peanuts"
-                {% if "Peanuts" in user_allergen_names %}checked{% endif %}>
-                Peanuts
-            </label>
-        </li>
-        <li>
-            <label>
-                <input type="checkbox" name="allergens" value="Soy"
-                {% if "Soy" in user_allergen_names %}checked{% endif %}>
-                Soy
-            </label>
-        </li>
-        <li>
-            <label>
-                <input type="checkbox" name="allergens" value="Wheat"
-                {% if "Wheat" in user_allergen_names %}checked{% endif %}>
-                Wheat
-            </label>
-        </li>
-        <li>
-            <label>
-                <input type="checkbox" name="allergens" value="Crustacean"
-                {% if "Crustacean" in user_allergen_names %}checked{% endif %}>
-
-                Crustacean
-            </label>
-        </li>
-    </ul>
-    <button type="submit">Save</button>
-</form> -->

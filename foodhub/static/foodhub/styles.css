@@ -2299,7 +2299,7 @@ border-radius: 50%;
     }
 }
 
-.ingredient-form-container, .allergen-form-container {
+.ingredient-form-container {
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -2315,11 +2315,16 @@ border-radius: 50%;
     padding: 10px;
 }
 
-.ingredient-form-container h1, .form-container h1, .direction-form-container h1 {
+.ingredient-form-container h1, 
+.form-container h1, 
+.direction-form-container h1, 
+.allergen-form-container h1 {
     font-weight: 600;
 }
 
-.ingredient-form-container span, .direction-form-container span {
+.ingredient-form-container span, 
+.direction-form-container span, 
+.allergen-form-container span {
     font-family: "Poetsen One", sans-serif;
     font-size: 36px;
     display: inline-block;
@@ -2328,7 +2333,7 @@ border-radius: 50%;
     margin-bottom: 10px;
 }
 
-.ingredient-form-image, .direction-form-image {
+.ingredient-form-image, .direction-form-image  {
     width: 100%;
 }
 
@@ -2338,7 +2343,7 @@ border-radius: 50%;
     object-fit: cover;
 }
 
-.ingredient-form-container h3, .create-form h3, .direction-form h3 {
+.ingredient-form-container h3, .create-form h3, .direction-form h3, .allergen-form h3 {
     font-weight: 500;
     margin: 4px 0px;
 }
@@ -2349,7 +2354,7 @@ border-radius: 50%;
     font-size: 18px;
 }
 
-.ingredient-form-container button, .create-form button, .direction-form button {
+.ingredient-form-container button, .create-form button, .direction-form button, .allergen-form button {
     padding: 10px 20px;
     background-color: var(--primary-color);
     color: white;
@@ -2363,7 +2368,11 @@ border-radius: 50%;
     transition: 0.3s;
 }
 
-.ingredient-form-container button:hover, .create-form button:hover, .direction-form button:hover {
+.ingredient-form-container button:hover, 
+.create-form button:hover, 
+.direction-form button:hover
+.allergen-form button:hover
+{
     cursor: pointer;
     background-color:#007bff;
 }
@@ -2438,6 +2447,15 @@ border-radius: 50%;
     font-size: 18px;
     color: #333;
 }
+
+.allergen-form-container {
+    width: 70%;
+    margin: 0 auto;
+    box-shadow: 0px 12px 12px rgba(0, 0, 0, .1);
+    padding: 20px;
+    animation: Appear 1s ease forwards;
+}
+
 
 #choices h1 {
     font-size: 40px;
@@ -2670,6 +2688,30 @@ border-radius: 50%;
     margin: auto;
     padding: 20px;
     text-align: center;
+}
+
+.edit-allergen-container p {
+    font-weight: 300;
+    font-size: 18px;
+}
+
+.edit-allergen-container button {
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 24px;
+    padding: 10px 20px;
+    height: 50px;
+    width: 160px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 30px;
+    outline: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.edit-allergen-container button:hover {
+    background-color: #488ed4;
 }
 
 .allergen-header {
