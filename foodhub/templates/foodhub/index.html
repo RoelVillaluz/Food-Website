@@ -98,64 +98,34 @@
         </div>
     </section>
     <section class="categories">
-        <div class="heading">
+        <div class="header">
             <h1>Popular Categories</h1>
             <h3>Discover Your Flavor Palette: Explore These Popular Categories!</h3>
         </div>
-        <div class="category-card-container">
-            <div class="category-card">
-                <div class="category-card-image">
-                    <a href="/category/italian/">
-                        <img src="media/italian.jpg" alt="">
-                    </a>
-                </div>
-                <div class="category-card-name">
-                    <h4>Italian</h4>
-                </div>
+        <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper main-swiper">
+            <div class="swiper-wrapper">
+                {% for category, recipe in top_categories %}
+                    <div class="swiper-slide">
+                        <div class="swiper-image">
+                            <img src="{{ recipe.image.url }}" alt="">
+                            <div class="details">
+                                <h1>{{ category }}</h1>
+                                <a href="{% url 'category' category.lower %}">View Category</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
-            <div class="category-card">
-                <div class="category-card-image">
-                    <a href="/category/french/">
-                        <img src="media/french food.jpg" alt="">
-                    </a>
-                </div>
-                <div class="category-card-name">
-                    <h4>French</h4>
-                </div>
-            </div>
-            <div class="category-card">
-                <div class="category-card-image">
-                    <a href="/category/chinese/">
-                        <img src="media/chinese food.webp" alt="">
-                    </a>
-                </div>
-                <div class="category-card-name">
-                    <h4>Chinese</h4>
-                </div>
-            </div>
-            <div class="category-card">
-                <div class="category-card-image">
-                    <a href="/category/mexican/">
-                        <img src="media/mexican food.jpg" alt="">
-                    </a>
-                </div>
-                <div class="category-card-name">
-                    <h4>Mexican</h4>
-                </div>
-            </div>
-            <div class="category-card">
-                <div class="category-card-image">
-                    <a href="/category/filipino/">
-                        <img src="media/filipino food.webp" alt="">
-                    </a>
-                </div>
-                <div class="category-card-name">
-                    <h4>Filipino</h4>
-                </div>
-            </div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
         </div>
-        <div class="category-button">
-            <a href="{% url 'categories' %}">Explore Categories</a>
-        </div>
+        <div thumbsSlider="" class="swiper thumbnail-slider">
+            <div class="swiper-wrapper">
+                {% for category, recipe in top_categories %}
+                    <div class="swiper-slide">
+                        <img src="{{ recipe.image.url }}" alt="">
+                    </div>
+                {% endfor %}
+          </div>
     </section>
 {% endblock %}

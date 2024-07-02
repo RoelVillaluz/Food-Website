@@ -79,8 +79,10 @@ def index(request):
     top_categories = []
     for category in category_counts:
         category_name = category_choices_dict[category['category']]
-        recipe = Recipe.objects.filter(category=category['category']).first()
+        recipe = Recipe.objects.filter(category=category['category']).last()
         top_categories.append((category_name, recipe))
+
+    main_category = top_categories[0]
 
     return render(request, "foodhub/index.html", {
         "recipes": Recipe.objects.all(),
@@ -88,6 +90,7 @@ def index(request):
         "featured_categories": Recipe.CATEGORY_CHOICES[:6],
         "popular": popular_recipes,
         "top_categories": top_categories,
+        "main_category": main_category
     })
 
 def login_view(request):

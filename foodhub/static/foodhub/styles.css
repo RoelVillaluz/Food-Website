@@ -520,70 +520,114 @@ header label {
 }
 
 .categories {
-    padding: 20px;
-    width: 100%;
+    margin: 0px -70px;
+}
+
+.categories .header {
     text-align: center;
+    margin: 40px 0px;
 }
 
-.categories .heading {
-    margin-bottom: 20px;
+.categories .header h1 {
+    font-size: 90px;
 }
 
-.categories .heading h1 {
-    color: #333;
+.categories .header h3 {
     font-size: 24px;
-    margin-bottom: 5px;
+    color: #333;
 }
 
-.categories .heading h3 {
-    color: #666;
-    font-size: 18px;
-}
-
-.category-card-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-    gap: 8px;
-    justify-content: center; 
-    margin: 0 -40px; 
-}
-
-.category-card {
-    margin: 10px; 
-    align-items: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 220px;
-}
-
-.category-card img {
+.swiper {
     width: 100%;
-    height: 200px;
+}
+
+.swiper-slide {
+    position: relative;
+}
+
+.swiper-image {
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+    position: relative;
+}
+
+.swiper-image img {
+    width: 100%; 
+    height: 100%;
+    max-width: 100%; 
+    object-fit: cover; 
+    display: block; 
+    margin: auto;
+}
+
+.swiper-image::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px; 
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+}
+
+.swiper-image .details {
+    position: absolute;
+    z-index: 3;
+    bottom: 8%; 
+    left: 10%; 
+}
+
+.swiper-image .details h1 {
+    font-size: 90px;
+    font-weight: 600;
+    text-shadow: 4px 4px 12px rgba(0, 0, 0, 1);
+    color: white;
+    text-transform: capitalize;
+    margin-bottom: 4px;
+}
+
+.swiper-image .details a {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    box-shadow: 0px 0px 12px rgba(0, 0, 0, .1);
+}
+
+.swiper-button-prev, .swiper-button-next {
+    color: white;
+    z-index: 3;
+}
+
+.thumbnail-slider {
+    width: 40%;
+    height: 20%;
+    padding: 10px 0;
+}
+
+.thumbnail-slider .swiper-slide {
+    width: 25%;
+    height: 40px;
+    margin-top: 10px;
+    opacity: 0.4;
+    transition: 0.3s;
+}
+
+.thumbnail-slider .swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
+    cursor: pointer;
 }
 
-.category-card-name {
-    padding: 8px;
-    font-size: 18px;
-    text-align: left;
-    text-transform: uppercase;
+.thumbnail-slider .swiper-slide:hover {
+    opacity: 0.8;
 }
 
-.category-button {
-    display: inline-block;
-    margin: 20px auto; 
-    padding: 20px;
-    border: solid 2px #333;
-    transition: all 0.3s;
-}
-
-.category-button a {
-    color: black;
-    text-transform: uppercase;
-    font-weight: 300;
-}
-
-.category-button:hover {
-    background-color: rgb(235, 235, 235);
+.thumbnail-slider .swiper-slide-thumb-active {
+    opacity: 1;
 }
 
 .recipe {
@@ -591,8 +635,8 @@ header label {
 }
 
 .recipe-image {
-    flex: 0 0 32rem; /* Ensure the image doesn't grow */
-    margin-right: 20px; /* Add spacing between image and content */
+    flex: 0 0 32rem; 
+    margin-right: 20px; 
 }
 
 .recipe-content {
@@ -995,15 +1039,15 @@ header label {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 50px; /* Set a fixed height */
-    width: 50px; /* Set a fixed width */
+    height: 50px; 
+    width: 50px; 
     background-color: var(--primary-color);
     color: white;
 }
 
 .first-letter h2 {
-    margin: 0; /* Remove default margin */
-    font-size: 24px; /* Adjust font size if necessary */
+    margin: 0; 
+    font-size: 24px; 
 }
 
 .categories-header {

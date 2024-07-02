@@ -68,6 +68,28 @@ radioButtons.forEach(button => {
     });
 });
 
+var swiper2 = new Swiper(".thumbnail-slider", {
+    loop: true,
+    spaceBetween: 10,
+    slidesPerView: 5,
+    freeMode: true,
+    watchSlidesProgress: true,
+});
+
+const swiper = new Swiper('.main-swiper', {
+    direction: 'horizontal',
+    loop: true,
+  
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+
+    thumbs: {
+        swiper: swiper2,
+    },
+});
+
 // for recipe recommendation buttons
 document.addEventListener('DOMContentLoaded', function() {
     const choices = document.querySelectorAll('.test-container input[type="radio"]');
