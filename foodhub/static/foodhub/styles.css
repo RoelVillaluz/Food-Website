@@ -1080,7 +1080,7 @@ header label {
     font-size: 24px; 
 }
 
-.categories-header {
+.categories-header, .ingredients-header {
     display: inline;
     font-size: 40px;
     font-weight: 600;
@@ -1089,32 +1089,33 @@ header label {
     border-bottom: 3px solid var(--primary-color);
 }
 
-.all-categories-container h3 {
+.all-categories-container h3,.all-ingredients-container h3 {
     margin: 20px 0px;
     font-weight: 600;
     color: #333;
 }
 
-.search-category {
+.search-category, .search-ingredient {
     margin: 20px 0px;
     position: relative;
     display: flex;
     align-items: center;
 }
 
-.search-category i {
+.search-category i, .search-ingredient i {
     position: absolute;
     left: 10px;
     color: #333;
     transition: 0.2s;
 }
 
-.search-category i:hover {
+.search-category i:hover, .search-ingredient i:hover {
     cursor: pointer;
     color: var(--primary-color);
 }
 
-.all-categories-container input[type=text] {
+.all-categories-container input[type=text], 
+.all-ingredients-container input[type=text] {
     border: solid 1px black;
     padding: 10px 30px;
     width: 400px;
@@ -1161,20 +1162,21 @@ header label {
     color: white;
 }
 
-.all-categories-container ul {
+.all-categories-container ul,  .all-ingredients-container ul {
     display: flex;
+    flex-wrap: wrap;
     margin: 40px 0px;
     border-top: 1px solid rgba(0, 0, 0, .1);
 }
 
-.all-categories-container li {
+.all-categories-container li, .all-ingredients-container li {
     list-style-type: none;
     margin: 20px 40px;
     text-transform: capitalize;
     font-size: 20px;
 }
 
-.all-categories-container li a {
+.all-categories-container li a, .all-ingredients-container li a {
     color: black;
 }
 

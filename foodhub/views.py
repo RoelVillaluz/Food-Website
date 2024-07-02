@@ -476,8 +476,27 @@ def category(request, category):
 def ingredients(request):
     grouped_ingredients = Ingredient.objects.group_by_ingredient_name()
 
+    ingredient_dict = {}
+
+    for ingredient in grouped_ingredients:
+        name = ingredient['lower_name'].title()
+        first_letter = name[0].upper() if name else ''
+
+        if first_letter not in ingredient_dict:
+            ingredient_dict[first_letter] = []
+
+        ingredient_dict[first_letter].append(name)
+        
+    for letter in ingredient_dict:
+        ingredient_dict[letter] = sorted(ingredient_dict[letter])
+
+    sorted_ingredients = dict(sorted(ingredient_dict.items()))
+
     return render(request, "foodhub/ingredients.html", {
-        "grouped_ingredients":grouped_ingredients
+        "grouped_ingredients":grouped_ingredients,
+        "letters": "ABCDEFGHIJKLMNOPQRSTUVWXYZ",  
+        "sorted_ingredients": sorted_ingredients,
+        "ingredients_count": len(grouped_ingredients)
     })
 
 
