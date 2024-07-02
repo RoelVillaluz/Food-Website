@@ -18,6 +18,7 @@ urlpatterns = [
     path("follow/<int:id>", views.follow, name="follow"),
     path("categories", views.categories, name="categories"),
     path("category/<str:category>/", views.category, name="category"),
+    path("ingredients", views.ingredients, name="ingredients"),
     path("profile/<str:username>", views.profile, name="profile"),
     path("profile_allergen/<str:username>", views.profile_allergen, name="profile_allergen"),
     # path("profile/<str:username>/edit", views.edit_profile, name="edit_profile"),

@@ -473,6 +473,14 @@ def category(request, category):
         "header_recipe": header_recipe
     })
 
+def ingredients(request):
+    grouped_ingredients = Ingredient.objects.group_by_ingredient_name()
+
+    return render(request, "foodhub/ingredients.html", {
+        "grouped_ingredients":grouped_ingredients
+    })
+
+
 def profile(request, username):
     user = User.objects.get(username=username)
     profile = Profile.objects.get(user=user)

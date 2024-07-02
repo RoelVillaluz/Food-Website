@@ -2,11 +2,17 @@ import datetime
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.urls import reverse
-from django.db.models import Avg
+from django.db.models import Avg, Sum
+from django.db.models.functions import Lower
+
 
 # Create your models here.
 class User(AbstractUser):
     pass
+
+class IngredientManager(models.Manager):
+    def group_by_ingredient_name(self):
+        return self.annotate(lower_name=Lower('name')).values('lower_name').annotate(total_quantity=Sum('quantity')).order_by('lower_name')
 
 class Ingredient(models.Model):
     UNIT_CHOICES = [
@@ -32,6 +38,8 @@ class Ingredient(models.Model):
     recipe = models.ForeignKey('Recipe', on_delete=models.CASCADE, related_name="recipe_ingredient", default=None)
     quantity = models.IntegerField()
     unit_of_measurement = models.CharField(max_length=32, choices=UNIT_CHOICES, default=None)
+
+    objects = IngredientManager()
 
     def __str__(self):
         return f"{self.quantity} {self.unit_of_measurement} of {self.name}"

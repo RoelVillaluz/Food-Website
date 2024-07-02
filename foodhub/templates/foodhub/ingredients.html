@@ -1,0 +1,9 @@
+{% extends "foodhub/layout.html" %}
+
+{% block title %} All Ingredients {% endblock %}
+
+{% block body %}
+    {% for ingredient in grouped_ingredients %}
+    <h1>{{ ingredient.lower_name|title }}</h1>
+    {% endfor %}
+{% endblock %}
