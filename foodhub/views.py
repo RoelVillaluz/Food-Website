@@ -82,15 +82,12 @@ def index(request):
         recipe = Recipe.objects.filter(category=category['category']).last()
         top_categories.append((category_name, recipe))
 
-    main_category = top_categories[0]
-
     return render(request, "foodhub/index.html", {
         "recipes": Recipe.objects.all(),
         "categories": Recipe.CATEGORY_CHOICES,
         "featured_categories": Recipe.CATEGORY_CHOICES[:6],
         "popular": popular_recipes,
         "top_categories": top_categories,
-        "main_category": main_category
     })
 
 def login_view(request):

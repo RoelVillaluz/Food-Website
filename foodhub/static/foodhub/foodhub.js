@@ -68,6 +68,9 @@ radioButtons.forEach(button => {
     });
 });
 
+const progressCircle = document.querySelector(".autoplay-progress svg");
+const progressContent = document.querySelector(".autoplay-progress span");
+
 var swiper2 = new Swiper(".thumbnail-slider", {
     loop: true,
     spaceBetween: 10,
@@ -79,6 +82,10 @@ var swiper2 = new Swiper(".thumbnail-slider", {
 const swiper = new Swiper('.main-swiper', {
     direction: 'horizontal',
     loop: true,
+    autoplay: {
+        delay: 4200,
+        disableOnInteraction: false
+    },
   
     navigation: {
       nextEl: '.swiper-button-next',
@@ -88,6 +95,12 @@ const swiper = new Swiper('.main-swiper', {
     thumbs: {
         swiper: swiper2,
     },
+    on: {
+        autoplayTimeLeft(s, time, progress) {
+          progressCircle.style.setProperty("--progress", 1 - progress);
+          progressContent.textContent = `${Math.ceil(time / 1000)}s`;
+        }
+    }
 });
 
 // for recipe recommendation buttons
