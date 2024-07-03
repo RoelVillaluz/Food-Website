@@ -103,20 +103,6 @@ const swiper = new Swiper('.main-swiper', {
     }
 });
 
-const resetButton = document.getElementById('reset');
-const searchInput = document.getElementById('search-input');
-const currentUrl = new URL(window.location.href);
-const baseUrl = `${currentUrl.protocol}//${currentUrl.host}${currentUrl.pathname}`;
-
-resetButton.addEventListener('click', function() {
-    searchInput.value = ''; 
-
-    const urlWithoutQuery = baseUrl;
-    history.replaceState(null, '', urlWithoutQuery); 
-
-    window.location.href = urlWithoutQuery;
-});
-
 // for recipe recommendation buttons
 document.addEventListener('DOMContentLoaded', function() {
     const choices = document.querySelectorAll('.test-container input[type="radio"]');

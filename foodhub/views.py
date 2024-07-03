@@ -700,15 +700,15 @@ def recipe_recommender(request):
 
     filters = {key: value for key, value in filters.items() if value}
 
-    user_profile = Profile.objects.get(user=request.user)
-    user_allergens = user_profile.allergens.all()
+    user_allergens = []  # Initialize user_allergens
 
-    recipe = None
-    matched_filters = []
+    if request.user.is_authenticated:
+        user_profile = Profile.objects.get(user=request.user)
+        user_allergens = user_profile.allergens.all()
 
     include_allergens = request.GET.get('include_allergens', 'no') == 'yes'
 
-    def exclude_allergens(queryset):
+    def exclude_allergens(queryset, user_allergens):  # Pass user_allergens as argument
         if not include_allergens:
             for allergen in user_allergens:
                 queryset = queryset.exclude(allergens=allergen)
@@ -716,8 +716,11 @@ def recipe_recommender(request):
 
     def get_filtered_recipes(filters):
         filtered_recipes = Recipe.objects.filter(**filters)
-        filtered_recipes = exclude_allergens(filtered_recipes)
+        filtered_recipes = exclude_allergens(filtered_recipes, user_allergens)  # Pass user_allergens
         return filtered_recipes
+
+    recipe = None
+    matched_filters = []
 
     # Prioritize category as most important filter
     if 'category' in filters:
