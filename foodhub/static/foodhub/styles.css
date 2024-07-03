@@ -1201,6 +1201,22 @@ header label {
     display: block;
 }
 
+#reset {
+    margin-left: 10px;
+    background-color: #e4e4e4;
+    color: black;
+    border: solid 1px #333;
+    border-radius: 30px;
+    padding: 5px 10px;
+    outline: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#reset:hover {
+    background-color: #cacaca;
+}
+
 .category-image {
     position: relative;
     width: 250px;

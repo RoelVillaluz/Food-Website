@@ -3,14 +3,12 @@
 {% block title %} All Ingredients {% endblock %}
 
 {% block body %}
-    <!-- {% for ingredient in grouped_ingredients %}
-    <h1>{{ ingredient.lower_name|title }}</h1>
-    {% endfor %} -->
 <div class="all-ingredients-container">
     <div class="ingredients-header">All Ingredients ({{ ingredients_count }})</div>
         <form class="search-ingredient">
             <i class="fa-solid fa-magnifying-glass"></i>
             <input type="text" id="search-input" name="query" placeholder="Search ingredients" autocomplete="off">
+            <button type="button" id="reset">Reset</button>
         </form>
     <h3>Find an ingredient by it's first letter</h3>
     <div class="az-list">
