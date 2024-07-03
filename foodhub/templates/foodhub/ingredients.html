@@ -8,11 +8,11 @@
     {% endfor %} -->
 <div class="all-ingredients-container">
     <div class="ingredients-header">All Ingredients ({{ ingredients_count }})</div>
-        <form class="search-category">
+        <form class="search-ingredient">
             <i class="fa-solid fa-magnifying-glass"></i>
             <input type="text" id="search-input" name="query" placeholder="Search ingredients" autocomplete="off">
         </form>
-    <h3>Find a category by it's first letter</h3>
+    <h3>Find an ingredient by it's first letter</h3>
     <div class="az-list">
         {% for letter in letters %}
             {% if letter in sorted_ingredients %}

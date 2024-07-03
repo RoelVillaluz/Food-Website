@@ -493,20 +493,34 @@ def ingredients(request):
 
     sorted_ingredients = dict(sorted(ingredient_dict.items()))
 
+    query = request.GET.get('query')
+    if query:
+        query = query.lower()
+        filtered_ingredients = {}
+        for letter, ingredients in sorted_ingredients.items():
+            filtered_ingredients[letter] = [
+                ingredient for ingredient in ingredients if query in ingredient.lower()
+            ]
+        sorted_ingredients = filtered_ingredients
+    else:
+        query = ""
+
     return render(request, "foodhub/ingredients.html", {
         "grouped_ingredients":grouped_ingredients,
         "letters": "ABCDEFGHIJKLMNOPQRSTUVWXYZ",  
         "sorted_ingredients": sorted_ingredients,
+        "query": query,
         "ingredients_count": len(grouped_ingredients)
     })
 
 def ingredient(request, ingredient):
+    # Decode url-encoded ingredient name
     decoded_ingredient = unquote(ingredient)
     
     # Filter ingredients by the given name (case-insensitive)
     matched_ingredients = Ingredient.objects.filter(name__iexact=decoded_ingredient)
     
-    # Get the recipes related to the matched ingredients
+    # Get the recipes related to the matched ingredients using the related_name: recipe_ingredient in Ingredient model
     recipes = Recipe.objects.filter(recipe_ingredient__in=matched_ingredients).distinct()
 
     return render(request, "foodhub/ingredient.html", {

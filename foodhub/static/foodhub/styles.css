@@ -1176,8 +1176,29 @@ header label {
     font-size: 20px;
 }
 
-.all-categories-container li a, .all-ingredients-container li a {
+.all-categories-container li a  {
     color: black;
+}
+
+.all-ingredients-container li a {
+    color: black;
+    position: relative;
+    display: inline-block;
+}
+
+.all-ingredients-container li a::after {
+    display: none;
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 3px;
+    bottom: -4px;
+    right: 0;
+    background-color: var(--primary-color);
+}
+
+.all-ingredients-container li a:hover::after {
+    display: block;
 }
 
 .category-image {
