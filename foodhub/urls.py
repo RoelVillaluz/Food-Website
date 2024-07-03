@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 from . import views
 
 urlpatterns = [
@@ -19,6 +19,7 @@ urlpatterns = [
     path("categories", views.categories, name="categories"),
     path("category/<str:category>/", views.category, name="category"),
     path("ingredients", views.ingredients, name="ingredients"),
+    re_path(r'^ingredient/(?P<ingredient>.+)/$', views.ingredient, name='ingredient'),
     path("profile/<str:username>", views.profile, name="profile"),
     path("profile_allergen/<str:username>", views.profile_allergen, name="profile_allergen"),
     # path("profile/<str:username>/edit", views.edit_profile, name="edit_profile"),

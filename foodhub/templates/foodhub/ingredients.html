@@ -30,7 +30,7 @@
             <ul>
                 {% for ingredient in ingredients %}
                 <li>
-                    {{ ingredient }}
+                    <a href="{% url 'ingredient' ingredient|urlencode %}">{{ ingredient }}</a>
                 </li>
                 {% endfor %}
             </ul>

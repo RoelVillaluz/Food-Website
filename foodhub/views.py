@@ -1,4 +1,5 @@
 import random
+from urllib.parse import unquote
 from django import forms
 from django.db import IntegrityError
 from django.shortcuts import get_object_or_404, redirect, render
@@ -497,6 +498,20 @@ def ingredients(request):
         "letters": "ABCDEFGHIJKLMNOPQRSTUVWXYZ",  
         "sorted_ingredients": sorted_ingredients,
         "ingredients_count": len(grouped_ingredients)
+    })
+
+def ingredient(request, ingredient):
+    decoded_ingredient = unquote(ingredient)
+    
+    # Filter ingredients by the given name (case-insensitive)
+    matched_ingredients = Ingredient.objects.filter(name__iexact=decoded_ingredient)
+    
+    # Get the recipes related to the matched ingredients
+    recipes = Recipe.objects.filter(recipe_ingredient__in=matched_ingredients).distinct()
+
+    return render(request, "foodhub/ingredient.html", {
+        "ingredient": decoded_ingredient,
+        "recipes": recipes,
     })
 
 

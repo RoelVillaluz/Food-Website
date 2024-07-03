@@ -1,0 +1,10 @@
+{% extends "foodhub/layout.html" %}
+
+{% block title %} {{ ingredient }} Recipes {% endblock %}
+
+{% block body %}
+<h1>{{ ingredient }}</h1>
+{% for recipe in recipes %}
+    <li>{{ recipe }}</li>
+{% endfor %}
+{% endblock %}
