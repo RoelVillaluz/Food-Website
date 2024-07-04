@@ -46,6 +46,23 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
+function toggleViewMoreButtons() {
+    const reviewCards = document.querySelectorAll('.review-card');
+
+    reviewCards.forEach(card => {
+        const description = card.querySelector('.review-description');
+        const viewMoreBtn = card.querySelector('.view-more-btn');
+
+        if (description.scrollWidth > description.clientWidth) {
+            viewMoreBtn.style.display = 'block';
+        } else {
+            viewMoreBtn.style.display = 'none';
+        }
+    });
+}
+
+toggleViewMoreButtons();
+
 const stars = document.querySelectorAll('.rating input[type="radio"]');
         stars.forEach(star => {
             star.addEventListener('click', function() {

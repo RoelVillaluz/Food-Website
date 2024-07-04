@@ -1002,6 +1002,38 @@ header label {
     background-color: white;
     cursor: pointer;
     transition: 0.3s;
+    min-height: 150px;
+    position: relative; 
+}
+
+.review-description {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.view-more-btn {
+    display: none;
+    position: absolute;
+    color: #333;
+    right: 15px;
+    bottom: 10px;
+}
+
+.view-more::after {
+    content: "";
+    position: absolute;
+    display: block;
+    background-color: var(--primary-color);
+    width: 100%;
+    height: 2px;
+    bottom: -2px;
+    right: 0;
+    opacity: 0;
+}
+
+.view-more:hover::after {
+    opacity: 1;
 }
 
 .review-user {

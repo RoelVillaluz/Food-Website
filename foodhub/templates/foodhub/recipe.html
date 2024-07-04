@@ -164,34 +164,35 @@
         </div>
         <div class="review-list">
             {% for review in reviews %}
-                <div class="review-card">
-                    <div class="review-user">
-                        <div style="display: flex;">
-                            {% for profile in profiles %}
-                                {% if profile.user == review.user %}
-                                    {% if profile.image %}
-                                        <img src="{{ profile.image.url }}" class="review-user-image" alt="{{ profile.user.username }}">
-                                    {% else %}
-                                        <img src="media/default.png" class="review-user-image" alt="{{ profile.user.username }}">
-                                    {% endif %}
-                                    <div>
-                                        <h3>{{ profile.user.username }}</h3>
-                                        <h4>@{{ profile.user.email }}</h4>
-                                    </div>
+            <div class="review-card">
+                <div class="review-user">
+                    <div style="display: flex;">
+                        {% for profile in profiles %}
+                            {% if profile.user == review.user %}
+                                {% if profile.image %}
+                                    <img src="{{ profile.image.url }}" class="review-user-image" alt="{{ profile.user.username }}">
+                                {% else %}
+                                    <img src="media/default.png" class="review-user-image" alt="{{ profile.user.username }}">
                                 {% endif %}
-                            {% endfor %}
-                        </div>
-                        <div class="review-rating" data-rating="{{ review.rating|floatformat:1 }}">
-                            <i class="fa fa-star fa-regular review-star" data-index="1"></i>
-                            <i class="fa fa-star fa-regular review-star" data-index="2"></i>
-                            <i class="fa fa-star fa-regular review-star" data-index="3"></i>
-                            <i class="fa fa-star fa-regular review-star" data-index="4"></i>
-                            <i class="fa fa-star fa-regular review-star" data-index="5"></i>
-                            <span>{{ review.rating|floatformat:1  }}</span>
-                        </div>
+                                <div>
+                                    <h3>{{ profile.user.username }}</h3>
+                                    <h4>@{{ profile.user.email }}</h4>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
                     </div>
-                    <p>{{ review.description }}</p>
+                    <div class="review-rating" data-rating="{{ review.rating|floatformat:1 }}">
+                        <i class="fa fa-star fa-regular review-star" data-index="1"></i>
+                        <i class="fa fa-star fa-regular review-star" data-index="2"></i>
+                        <i class="fa fa-star fa-regular review-star" data-index="3"></i>
+                        <i class="fa fa-star fa-regular review-star" data-index="4"></i>
+                        <i class="fa fa-star fa-regular review-star" data-index="5"></i>
+                        <span>{{ review.rating|floatformat:1  }}</span>
+                    </div>
                 </div>
+                <p class="review-description">{{ review.description }}</p>
+                <div class="view-more-btn">View More</div>
+            </div>
             {% endfor %}
         </div>
     </div>
