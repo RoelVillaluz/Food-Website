@@ -996,16 +996,12 @@ header label {
 .review-card {
     flex: 1 1 45%;
     max-width: 45%;
-    margin: 0px 10px;
+    margin: 20px 10px;
     box-shadow: 0px 0px 8px rgba(0, 0, 0, .1);
     padding: 10px;
     background-color: white;
     cursor: pointer;
     transition: 0.3s;
-}
-
-.review-card:hover {
-    transform: translateY(-20px);
 }
 
 .review-user {
@@ -1048,6 +1044,11 @@ header label {
 
 .review-rating {
     margin-right: 8px;
+}
+
+.review-rating span {
+    font-weight: 600;
+    margin-left: 4px;
 }
 
 /* .rating {

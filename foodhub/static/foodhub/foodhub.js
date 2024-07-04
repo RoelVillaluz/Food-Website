@@ -1,3 +1,4 @@
+// for average rating 
 document.addEventListener("DOMContentLoaded", function() {
     // Function to update stars based on rating
     function updateStars(rating, stars) {
@@ -36,14 +37,12 @@ document.addEventListener("DOMContentLoaded", function() {
         updateStars(featuredRating, stars);
     }
 
-    // Loop through all elements with class 'profile-popular-card' and update their stars
-    document.querySelectorAll('.profile-popular-card').forEach(function(card) {
-        var averageReviewElement = card.querySelector('.popular-review');
-        if (averageReviewElement) {
-            var averageRating = parseFloat(averageReviewElement.textContent);
-            var stars = card.querySelectorAll('.fa-star.popular-review-star');
-            updateStars(averageRating, stars);
-        }
+    // for individual rating on recipe reviews
+    const reviewRatingElements = document.querySelectorAll(".review-rating");
+    reviewRatingElements.forEach(function(element) {
+        const rating = parseFloat(element.getAttribute("data-rating"));
+        const stars = element.querySelectorAll(".review-star");
+        updateStars(rating, stars);
     });
 });
 
