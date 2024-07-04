@@ -959,77 +959,96 @@ header label {
 }
 
 .review-container {
-    margin-top: 40px;
+    margin: 0px -70px;
+    margin-bottom: -70px;
+    margin-top: 70px;
     padding: 14px;
+    padding-bottom: 70px;
+    background-color: #f5f5f5;
+    border-top: solid 6px #4682b4;
+}
+
+.review-container h1 {
+    display: inline-block;
+    text-align: center;
+    margin: 20px 0px;
+    font-weight: 500;
+    color: white;
+    background-color: #4682b4;
+    text-align: center;
+    padding: 10px 20px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, .1);
+}
+
+.review-container h6 {
+    margin-bottom: 0px;
+    font-weight: 300;
+    font-size: 18px;
+}
+
+.review-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.review-card {
+    flex: 1 1 45%;
+    max-width: 45%;
+    margin: 0px 10px;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, .1);
+    padding: 10px;
+    background-color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.review-card:hover {
+    transform: translateY(-20px);
 }
 
 .review-user {
     display: flex;
+    justify-content: space-between;
     align-items: center;
 }
 
-.review-user img {
-    margin-right: 10px;
-    object-fit: cover;
-}
-
-.review-user p {
-    font-weight: 700;
-    color: black;
-    border-bottom: 3px solid var(--primary-color);
-}
-
-.review-container h1 {
-    font-size: 20px;
-    color: #333;
-    font-weight: 400;
-}
-
-.review-form {
-    margin-top: 20px;
-}
-
-.review-form h1 {
-    font-size: 20px;
-    font-weight: 400;
-}
-
 .review-user-image {
-    border-radius: 50%;
     width: 50px;
     height: 50px;
+    border-radius: 50%;
+}
+
+.review-user-image img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
 }
 
-.review-form textarea {
-    width: 100%;
-    height: 100px;
-    outline: none;
-    overflow:hidden;
-    resize: none;
-    padding: 8px;
-    font-size: 18px;
+.review-user div {
+    margin-left: 10px;
 }
 
-.review-form input[type="submit"] {
-    padding: 8px;
-    background-color: var(--primary-color);
-    color: white;
-    font-size: 24px;
+.review-user h3 {
     font-weight: 500;
-    border: none;
+    font-size: 16px;
 }
 
-.review-form input[type="submit"]:hover {
-    cursor: pointer;
+.review-user h4 {
+    font-size: 14px;
+    font-weight: 300;
+    color: #333;
 }
 
-.review-list-header {
-    text-align: center;
-    font-size: 28px;
-    margin-bottom: 20px;
+.review-list p {
+    margin: 20px 0px 10px 10px;
+    color: #1b1b1b;
 }
 
+.review-rating {
+    margin-right: 8px;
+}
 
 /* .rating {
     unicode-bidi: bidi-override;

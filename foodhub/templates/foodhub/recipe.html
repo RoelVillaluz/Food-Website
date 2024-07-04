@@ -158,60 +158,38 @@
         </div>
     </div>
     <div class="review-container">
+        <div style="text-align: center; margin-bottom: 30px;">
+            <h1>Reviews</h1>
+            <h6>See what others are saying about this recipe!</h6>
+        </div>
         <div class="review-list">
-            <div class="review-list-header">
-                All Reviews 
-            </div>
-            {% if reviews.count > 1 %}
-                <h1>{{ reviews.count }} Reviews</h1>
-            {% elif reviews.count == 1 %}
-                <h1>{{ reviews.count }} Review</h1>
-            {% else %}
-                <h1>No Reviews Yet</h1>
-            {% endif %}
-            <div class="review-form">
-                {% if request.user.is_authenticated and not user_reviewed %}
-                    <img src="{{ my_profile.image.url }}" class="review-user-image" alt="">
-                        <h1>Leave a Review</h1>
-                        <form action="{% url 'create_review' recipe.name %}" method="POST">
-                            {% csrf_token %}
-                            <div class="rating">
-                                <label for="rating">Rating:</label>
-                                <input type="radio" id="star1" name="rating" value="1" /><label for="star1"></label>
-                                <input type="radio" id="star2" name="rating" value="2" /><label for="star2"></label>
-                                <input type="radio" id="star3" name="rating" value="3" /><label for="star3"></label>
-                                <input type="radio" id="star4" name="rating" value="4" /><label for="star4"></label>
-                                <input type="radio" id="star5" name="rating" value="5" /><label for="star5"></label>
-                            </div>
-                            <textarea id="review-description" name="description" placeholder="What did you think of this recipe?"></textarea>
-                            <input type="submit" value="Submit">
-                        </form>
-                {% endif %}
-            </div>
             {% for review in reviews %}
-                <div class="review">
+                <div class="review-card">
                     <div class="review-user">
-                        {% for profile in profiles %}
-                            {% if profile.user == review.user %}
-                                {% if profile.image %}
-                                    <img src="{{ profile.image.url }}" class="review-user-image" alt="{{ profile.user.username }}">
-                                {% else %}
-                                    <img src="media/default.png" class="review-user-image" alt="{{ profile.user.username }}">
+                        <div style="display: flex;">
+                            {% for profile in profiles %}
+                                {% if profile.user == review.user %}
+                                    {% if profile.image %}
+                                        <img src="{{ profile.image.url }}" class="review-user-image" alt="{{ profile.user.username }}">
+                                    {% else %}
+                                        <img src="media/default.png" class="review-user-image" alt="{{ profile.user.username }}">
+                                    {% endif %}
+                                    <div>
+                                        <h3>{{ profile.user.username }}</h3>
+                                        <h4>@{{ profile.user.email }}</h4>
+                                    </div>
                                 {% endif %}
-                                <p>{{ profile.user.username }}</p>
-                            {% endif %}
-                        {% endfor %}
+                            {% endfor %}
+                        </div>
+                        <div class="review-rating" data-rating="{{ review.rating }}">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
                     </div>
-                    <div class="review-rating" data-rating="{{ review.rating }}">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                    <div class="review-details">
-                        <p>{{ review.description }}</p>
-                    </div>
+                    <p>{{ review.description }}</p>
                 </div>
             {% endfor %}
         </div>
