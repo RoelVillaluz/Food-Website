@@ -320,6 +320,9 @@ def recipes(request):
         "query": query
     })
 
+def poop(request):
+    pass
+
     
 def recipe(request, recipe_name):
     recipe = Recipe.objects.get(name=recipe_name)
