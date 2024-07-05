@@ -269,6 +269,7 @@ document.addEventListener('DOMContentLoaded', function() {
         event.stopPropagation(); // Prevent the click event from bubbling up to the window
     });    
 
+<<<<<<< HEAD
     const filterRatingForm = document.getElementById('filter-rating-form');
     const ratingButtons = filterRatingForm.querySelectorAll('input[type="radio"]');
 
@@ -278,6 +279,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+=======
+>>>>>>> bc300420f1e7f524301f3c1371de6d0b4552862e
     const submitForm = () => {
         form.submit(); 
     };
