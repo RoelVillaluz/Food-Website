@@ -248,7 +248,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const sortContent = document.querySelector('.sort-content');
     const form = document.querySelector('.sort-form');
     const radioButtons = form.querySelectorAll('input[type="radio"]');
-    const sortTypeText = document.querySelector('.sort-type'); // Updated selector
+    const sortTypeText = document.querySelector('.sort-type'); 
+
+    const filterForm = document.getElementById('filter-form');
+    const filterButtons = document.querySelectorAll('#filter-form input[type="radio"]');
+
+    filterButtons.forEach(button => {
+        button.addEventListener('click', ()=> {
+            filterForm.submit();
+        })
+    })
 
     // for ratings
     const ratingDropdown = document.querySelector('.filter-rating'); 
