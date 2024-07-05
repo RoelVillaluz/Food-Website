@@ -326,16 +326,12 @@ def recipe(request, recipe_name):
     
     reviews_data = list(reviews.values('rating', 'description', 'user__username'))  # Serializing the reviews
 
-    # Calculate rating distribution
+    # Calculate rating distribution for this recipe
     rating_counts = reviews.values('rating').annotate(count=Count('rating'))
     rating_distribution = {str(i): 0 for i in range(1, 6)}
     total_reviews = reviews.count()
     for rating in rating_counts:
-        rating_distribution[str(rating['rating'])] = rating['count']
-    
-    for key in rating_distribution.keys():
-        if total_reviews > 0:
-            rating_distribution[key] = (rating_distribution[key] / total_reviews) * 100
+        rating_distribution[str(rating['rating'])] = (rating['count'] / total_reviews) * 100
 
     return render(request, "foodhub/recipe.html", {
         "recipe": recipe,
@@ -350,8 +346,19 @@ def recipe(request, recipe_name):
         "profiles": profiles,
         "reviews": reviews,
         "reviews_data": json.dumps(reviews_data, cls=DjangoJSONEncoder),  
-        "rating_distribution": rating_distribution,  
+        "rating_distribution": rating_distribution,
     })
+
+def rating_distribution(request, recipe_id):
+    reviews = Review.objects.filter(recipe_id=recipe_id)
+    rating_counts = reviews.values('rating').annotate(count=Count('rating'))
+    rating_distribution = {str(i): 0 for i in range(1, 6)}
+    total_reviews = reviews.count()
+    
+    for rating in rating_counts:
+        rating_distribution[str(rating['rating'])] = (rating['count'] / total_reviews) * 100
+    
+    return JsonResponse(rating_distribution)
 
 def edit_recipe(request, recipe_name):
     recipe = Recipe.objects.get(name=recipe_name)

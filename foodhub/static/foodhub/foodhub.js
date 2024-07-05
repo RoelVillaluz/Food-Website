@@ -45,7 +45,6 @@ document.addEventListener("DOMContentLoaded", function() {
         updateStars(rating, stars);
     });
 });
-
 function toggleViewMoreButtons() {
     const reviewCards = document.querySelectorAll('.review-card');
 
@@ -58,30 +57,45 @@ function toggleViewMoreButtons() {
         } else {
             viewMoreBtn.style.display = 'none';
         }
+        viewMoreBtn.addEventListener('click', function() {
+            dataId = this.dataset.id
+            console.log(dataId)
+        })
     });
 }
 
+// Call the function to toggle view more buttons
 toggleViewMoreButtons();
 
-const stars = document.querySelectorAll('.rating input[type="radio"]');
-        stars.forEach(star => {
-            star.addEventListener('click', function() {
-                stars.forEach(s => {
-                    if (s.id <= star.id) {
-                        s.parentNode.classList.add('selected');
-                    } else {
-                        s.parentNode.classList.remove('selected');
-                    }
-                });
-            });
-        });
+function updateRatingBars(ratingDistribution) {
+    for (const [star, percentage] of Object.entries(ratingDistribution)) {
+        const filledBar = document.querySelector(`#star-${star} .filled-bar`);
+        const percentageSpan = document.querySelector(`#percentage-${star}`);
+        
+        if (filledBar && percentageSpan) {
+            filledBar.style.width = `${percentage}%`;
+            percentageSpan.textContent = `${percentage.toFixed(1)}%`;
+        }
+    }
+}
 
-const radioButtons = document.querySelectorAll('#filter-form input[type="radio"]');
-radioButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        // Submit the form when a radio button is clicked
-        document.getElementById('filter-form').submit();
-    });
+// Function to fetch rating distribution data via AJAX
+function fetchRatingDistribution(recipeId) {
+    fetch(`/api/rating-distribution/${recipeId}/`)
+        .then(response => response.json())
+        .then(data => {
+            updateRatingBars(data);  // Update rating bars on success
+        })
+        .catch(error => console.error('Error fetching rating distribution:', error));
+}
+
+// Function to fetch rating distribution on DOM load
+document.addEventListener('DOMContentLoaded', () => {
+    const recipeIdElement = document.getElementById('recipe-id');
+    if (recipeIdElement) {
+        const recipeId = recipeIdElement.textContent.trim();
+        fetchRatingDistribution(recipeId);  
+    }
 });
 
 const progressCircle = document.querySelector(".autoplay-progress svg");

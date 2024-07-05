@@ -950,7 +950,7 @@ header label {
 }
 
 .filled-bar {
-    background-color: #ffc107;
+    background-color: var(--primary-color);
     height: 100%;
 }
 
@@ -1020,7 +1020,7 @@ header label {
     bottom: 10px;
 }
 
-.view-more::after {
+.view-more-btn::after {
     content: "";
     position: absolute;
     display: block;
@@ -1032,7 +1032,7 @@ header label {
     opacity: 0;
 }
 
-.view-more:hover::after {
+.view-more-btn:hover::after {
     opacity: 1;
 }
 
@@ -1082,40 +1082,6 @@ header label {
     font-weight: 600;
     margin-left: 4px;
 }
-
-/* .rating {
-    unicode-bidi: bidi-override;
-    direction: rtl;
-}
-
-.rating input {
-    display: none;
-}
-
-.rating label {
-    font-size: 18px;
-    padding: 0 0.1em;
-    cursor: pointer;
-}
-
-.rating label:before {
-    content: "\f005";
-    font-family: FontAwesome;
-    color: #ccc;
-}
-
-.rating input:checked ~ label:before {
-    color: #0056b3;
-}
-
-.rating label:hover:before,
-.rating input:hover ~ label:before {
-    color: #0056b3;
-}
-
-.rating input:checked ~ label:hover:before {
-    color: #ccc;
-} */
 
 .first-letter {
     display: flex;
@@ -1720,14 +1686,6 @@ border-radius: 50%;
 
 .hide-allergens input[type="checkbox"]:checked::before, .show-liked input[type="checkbox"]:checked::before {
     transform: translateX(30px);
-}
-
-.review-container {
-
-}
-
-.review-list {
-
 }
 
 .review {
