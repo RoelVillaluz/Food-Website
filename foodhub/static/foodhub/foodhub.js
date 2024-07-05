@@ -269,6 +269,15 @@ document.addEventListener('DOMContentLoaded', function() {
         event.stopPropagation(); // Prevent the click event from bubbling up to the window
     });    
 
+    const filterRatingForm = document.getElementById('filter-rating-form');
+    const ratingButtons = filterRatingForm.querySelectorAll('input[type="radio"]');
+
+    ratingButtons.forEach(ratingButton => {
+        ratingButton.addEventListener('change', function() {
+            filterRatingForm.submit();
+        });
+    });
+
     const submitForm = () => {
         form.submit(); 
     };

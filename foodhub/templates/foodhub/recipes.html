@@ -91,7 +91,7 @@
                     <span>Filter by Rating</span>
                     <i class="fa-solid fa-angle-down"></i>
                     <div class="rating-content">
-                        <form class="sort-rating" action="{% url 'recipes' %}" method="get">
+                        <form id="filter-rating-form" action="{% url 'recipes' %}" method="get">
                             <label for="rating1">
                                 <input type="radio" name="rating" id="rating1" value="1" {% if selected_rating == '1' %}checked{% endif %}>
                                 1+

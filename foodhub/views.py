@@ -8,7 +8,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.core.serializers.json import DjangoJSONEncoder
-from django.db.models import Count, Q
+from django.db.models import Count, Q, Avg
 from django.contrib import messages
 
 import json
@@ -256,6 +256,7 @@ def recipes(request):
     selected_duration = request.GET.get('duration')
     selected_difficulty = request.GET.get('difficulty')
     selected_cost = request.GET.get('cost')
+    selected_rating = request.GET.get('rating')  # Retrieve rating filter
 
     # Apply filters based on selected options
     if selected_category:
@@ -284,6 +285,16 @@ def recipes(request):
             liked_recipes = Recipe.objects.filter(likes=request.user)
             recipes = liked_recipes
 
+    # Calculate average ratings for each recipe and filter by selected rating
+    if selected_rating:
+        # Convert selected_rating to an integer (if necessary)
+        selected_rating = int(selected_rating)
+        # Define rating range
+        rating_start = selected_rating
+        rating_end = selected_rating + 0.9
+        # Filter recipes by average rating within the range
+        recipes = recipes.annotate(avg_rating=Avg('ratings__rating')).filter(avg_rating__gte=rating_start, avg_rating__lt=rating_end)
+
     # Sort filters
     sort_type = request.GET.get('sort', 'name')
     if sort_type in ['name', '-name', 'date', '-date']:
@@ -300,10 +311,11 @@ def recipes(request):
         "selected_difficulty": selected_difficulty,
         "sort_type": sort_type,
         "selected_cost": selected_cost,
+        "selected_rating": selected_rating,  # Pass selected rating to template
         "durations": durations,
         "difficulties": difficulties,
         "costs": costs,
-        "toggle_allergens": toggle_allergens, 
+        "toggle_allergens": toggle_allergens,
         "toggle_likes": toggle_likes,
         "query": query
     })
