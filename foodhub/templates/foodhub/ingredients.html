@@ -1,0 +1,37 @@
+{% extends "foodhub/layout.html" %}
+
+{% block title %} All Ingredients {% endblock %}
+
+{% block body %}
+<div class="all-ingredients-container">
+    <div class="ingredients-header">All Ingredients ({{ ingredients_count }})</div>
+        <form class="search-ingredient">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="search-input" name="query" placeholder="Search ingredients" autocomplete="off">
+        </form>
+    <h3>Find an ingredient by it's first letter</h3>
+    <div class="az-list">
+        {% for letter in letters %}
+            {% if letter in sorted_ingredients %}
+                <a href="#{{ letter }}">{{ letter }}</a>
+            {% else %}
+                <div class="no-category">{{ letter }}</div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    {% for letter, ingredients in sorted_ingredients.items %}
+        <div class="first-letter-wrapper" id="{{ letter }}">
+            <div class="first-letter">
+                <h2>{{ letter }}</h2>
+            </div>
+            <ul>
+                {% for ingredient in ingredients %}
+                <li>
+                    <a href="{% url 'ingredient' ingredient|urlencode %}">{{ ingredient }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

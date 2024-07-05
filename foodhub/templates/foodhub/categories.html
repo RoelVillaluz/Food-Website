@@ -1,0 +1,47 @@
+{% extends 'foodhub/layout.html' %}
+
+{% block title%} All Categories {% endblock%}
+{% block body %}
+<div class="crumb-container">
+    {% for crumb in recipe.get_breadcrumbs %}
+            <a href="{{ crumb.url }}">{{ crumb.label }}</a>
+        {% if not forloop.last %} &raquo; {% endif %}
+    {% endfor %}
+    </div>
+<div class="all-categories-container">
+    <div class="categories-header">All Categories ({{ categories_count }})</div>
+    <form class="search-category">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="search-input" name="query" placeholder="Search categories" autocomplete="off">
+    </form>
+    <h3>Find a category by it's first letter</h3>
+    <div class="az-list">
+        {% for letter in letters %}
+            {% if letter in category_dict %}
+                <a href="#{{ letter }}">{{ letter }}</a>
+            {% else %}
+                <div class="no-category">{{ letter }}</div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    {% for letter, categories in category_dict.items %}
+        <div class="first-letter-wrapper" id="{{ letter }}">
+            <div class="first-letter">
+                <h2>{{ letter }}</h2>
+            </div>
+            <ul>
+                {% for category in categories %}
+                <li>
+                    <div class="category-image">
+                        <a href="{% url 'category' category.0 %}">
+                            <img src="{{ category.2 }}" alt="{{ category.1 }} Image">
+                            <div class="category-image-name">{{ category.1 }}</div>
+                        </a>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

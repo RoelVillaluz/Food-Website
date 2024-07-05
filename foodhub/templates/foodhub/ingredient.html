@@ -1,0 +1,23 @@
+{% extends "foodhub/layout.html" %}
+
+{% block title %} Recipes with {{ ingredient }} {% endblock %}
+
+{% block body %}
+<h1>Recipes with {{ ingredient }}</h1> 
+<div class="all-recipes-card-container">
+    {% for recipe in recipes %}
+    <div class="recipe-item">
+        {% if request.user in recipe.likes.all %}
+            <div class="like-btn liked" data-id="{{ recipe.id }}"><i class="fa-regular fa-heart"></i></div>
+        {% else %}
+            <div class="like-btn" data-id="{{ recipe.id }}"><i class="fa-regular fa-heart"></i></div>
+        {% endif %}
+        <a href="{% url 'recipe' recipe.name %}">
+            <img src="{{ recipe.image.url }}" alt="">
+        </a>
+        <h2>{{ recipe.name }}</h2>
+        <span>{{ recipe.category }}</span>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

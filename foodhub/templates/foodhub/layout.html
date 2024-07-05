@@ -1,0 +1,102 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'foodhub/styles.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <title>{% block title %}Foodhub{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <div class="logo"><a href="{% url 'index' %}">Foodhub</a></div>
+        <input type="checkbox" id="menu-bar">
+        <label for="menu-bar"><i class="fas fa-bars"></i></label>
+        <nav>
+            <ul>
+                {% if request.user.is_authenticated %}
+                <li>
+                    <a href="{% url 'create_recipe' %}">Create</a>
+                    <ul>
+                        <li><a href="{% url 'create_recipe' %}">Create Recipe</a></li>
+                        <li><a href="{% url 'create_mealplan' %}">Create Mealplan</a></li>
+                    </ul>
+                </li>
+                {% endif %}
+                <li><a href="{% url 'recipes' %}">Recipes</a></li>
+                <li><a href="{% url 'ingredients' %}">Ingredients</a></li>
+                <li>
+                    <a href="{% url 'categories' %}">Categories</a>
+                    <ul>
+                        {% for category in featured_categories %}
+                            <li><a href="{% url 'category' category.0 %}">{{ category.1 }}</a></li>
+                        {% endfor %}
+                        <li><a href="{% url 'categories' %}">View All</a></li>
+                    </ul>
+                </li>
+                <li><a href="{% url 'recipe_recommender' %}">Recommender</a></li>
+                {% if not request.user.is_authenticated %}
+                    <li class="nav-btn"><a href="{% url 'login_view' %}">Login</a></li>
+                {% else %}
+                    <li class="nav-btn"><a href="{% url 'logout' %}">Logout</a></li>
+                    <li><a href="{% url 'profile' request.user.username %}" class="user-icon"><i class="fa fa-user" aria-hidden="true"></i></a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>    
+    <div class="body">
+        {% block body %}
+        {% endblock %}
+    </div>
+    <footer>
+        <div class="footer-container">
+            <div class="footer-logo"> 
+                <h1>Foodhub</h1>
+                <div class="newsletter">
+                    <p>Stay updated with the latest culinary creations:</p>
+                    <div class="newsletter-subscribe">
+                        <input type="text" placeholder="Subscribe to our newsletter">
+                        <i class="fa-regular fa-paper-plane"></i>
+                    </div>
+                </div>
+                <div class="footer-socials">
+                    <h3>Follow us!</h3>
+                    <div class="footer-icons">
+                        <i class="fa-brands fa-instagram"></i>
+                        <i class="fa-brands fa-youtube"></i>
+                        <i class="fa-brands fa-facebook"></i>
+                        <i class="fa-brands fa-tiktok"></i>
+                        <i class="fa-brands fa-pinterest"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Info</h3>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Contact Us</h3>
+                <ul>
+                    <li>Email: Foodhub@gmail.com</li>
+                    <li>Number: (+63) 947 508 7518</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>Foodhub 2024 <i class="fa-regular fa-copyright"></i> All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/datepicker/datepicker.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="{% static 'foodhub/foodhub.js' %}"></script>
+</body>
+</html>

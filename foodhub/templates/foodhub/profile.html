@@ -1,0 +1,181 @@
+{% extends "foodhub/layout.html" %}
+
+{% block title %} Profile {{ profile }} {% endblock %}
+{% block body %}
+    <div class="profile-container">
+        <div class="profile-image-container">
+            {% if request.user == profile.user %}
+            <form id="profile-image-form" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <label for="profile-image-input" class="profile-image-label">
+                    {% if profile.image %}
+                        <img src="{{ profile.image.url }}" alt="Profile Image" id="profile-image">
+                    {% else %}
+                        <img src="media/default.png" alt="Profile Image" id="profile-image">
+                    {% endif %}
+                    <div class="edit-image-sign">Edit Image</div>
+                </label>
+                <input type="file" id="profile-image-input" name="profile_image" accept="image/*" style="display: none;">
+                <button type="submit" id="submit-profile-image" style="display: none;">Submit</button>
+            </form>
+            {% else %}
+                {% if profile.image %}
+                    <img src="{{ profile.image.url }}" alt="Profile Image" id="profile-image">
+                {% else %}
+                    <img src="media/default.png" alt="Profile Image" id="profile-image">
+                {% endif %}
+            {% endif %}
+        </div>
+        <div class="profile-info">
+            <h1>About Me</h1>
+            <div class="profile-name">
+                <p>Hi, my name is <span>{{ user }}!</span></p>
+                {% if request.user != profile.user %}
+                    {% if request.user not in profile.followers.all %}
+                        <button class="follow-btn" data-id="{{ profile.id }}">Follow</button>
+                    {% else %}
+                        <button class="follow-btn followed" data-id="{{ profile.id }}">Unfollow</button>
+                    {% endif %}
+                {% endif %}
+            </div>
+            <div class="profile-bio">
+                {% if profile.bio %}
+                    <p id="bio-text">{{ profile.bio }}</p>
+                {% else %}
+                    <p id="bio-text">No description yet</p>
+                {% endif %}
+                {% if request.user == profile.user %}
+                    <button class="edit-bio" onclick="showEditForm()">Edit Bio</button>
+                {% endif %}
+                <form id="edit-bio-form" style="display: none;" method="post" action="{% url 'edit_bio' %}">
+                    {% csrf_token %}
+                    <textarea name="bio" id="bio-input" placeholder="Say something...">{{ profile.bio }}</textarea>
+                    <div class="textarea-buttons">
+                        <button type="submit">Save</button>
+                        <button type="button" onclick="hideEditForm()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="edit-recipes-container">
+        <h1>Choose Featured Recipe</h1>
+        <form id="edit-featured-recipe-form" method="post" action="{% url 'profile' username=user.username %}">
+        {% csrf_token %}
+        <div class="recipes-grid">
+            {% for recipe in profile_recipes %}
+                <div class="recipe-choice" data-recipe-id="{{ recipe.id }}">
+                    <img src="{{ recipe.image.url }}" alt="">
+                    <div class="choice-info">
+                        <span>{{ recipe.name }}</span>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <input type="hidden" name="new_featured_recipe" id="new-featured-recipe-input">
+        </form>
+    </div>
+    <div class="more-container">
+        <div class="more-info">
+            <div class="info-header">
+                <h1>More about me</h1>
+            </div>
+            <div class="follow-container">
+                <h3 id="followers">Followers: {{ profile.followers.count }}</h3>
+            </div>
+            <div class="info-content">
+                {% if profile.location %}
+                    <h3><span>Location:</span> {{ profile.location }}</h3>
+                {% endif %}
+                {% if profile.culinary_level %}
+                    <h3><span>Culinary Level:</span> {{ profile.culinary_level }}</h3>
+                {% endif %}
+                {% if profile.education %}
+                    <h3><span>Education:</span> {{ profile.education }}</h3>
+                {% endif %}
+                <div class="socials">
+                    <div class="social-header">
+                        <h1>Social Links:</h1>
+                    </div>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com" target="_blank"><i class="fa-brands fa-square-instagram"></i></a>
+                        <a href="https://www.youtube.com" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="https://www.facebook.com" target="_blank"><i class="fa-brands fa-square-facebook"></i></a>
+                        <a href="https://www.tiktok.com" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="profile-popular-recipes">
+            <h1 class="header">Popular Recipes </h1>
+            {% for recipe_with_rating in popular_recipes_with_ratings %}
+            <div class="profile-popular-card">
+                <div class="popular-content">
+                    <h1>{{ recipe_with_rating.recipe.name }}</h1>
+                    <span>{{ recipe_with_rating.recipe.category }}</span>
+                    <div class="popular-ratings">
+                        <i class="fa fa-star fa-regular popular-review-star"></i>
+                        <i class="fa fa-star fa-regular popular-review-star"></i>
+                        <i class="fa fa-star fa-regular popular-review-star"></i>
+                        <i class="fa fa-star fa-regular popular-review-star"></i>
+                        <i class="fa fa-star fa-regular popular-review-star"></i>
+                        <span class="popular-review">{{ recipe_with_rating.average_rating|floatformat:1 }}</span>
+                    </div>
+                </div>
+                <div class="popular-card-image">
+                    <a href="{% url 'recipe' recipe_with_rating.recipe.name %}">
+                        <img src="{{ recipe_with_rating.recipe.image.url }}" alt="">
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% if featured_recipe %}
+        <div class="featured">
+            <div class="featured-header">
+                <h1>Featured Recipe</h1>
+                {% if request.user == profile.user %}
+                    <button class="edit-featured">Edit</button>
+                {% endif %}
+            </div>
+            <div class="featured-image">
+                <img src="{{ featured_recipe.image.url }}" alt="">
+                <div class="featured-info">
+                    <span>{{ featured_recipe.name }}</span>
+                    <div class="featured-rating">
+                        <i class="fa fa-star fa-regular featured-rating-star"></i>
+                        <i class="fa fa-star fa-regular featured-rating-star"></i>
+                        <i class="fa fa-star fa-regular featured-rating-star"></i>
+                        <i class="fa fa-star fa-regular featured-rating-star"></i>
+                        <i class="fa fa-star fa-regular featured-rating-star"></i>
+                        <span class="featured-rating">{{ average_rating|floatformat:1 }}</span>
+                        <span>{{ reviews.count }}</span>
+                    </div>
+                    <p>{{ featured_recipe.description }}</p>
+                    <div class="featured-link">
+                        <a href="{% url 'recipe' featured_recipe.name %}">View Recipe</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    <div class="profile-recipes-header">
+        <h1>My Recipes</h1>
+    </div>
+    <div class="all-recipes-card-container">
+        {% for recipe in profile_recipes %}
+            <div class="recipe-item">
+                {% if request.user in recipe.likes.all %}
+                    <div class="like-btn liked" data-id="{{ recipe.id }}"><i class="fa-regular fa-heart"></i></div>
+                {% else %}
+                    <div class="like-btn" data-id="{{ recipe.id }}"><i class="fa-regular fa-heart"></i></div>
+                {% endif %}
+                <a href="{% url 'recipe' recipe.name %}">
+                    <img src="{{ recipe.image.url }}" alt="">
+                </a>
+                <h2>{{ recipe.name }}</h2>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
