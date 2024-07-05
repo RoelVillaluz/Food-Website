@@ -8,11 +8,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.core.serializers.json import DjangoJSONEncoder
-<<<<<<< HEAD
 from django.db.models import Count, Q, Avg
-=======
-from django.db.models import Count, Q
->>>>>>> bc300420f1e7f524301f3c1371de6d0b4552862e
 from django.contrib import messages
 
 import json
@@ -260,10 +256,7 @@ def recipes(request):
     selected_duration = request.GET.get('duration')
     selected_difficulty = request.GET.get('difficulty')
     selected_cost = request.GET.get('cost')
-<<<<<<< HEAD
     selected_rating = request.GET.get('rating')  # Retrieve rating filter
-=======
->>>>>>> bc300420f1e7f524301f3c1371de6d0b4552862e
 
     # Apply filters based on selected options
     if selected_category:
@@ -292,7 +285,6 @@ def recipes(request):
             liked_recipes = Recipe.objects.filter(likes=request.user)
             recipes = liked_recipes
 
-<<<<<<< HEAD
     # Calculate average ratings for each recipe and filter by selected rating
     if selected_rating:
         # Convert selected_rating to an integer (if necessary)
@@ -303,8 +295,6 @@ def recipes(request):
         # Filter recipes by average rating within the range
         recipes = recipes.annotate(avg_rating=Avg('ratings__rating')).filter(avg_rating__gte=rating_start, avg_rating__lt=rating_end)
 
-=======
->>>>>>> bc300420f1e7f524301f3c1371de6d0b4552862e
     # Sort filters
     sort_type = request.GET.get('sort', 'name')
     if sort_type in ['name', '-name', 'date', '-date']:
@@ -321,18 +311,11 @@ def recipes(request):
         "selected_difficulty": selected_difficulty,
         "sort_type": sort_type,
         "selected_cost": selected_cost,
-<<<<<<< HEAD
         "selected_rating": selected_rating,  # Pass selected rating to template
         "durations": durations,
         "difficulties": difficulties,
         "costs": costs,
         "toggle_allergens": toggle_allergens,
-=======
-        "durations": durations,
-        "difficulties": difficulties,
-        "costs": costs,
-        "toggle_allergens": toggle_allergens, 
->>>>>>> bc300420f1e7f524301f3c1371de6d0b4552862e
         "toggle_likes": toggle_likes,
         "query": query
     })
