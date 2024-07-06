@@ -1006,6 +1006,101 @@ header label {
     width: 100%;
 }
 
+.review-container form {
+    width: 100%;
+}
+
+.rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    align-items: center;
+}
+
+.rating h3 {
+    margin-right: 10px;
+    font-weight: 500;
+}
+
+.rating input[type="radio"] {
+    display: none;
+}
+
+.rating label {
+    margin: 0px 4px;
+    color: #ddd;
+    font-size: 2em;
+    cursor: pointer;
+}
+
+.rating label:hover,
+.rating input[type="radio"]:checked ~ label {
+    color: #0056b3;
+}
+
+.rating label:hover ~ label,
+.rating input[type="radio"]:checked ~ label {
+    color: #ddd;
+}
+
+.rating label:hover ~ label,
+.rating input[type="radio"]:checked + label,
+.rating input[type="radio"]:checked + label ~ label {
+    color: #0056b3;
+}
+
+.review-container form textarea {
+    resize: none;
+    border: solid 3px #d6d6d6;
+    outline: none;
+    overflow: hidden;
+    padding: 8px;
+    width: 100%;
+    height: 110px;
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+.review-container form button[type=submit] {
+    background-color: #59a8f7;
+    padding: 10px;
+    text-transform: uppercase;
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    float: right;
+}
+
+.review-container form textarea {
+    resize: none;
+    border: solid 3px #d6d6d6;
+    outline: none;
+    overflow: hidden;
+    padding: 8px;
+    width: 100%;
+    height: 110px;
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+.review-container form button[type=submit] {
+    background-color: #59a8f7;
+    padding: 10px;
+    text-transform: uppercase;
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    float: right;
+}
+
 .review-list {
     display: flex;
     flex-wrap: wrap;
