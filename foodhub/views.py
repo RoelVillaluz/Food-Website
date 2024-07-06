@@ -44,6 +44,11 @@ class IngredientForm(forms.ModelForm):
         model = Ingredient
         fields = ['name', 'quantity', 'unit_of_measurement']
 
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ['description', 'rating']
+
 class StepForm(forms.ModelForm):
     class Meta:
         model = Step
@@ -324,6 +329,18 @@ def recipes(request):
 def recipe(request, recipe_name):
     recipe = Recipe.objects.get(name=recipe_name)
     average_rating = Review.average_rating(recipe)
+
+    if request.method == 'POST':
+        review_form = ReviewForm(request.POST)
+        if review_form.is_valid():
+            review = review_form.save(commit=False)
+            description = review_form.cleaned_data["description"]
+            rating = review_form.cleaned_data["rating"]
+            review.recipe = recipe
+            Review.objects.create(description=description, rating=rating, recipe=recipe)
+            return redirect("recipe", recipe_name=recipe_name) 
+    else:
+        review_form = ReviewForm()
     
     my_profile = None
     if request.user.is_authenticated:
@@ -359,6 +376,7 @@ def recipe(request, recipe_name):
         "reviews": reviews,
         "reviews_data": json.dumps(reviews_data, cls=DjangoJSONEncoder),  
         "rating_distribution": rating_distribution,
+        "review_form": review_form
     })
 
 def rating_distribution(request, recipe_id):

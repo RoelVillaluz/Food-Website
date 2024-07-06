@@ -143,37 +143,47 @@
         </button>
         {% endif %}
     </div>
-    <div class="rating-distribution">
-        <h1>Rating Distribution</h1>
-        <div class="stars">
-            {% for i in "54321" %}
-                <div class="star-bar" id="star-{{ i }}">
-                    <span>{{ i }} stars</span>
-                    <div class="bar">
-                        <div class="filled-bar" style="width: 0%;"></div>
-                    </div>
-                    <span class="percentage" id="percentage-{{ i }}">0%</span>
-                </div>
-            {% endfor %}
-        </div>
-    </div>
     <div id="recipe-id" style="display: none;">{{ recipe.id }}</div>
-    <form id="ratingForm" method="post" action="{% url 'create_review' recipe.name %}">
-        {% csrf_token %}
-        <div class="rating">
-            <input type="radio" id="star5" name="rating" value="5" /><label for="star5"></label>
-            <input type="radio" id="star4" name="rating" value="4" /><label for="star4"></label>
-            <input type="radio" id="star3" name="rating" value="3" /><label for="star3"></label>
-            <input type="radio" id="star2" name="rating" value="2" /><label for="star2"></label>
-            <input type="radio" id="star1" name="rating" value="1" /><label for="star1"></label>
-        </div>
-        {{ review_form.description }}
-        <button type="submit">Submit Rating</button>
-    </form>
     <div class="review-container">
-        <div style="text-align: center; margin-bottom: 30px;">
+        <div style="text-align: center; margin-bottom: 90px;">
             <h1>Reviews</h1>
             <h6>See what others are saying about this recipe!</h6>
+        </div>
+        <div class="rating-distribution">
+            <div class="subheader">
+                <h2>Rating Distribution</h2>
+            </div>
+            <div class="stars">
+                {% for i in "54321" %}
+                    <div class="star-bar" id="star-{{ i }}">
+                        <span>{{ i }} <i class="fa-solid fa-star"></i></span>
+                        <div class="bar">
+                            <div class="filled-bar" style="width: 0%;"></div>
+                        </div>
+                        <span class="percentage" id="percentage-{{ i }}">0%</span>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% if not user_reviewed %}
+        <div class="subheader">
+            <h2>Leave a Review</h2>
+        </div>
+        <form id="ratingForm" method="post" action="{% url 'create_review' recipe.name %}">
+            {% csrf_token %}
+            <div class="rating">
+                <input type="radio" id="star5" name="rating" value="5" /><label for="star5"></label>
+                <input type="radio" id="star4" name="rating" value="4" /><label for="star4"></label>
+                <input type="radio" id="star3" name="rating" value="3" /><label for="star3"></label>
+                <input type="radio" id="star2" name="rating" value="2" /><label for="star2"></label>
+                <input type="radio" id="star1" name="rating" value="1" /><label for="star1"></label>
+            </div>
+            {{ review_form.description }}
+            <button type="submit">Submit Rating</button>
+        </form>
+        {% endif %}
+        <div class="subheader">
+            <h2>Comments</h2>
         </div>
         <div class="review-list">
             {% for review in reviews %}

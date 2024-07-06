@@ -936,6 +936,10 @@ header label {
     margin-bottom: 10px;
 }
 
+.star-bar i {
+    color: var(--secondary-color);
+}
+
 .star-bar span {
     width: 60px;
     text-align: right;
@@ -980,10 +984,26 @@ header label {
     box-shadow: 2px 2px 8px rgba(0, 0, 0, .1);
 }
 
+.review-container h2 {
+    display: inline-block;
+    padding: 10px;
+    font-weight: 200;
+    text-transform: uppercase;
+}
+
 .review-container h6 {
     margin-bottom: 0px;
     font-weight: 300;
     font-size: 18px;
+}
+
+.subheader {
+    text-align: center;
+    margin: 30px 0px;
+}
+
+.review-container form {
+    width: 100%;
 }
 
 .review-list {
