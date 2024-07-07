@@ -331,14 +331,18 @@ def recipe(request, recipe_name):
     average_rating = Review.average_rating(recipe)
 
     if request.method == 'POST':
+        if 'delete' in request.POST:
+            recipe.delete()
+            messages.success(request, f"Recipe '{recipe_name}' has been deleted successfully.")
+            return redirect('recipes')  
+        
         review_form = ReviewForm(request.POST)
         if review_form.is_valid():
             review = review_form.save(commit=False)
-            description = review_form.cleaned_data["description"]
-            rating = review_form.cleaned_data["rating"]
             review.recipe = recipe
-            Review.objects.create(description=description, rating=rating, recipe=recipe)
-            return redirect("recipe", recipe_name=recipe_name) 
+            review.user = request.user
+            review.save()
+            return redirect("recipe", recipe_name=recipe_name)
     else:
         review_form = ReviewForm()
     
@@ -405,7 +409,6 @@ def edit_recipe(request, recipe_name):
         "recipe": recipe,
         "form": form
     })
-
 
 @csrf_exempt  
 @login_required(login_url='/login_view')

@@ -720,13 +720,117 @@ header label {
     align-items: center;
 }
 
-.recipe-header .edit-recipe-btn {
+.recipe-header #settings {
     position: relative;
-    margin-left: 20px;
+    margin-left: 10px;
+}
+
+#settings ul {
+    display: none; 
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    z-index: 1;
+}
+
+#settings ul li {
+    display: block;
+    padding: 10px;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+#settings ul li:hover {
+    background-color: rgb(236, 236, 236);
+}
+
+#settings ul li a,
+#settings ul li h6 {
+    text-decoration: none;
+    color: black;
+    font-weight: 300;
+    font-size: 16px;
+}
+
+.recipe-header i {
+    color: rgb(87, 87, 87);
     font-size: 20px;
     cursor: pointer;
-    color: rgb(32, 32, 32);
 }
+
+.delete-form-container {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    height: 600px;
+    width: 100%;
+    position: fixed;
+    bottom: 0; 
+    padding: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 1000;
+}
+
+.delete-form-container.visible {
+    display: flex;
+}
+
+.delete-form-container form {
+    font-family: "Piazzolla", serif;
+    background-color: #fffeed;
+    border: double 10px black;
+    width: 500px;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, .1);
+    aspect-ratio: 1 / 0.5;
+    padding: 12px;
+}
+
+.delete-form-container form h1 {
+    text-align: center;
+    color: black;
+    font-size: 32px;
+    font-weight: 500;
+}
+
+.delete-form-container .buttons {
+    text-align: center;
+    margin-top: 30px;
+
+}
+.delete-form-container .buttons button {
+    font-family: "Piazzolla", serif;
+    padding: 10px 20px;
+    margin: 0px 10px;
+    background-color: transparent;
+    font-size: 20px;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+}
+
+.delete-form-container .buttons button::after {
+    position: absolute;
+    display: none;
+    content: "";
+    background-color: #1b1b1b;
+    width: 100%;
+    height: 3px;
+    left: 0;
+    bottom: -2px;
+}
+
+.delete-form-container .buttons button:hover::after {
+    display: block;
+}
+
 
 .recipe-header h1 {
     margin-bottom: 5px;

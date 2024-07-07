@@ -11,10 +11,20 @@
                 <div class="recipe-header">
                     <div class="left-section">
                         <h1>{{ recipe.name }}</h1>
-                        {% if request.user == recipe.user %}
-                        <a href="{% url 'edit_recipe' recipe.name %}" class="edit-recipe-btn">
-                            <i class="fa-regular fa-pen-to-square"></i>
-                        </a>
+                        {% if request.user == recipe.user %}      
+                        <div id="settings">
+                            <i class="fa-solid fa-gear"></i>
+                            <ul>
+                                <li>
+                                    <a href="{% url 'edit_recipe' recipe.name %}" class="edit-recipe-btn">
+                                        <h6>Edit recipe</h6>
+                                    </a>
+                                </li>
+                                <li class="delete-recipe-btn">
+                                    <h6>Delete recipe</h6>
+                                </li>
+                            </ul>
+                        </div>
                         {% endif %}
                     </div>
                     <div class="recipe-category">
@@ -226,5 +236,15 @@
             </div>
             {% endfor %}
         </div>
+    </div>
+    <div class="delete-form-container">
+        <form action="{% url 'recipe' recipe.name %}" id="delete-recipe-form" method="POST">
+            <h1>Are you sure you want to delete this recipe?</h1>
+            {% csrf_token %}
+            <div class="buttons">
+                <button class="cancel-delete-button">Cancel</button>
+                <button type="submit" name="delete" value="delete">Delete</button>
+            </div>
+        </form>
     </div>
 {% endblock %}

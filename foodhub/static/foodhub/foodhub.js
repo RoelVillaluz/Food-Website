@@ -98,6 +98,45 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    const recipeSettingsIcon = document.querySelector('#settings i');
+    const recipeSettingsDropdown = document.querySelector('#settings ul');
+    const deleteRecipeTab = document.querySelector('.delete-recipe-btn')
+
+    const deleteForm = document.querySelector('.delete-form-container')
+    const cancelDeleteButton = document.querySelector('.cancel-delete-button');
+
+
+    recipeSettingsIcon.addEventListener('click', function(event) {
+        event.stopPropagation()
+        if (recipeSettingsDropdown.style.display === 'none') {
+            recipeSettingsDropdown.style.display = 'block'
+        } else {
+            recipeSettingsDropdown.style.display = 'none'
+        }
+    })
+
+    deleteRecipeTab.addEventListener('click', function() {
+        deleteForm.classList.add('visible')
+    })
+
+    cancelDeleteButton.addEventListener('click', function() {
+        deleteForm.classList.remove('visible');
+    });
+
+    deleteForm.addEventListener('click', function(event) {
+        if (event.target === deleteForm) {
+            deleteForm.classList.remove('visible');
+        }
+    });
+
+    window.addEventListener('click', function(event) {
+        if (recipeSettingsDropdown.style.display === 'block') {
+            recipeSettingsDropdown.style.display = 'none'
+        }
+    })
+})
+
 const progressCircle = document.querySelector(".autoplay-progress svg");
 const progressContent = document.querySelector(".autoplay-progress span");
 
