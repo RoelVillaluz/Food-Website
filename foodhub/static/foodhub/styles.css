@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poetsen+One&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Piazzolla:ital,opsz,wght@0,8..30,100..900;1,8..30,100..900&display=swap');
+
 * {
     padding: 0;
     margin: 0;
@@ -368,51 +370,76 @@ header label {
     text-transform: uppercase;
 }
 
-.summer {
-    background: #E0F4FF;
-    padding: 20px;
+.featured-recipe {
+    width: calc(100% + 140px);
+    height: 600px;
+    margin: 20px -70px;
+    margin-bottom: 100px;
 }
 
-.summer-header {
+.featured-recipe h1 {
     text-align: center;
-    margin-bottom: 40px;
+    font-weight: 700;
+    font-size: 64px;
 }
 
-.summer h1 {
-    margin: 0 auto;
-    color: #ee6c4d;
-    font-size: 48px;
+.featured-recipe .image {
+    height: inherit;
+    width: inherit;
+    position: relative;
+    overflow: hidden;
 }
 
-.summer-card-container {
-    display: flex;
-}
-
-.summer-left {
-    flex: 1;
-}
-
-.summer-cards {
-    display: flex;
-    flex-direction: column;
-}
-
-.summer-cards img {
-    width: 200px;
-    height: 150px;
+.featured-recipe img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    margin-bottom: 50px;
+    z-index: -1; 
 }
 
-.summer-right {
-    flex: 2;
+.featured-recipe .image::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)); 
+    z-index: 2; 
 }
 
-.summer-right img {
-    float: right;
-    width: 600px;
-    height: 400px;
-    object-fit: cover;
+.featured-recipe .text {
+    font-family: "Piazzolla", serif;
+    position: absolute;
+    top: 45%;
+    left: 60%;
+    transform: translate(-50%, -50%);
+    z-index: 2; 
+    text-align: center;
+}
+
+.featured-recipe h2 {
+    font-size: 82px;
+    font-weight: 500;
+    text-shadow: 2px 3px 4px rgba(0, 0, 0, 0.7);
+    color: rgb(223, 221, 148);
+}
+
+.featured-recipe p {
+    color: rgb(241, 241, 241);
+    font-size: 20px;
+    text-shadow: 2px 3px 4px rgba(0, 0, 0, 0.9);
+    margin-bottom: 30px;
+}
+
+.featured-recipe a {
+    background-color: rgb(223, 221, 148);
+    border: double 4px black;
+    color: black;
+    padding: 10px 20px;
+    transition: 0.3s;
+}
+
+.featured-recipe a:hover {
+    background-color: rgb(250, 246, 133);
 }
 
 .recommender {
@@ -550,6 +577,14 @@ header label {
     height: 400px;
     overflow: hidden;
     position: relative;
+}
+
+.swiper-image::before {
+    position: absolute;
+    content: "";
+    z-index: 1;
+    inset: 0;
+    background: linear-gradient(0deg, rgb(0 0 0 / .4), rgb(0 0 0 / 0));
 }
 
 .swiper-image img {
