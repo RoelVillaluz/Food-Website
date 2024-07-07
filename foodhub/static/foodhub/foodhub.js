@@ -37,6 +37,15 @@ document.addEventListener("DOMContentLoaded", function() {
         updateStars(featuredRating, stars);
     }
 
+    var popularRatingElements = document.querySelectorAll('.popular-ratings');
+    if (popularRatingElements.length > 0) {
+        popularRatingElements.forEach(function(popularRatingElement) {
+            var popularRating = parseFloat(popularRatingElement.querySelector('.popular-review').textContent);
+            var stars = popularRatingElement.querySelectorAll('.fa-star.popular-review-star');
+            updateStars(popularRating, stars);
+        });
+    }
+
     // for individual rating on recipe reviews
     const reviewRatingElements = document.querySelectorAll(".review-rating");
     reviewRatingElements.forEach(function(element) {
