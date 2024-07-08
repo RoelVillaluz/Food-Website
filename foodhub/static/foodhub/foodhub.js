@@ -386,6 +386,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const currentDate = new Date();
     let currentMonth = currentDate.getMonth();
     let currentYear = currentDate.getFullYear();
+    let currentDay = currentDate.getDate();
 
     const prevButton = document.querySelector('.calendar-header .prev');
     const nextButton = document.querySelector('.calendar-header .next');
@@ -539,6 +540,36 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const mealplanDetails = document.querySelector('.mealplan-details');
     const viewMealplanBtn = document.querySelector('.view-mealplan-btn');
+
+    
+    function upcomingMealplans(currentMonth, currentDay, currentYear) {
+        const date = `${currentYear}-${String(currentMonth).padStart(2, '0')}-${String(currentDay).padStart(2, '0')}`;
+        fetch(`/api/upcoming_mealplans/${date}/`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`Network response was not ok: ${response.statusText}`);
+            }
+            return response.json();
+          })
+          .then(data => {
+            let mealplanDetailsContent = "";
+            if (data.length > 0) { // Check if there are any upcoming meal plans
+              data.forEach(mealplan => {
+                mealplanDetailsContent += `
+                <h2>${mealplan.name}</h2>
+                <h3>${mealplan.date}</h3>
+                `;
+              });
+            } else {
+              mealplanDetailsContent = "No mealplans yet";
+            }
+            mealplanDetails.innerHTML = mealplanDetailsContent;
+          })
+          .catch(error => {
+            mealplanDetails.innerHTML = `<p>Error fetching upcoming mealplans</p>`;
+            console.error('Error fetching upcoming mealplans:', error);
+          });
+    }
 
     function fetchMealplanForDate(year, month, day) {
         const date = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
@@ -754,6 +785,8 @@ document.addEventListener('DOMContentLoaded', function() {
             updateRecipeCount();
         });
     });
+
+    upcomingMealplans(currentMonth, currentDay, currentYear);
 });
 
 document.addEventListener("DOMContentLoaded", function() {

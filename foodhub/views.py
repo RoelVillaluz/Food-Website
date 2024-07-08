@@ -718,9 +718,28 @@ def get_mealplan_by_date(request, date):
 
                 mealplan_data['recipes'].append(recipe_data)
 
+
             return JsonResponse(mealplan_data)
         except MealPlan.DoesNotExist:
             return JsonResponse({"mealplan": None})
+        
+def upcoming_mealplans(request, date):
+    if request.method == "GET":
+        try:
+            upcoming_mealplans = MealPlan.objects.filter(date__gt=date, user=request.user).order_by('date')
+            upcoming_mealplans_data = []
+            for mealplan in upcoming_mealplans:
+                mealplan_data = {
+                    "name": mealplan.name,
+                    "date": mealplan.date.strftime('%m-%d-%Y'),
+                }
+                upcoming_mealplans_data.append(mealplan_data)
+            return JsonResponse(upcoming_mealplans_data, safe=False)
+        except MealPlan.DoesNotExist:
+            return JsonResponse({"error": "No meal plans found"}, status=404)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+
         
 def recipe_recommender(request):
     categories = [
