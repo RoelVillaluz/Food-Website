@@ -543,27 +543,38 @@ document.addEventListener('DOMContentLoaded', function() {
 
     
     function upcomingMealplans(currentMonth, currentDay, currentYear) {
-        const date = `${currentYear}-${String(currentMonth).padStart(2, '0')}-${String(currentDay).padStart(2, '0')}`;
+        const date = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(currentDay).padStart(2, '0')}`;
         fetch(`/api/upcoming_mealplans/${date}/`)
           .then(response => {
             if (!response.ok) {
               throw new Error(`Network response was not ok: ${response.statusText}`);
             }
+            console.log(date)
             return response.json();
           })
           .then(data => {
             let mealplanDetailsContent = "";
             if (data.length > 0) { // Check if there are any upcoming meal plans
               data.forEach(mealplan => {
+                const mealplanDate = new Date(mealplan.date);
+                const options = { month: 'long', day: 'numeric', year: 'numeric',};
+                const formattedDate = mealplanDate.toLocaleDateString('en-US', options);
                 mealplanDetailsContent += `
-                <h2>${mealplan.name}</h2>
-                <h3>${mealplan.date}</h3>
+                <li class="upcoming-mealplan-item">
+                    <h3>${mealplan.name}</h3>
+                    <h4>${formattedDate}</h4>
+                </li>
                 `;
               });
             } else {
               mealplanDetailsContent = "No mealplans yet";
             }
-            mealplanDetails.innerHTML = mealplanDetailsContent;
+            mealplanDetails.innerHTML = `
+            <h2>Upcoming Mealplans</h2>
+            <ul>
+                ${mealplanDetailsContent}
+            </ul>
+            `;
           })
           .catch(error => {
             mealplanDetails.innerHTML = `<p>Error fetching upcoming mealplans</p>`;

@@ -731,7 +731,7 @@ def upcoming_mealplans(request, date):
             for mealplan in upcoming_mealplans:
                 mealplan_data = {
                     "name": mealplan.name,
-                    "date": mealplan.date.strftime('%m-%d-%Y'),
+                    "date": mealplan.date.strftime('%m-%d-%Y')
                 }
                 upcoming_mealplans_data.append(mealplan_data)
             return JsonResponse(upcoming_mealplans_data, safe=False)
