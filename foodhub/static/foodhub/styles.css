@@ -3319,6 +3319,10 @@ input[type="checkbox"] {
     background-color: white;
 }
 
+.past {
+    background-color: #8d8d8d;
+    color: white;
+}
 
 .calendar-container {
     width: 55%;

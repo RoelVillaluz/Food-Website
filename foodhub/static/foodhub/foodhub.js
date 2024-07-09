@@ -439,6 +439,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (data.mealplan) {
                         dayElement.classList.add('booked');
                         dayElement.classList.remove('current-month');
+
+                        const today = new Date();
+                        const selectedDate = new Date(currentYear, currentMonth, i);
+
+                        if (selectedDate < today) {
+                            dayElement.classList.remove('booked');
+                            dayElement.classList.add('past');
+                        }
                     }
                 })
                 .catch(error => {
@@ -659,7 +667,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
     
                 } else {
-                    mealplanDetails.innerHTML = `<span class="empty-meal-date">No meal plan yet</span>`;
+                    mealplanDetails.innerHTML = `<span class="empty-meal-date">No meal plan</span>`;
                     viewMealplanBtn.style.display = 'none';
                     addMealPlanBtn.style.display = 'inline-block';
                 }
@@ -706,7 +714,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         `;
                     });
                 } else {
-                    mealplanDetailsContent = "No mealplans yet";
+                    mealplanDetailsContent = "No mealplans";
                 }
                 mealplanDetails.innerHTML = `
                     <h2>Upcoming Mealplans</h2>
