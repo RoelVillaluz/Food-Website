@@ -677,22 +677,26 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    function upcomingMealplans(currentMonth, currentDay, currentYear) {
-        const date = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(currentDay).padStart(2, '0')}`;
+    function upcomingMealplans() {
+        const currentDate = new Date(); 
+        const currentYear = currentDate.getFullYear();
+        const currentMonth = currentDate.getMonth() + 1; 
+        const currentDay = currentDate.getDate();
+
+        const date = `${currentYear}-${String(currentMonth).padStart(2, '0')}-${String(currentDay).padStart(2, '0')}`;
         fetch(`/api/upcoming_mealplans/${date}/`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`Network response was not ok: ${response.statusText}`);
                 }
-                console.log(date)
                 return response.json();
             })
             .then(data => {
                 let mealplanDetailsContent = "";
-                if (data.length > 0) { // Check if there are any upcoming meal plans
+                if (data.length > 0) {
                     data.forEach(mealplan => {
                         const mealplanDate = new Date(mealplan.date);
-                        const options = { month: 'long', day: 'numeric', year: 'numeric',};
+                        const options = { month: 'long', day: 'numeric', year: 'numeric' };
                         const formattedDate = mealplanDate.toLocaleDateString('en-US', options);
                         mealplanDetailsContent += `
                             <li class="upcoming-mealplan-item" data-year="${mealplanDate.getFullYear()}" data-month="${mealplanDate.getMonth() + 1}" data-day="${mealplanDate.getDate()}">
@@ -716,14 +720,14 @@ document.addEventListener('DOMContentLoaded', function() {
                         const year = this.dataset.year;
                         const month = this.dataset.month;
                         const day = this.dataset.day;
-
-                        const monthName = months[parseInt(month, 10) - 1]
-                        eventDateDisplay.style.display = 'block'
+    
+                        const monthName = months[parseInt(month, 10) - 1];
+                        eventDateDisplay.style.display = 'block';
                         eventDateDisplay.innerHTML = `
-                        <i class="fa-solid fa-chevron-left"></i>
-                        ${monthName} ${day}, ${year}
-                        `
-                        
+                            <i class="fa-solid fa-chevron-left"></i>
+                            ${monthName} ${day}, ${year}
+                        `;
+    
                         fetchMealplanForDate(year, month, day);
                     });
                 });
@@ -733,6 +737,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error('Error fetching upcoming mealplans:', error);
             });
     }
+    
     
     const mealplanContainer = document.querySelector('.mealplan-container');
     const addMealForm = document.querySelector('.add-meal-form');
