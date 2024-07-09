@@ -454,7 +454,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
                 // Display the selected date
                 eventDateDisplay.style.display = 'block'
-                eventDateDisplay.textContent = `${months[currentMonth]} ${i}, ${currentYear}`;
+                eventDateDisplay.innerHTML = `
+                <i class="fa-solid fa-chevron-left"></i>
+                ${months[currentMonth]} ${i}, ${currentYear}
+                `;
                 addMealPlanBtn.style.display = 'inline-block';
     
                 // Fetch and display meal plan for the selected date
@@ -665,6 +668,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 mealplanDetails.innerHTML = `<p>Error fetching meal plan for ${date}</p>`;
                 console.error('Error fetching meal plan:', error);
             });
+
+        // back button for returning to upcoming recipes section again
+        const backBtn = eventDateDisplay.querySelector('.fa-chevron-left');
+        backBtn.addEventListener('click', function() {
+            eventDateDisplay.style.display = 'none'
+            upcomingMealplans(currentMonth, currentDay, currentYear);
+        });
     }
     
     function upcomingMealplans(currentMonth, currentDay, currentYear) {
@@ -709,7 +719,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
                         const monthName = months[parseInt(month, 10) - 1]
                         eventDateDisplay.style.display = 'block'
-                        eventDateDisplay.textContent = `${monthName} ${day}, ${year}`
+                        eventDateDisplay.innerHTML = `
+                        <i class="fa-solid fa-chevron-left"></i>
+                        ${monthName} ${day}, ${year}
+                        `
                         
                         fetchMealplanForDate(year, month, day);
                     });
@@ -718,130 +731,6 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => {
                 mealplanDetails.innerHTML = `<p>Error fetching upcoming mealplans</p>`;
                 console.error('Error fetching upcoming mealplans:', error);
-            });
-    }
-
-    function fetchMealplanForDate(year, month, day) {
-        const date = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-        fetch(`/api/mealplan/${date}/`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Network response was not ok: ${response.statusText}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.mealplan) {
-                    mealplanDetails.innerHTML = `
-                        <h1 class="mealplan-name">${data.mealplan.name}</h1>
-                        <p class="mealplan-info">${data.mealplan.description}</p>
-                        <ul class="meal-list">
-                            ${data.recipes.map(recipe =>
-                            `<li class="meal-item">${recipe.name}</li>`).join('')}
-                        </ul>
-                    `;
-                    viewMealplanBtn.style.display = 'inline-block';
-                    addMealPlanBtn.style.display = 'none';
-    
-                    const mealplanSidebar = document.querySelector('.mealplan-sidebar');
-                    const mealplanRecipes = document.querySelector('.mealplan-recipes');
-    
-                    if (!mealplanSidebar || !mealplanRecipes) {
-                        throw new Error("Required elements not found in the DOM");
-                    }
-    
-                    mealplanSidebar.innerHTML = '';
-                    mealplanRecipes.innerHTML = '';
-    
-                    const mealplanNameElement = document.createElement('h1');
-                    mealplanNameElement.textContent = data.mealplan.name;
-                    mealplanSidebar.appendChild(mealplanNameElement);
-    
-                    const recipeListElement = document.createElement('ul');
-                    data.recipes.forEach(recipe => {
-                        const listItemElement = document.createElement('li');
-                        listItemElement.classList.add('mealplan-list-item')
-                        listItemElement.textContent = recipe.name;
-                        recipeListElement.appendChild(listItemElement);
-                    });
-                    mealplanSidebar.appendChild(recipeListElement);
-    
-                    data.recipes.forEach(recipe => {
-                        const recipeElement = document.createElement('div');
-                        recipeElement.classList.add('mealplan-recipe');
-                    
-                        recipeElement.innerHTML = `
-                            ${recipe.image ? `<img src="${recipe.image}" class="mealplan-recipe-image">` : ''}
-                            <h3>${recipe.name}</h3>
-                        `; 
-                    
-                        mealplanRecipes.appendChild(recipeElement);
-
-                        // function for displaying recipe details inside mealplan
-                        const recipeView = document.querySelector('.mealplan-recipe-view')
-
-                        recipeElement.addEventListener('click', function() {
-                            // Hide mealplanRecipes and show recipeView with the recipe details
-                            mealplanRecipes.style.display = 'none';
-                            recipeView.style.display = 'block';
-
-                            recipeView.innerHTML = `
-                                <div class="meal-image">
-                                ${recipe.image ? `<a href="/recipe/${recipe.name}"><img src="${recipe.image}" alt="${recipe.name}"></a>` : ''}
-                                    <div class="image-overlay">
-                                        <p>View full recipe</p>
-                                    </div>
-                                </div>
-                                <div class="meal-header">
-                                    <h1>${recipe.name}</h1>
-                                    <h2>${recipe.category}</h2>
-                                </div>
-                                <div class="meal-ingredients">
-                                    <h3>Ingredients:</h3>
-                                    <ul class="checklist">
-                                        ${recipe.ingredients.map((ingredient, index) => `
-                                            <li>
-                                                <input type="checkbox" id="ingredient${index}" name="ingredient${index}">
-                                                <label for="ingredient${index}">
-                                                    ${ingredient.unit === 'none' ? `${ingredient.quantity} ${ingredient.name}` : `${ingredient.quantity} ${ingredient.unit} of ${ingredient.name}`}
-                                                </label>
-                                            </li>
-                                        `).join('')}
-                                    </ul>
-                                </div>
-                                <div class="meal-steps">
-                                    <h3>Steps:</h3>
-                                    <ol>
-                                        ${recipe.steps.map((step, index) => `
-                                            <li>
-                                                <p>${step.description}</p>
-                                                ${step.image ? `<img src="${step.image}">` : ''}
-                                                ${step.video ? `<video src="${step.video}" controls></video>` : ''}
-                                            </li>
-                                        `).join('')}
-                                    </ol>
-                                </div>
-                                <button class="back-btn"><i class="fa-solid fa-caret-left"></i></button>
-                            `;
-
-                            // Add event listener to the back button to show mealplanRecipes again
-                            const backBtn = recipeView.querySelector('.back-btn');
-                            backBtn.addEventListener('click', function() {
-                                mealplanRecipes.style.display = 'grid';
-                                recipeView.style.display = 'none';
-                            });
-                        });
-                    });
-    
-                } else {
-                    mealplanDetails.innerHTML = `<span class="empty-meal-date">No meal plan yet</span>`;
-                    viewMealplanBtn.style.display = 'none';
-                    addMealPlanBtn.style.display = 'inline-block';
-                }
-            })
-            .catch(error => {
-                mealplanDetails.innerHTML = `<p>Error fetching meal plan for ${date}</p>`;
-                console.error('Error fetching meal plan:', error);
             });
     }
     

@@ -3440,6 +3440,11 @@ input[type="checkbox"] {
     font-size: 24px;
 }
 
+.event-date i {
+    margin: 0px 10px;
+    cursor: pointer;
+}
+
 .add-mealplan-btn, .view-mealplan-btn {
     display: inline-block;
     border-radius: 4px;
