@@ -453,6 +453,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 dayElement.classList.add('active');
     
                 // Display the selected date
+                eventDateDisplay.style.display = 'block'
                 eventDateDisplay.textContent = `${months[currentMonth]} ${i}, ${currentYear}`;
                 addMealPlanBtn.style.display = 'inline-block';
     
@@ -655,7 +656,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
     
                 } else {
-                    mealplanDetails.innerHTML = `<span class="empty-meal-date">No meal plan for ${date}</span>`;
+                    mealplanDetails.innerHTML = `<span class="empty-meal-date">No meal plan yet</span>`;
                     viewMealplanBtn.style.display = 'none';
                     addMealPlanBtn.style.display = 'inline-block';
                 }
@@ -700,7 +701,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     </ul>
                 `;
     
-                // Add click event listeners to each upcoming meal plan item
                 document.querySelectorAll('.upcoming-mealplan-item').forEach(item => {
                     item.addEventListener('click', function() {
                         const year = this.dataset.year;
@@ -708,6 +708,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         const day = this.dataset.day;
 
                         const monthName = months[parseInt(month, 10) - 1]
+                        eventDateDisplay.style.display = 'block'
                         eventDateDisplay.textContent = `${monthName} ${day}, ${year}`
                         
                         fetchMealplanForDate(year, month, day);
@@ -833,7 +834,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
     
                 } else {
-                    mealplanDetails.innerHTML = `<span class="empty-meal-date">No meal plan for ${date}</span>`;
+                    mealplanDetails.innerHTML = `<span class="empty-meal-date">No meal plan yet</span>`;
                     viewMealplanBtn.style.display = 'none';
                     addMealPlanBtn.style.display = 'inline-block';
                 }

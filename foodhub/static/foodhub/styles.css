@@ -3432,26 +3432,30 @@ input[type="checkbox"] {
 }
 
 .event-date {
-    color: black;
+    display: none;
+    background-color: #4682b4;
+    color: white;
+    padding: 10px;
     font-weight: 700;
-    font-size: 36px;
+    font-size: 24px;
 }
 
 .add-mealplan-btn, .view-mealplan-btn {
     display: inline-block;
-    border-radius: 5px;
+    border-radius: 4px;
     color: white;
     background-color: var(--secondary-color);
     padding: 5px 10px;
     font-weight: 500;
     font-size: 20px;
     transition: 0.3s;
-    margin-top: 12px;
+    margin-top: 20px;
+    margin: 0px 10px;
 }
 
 .add-mealplan-btn:hover, .view-mealplan-btn:hover  {
     cursor: pointer;
-    transform: scale(110%);
+    transform: scale(105%);
 }
 
 .empty-meal-date {
@@ -3460,7 +3464,7 @@ input[type="checkbox"] {
 }
 
 .mealplan-details {
-    margin-top: 16px;
+    padding: 10px;
 }
 
 .mealplan-details h2 {
@@ -3474,6 +3478,11 @@ input[type="checkbox"] {
 .mealplan-details ul {
     counter-reset: mealplan-counter;
     margin-top: 20px;
+}
+
+.mealplan-details p {
+    color: #333;
+    font-weight: 500;
 }
 
 li.upcoming-mealplan-item {
@@ -3524,19 +3533,35 @@ li.upcoming-mealplan-item h4 {
 }
 
 .mealplan-name {
-    color: var(--secondary-color);
-    border-top: solid 1px #333;
+    color: #333;
+    font-size: 36px;
 }
 
-.meal-list {
+ul.meal-list {
     list-style-type: none;
-    margin-top: 6px;
 }
 
 .meal-item {
-    font-weight: 500;
+    counter-increment: meal-item-counter;
+    font-weight: 400;
     font-size: 18px;
+    padding: 10px 0px;
+    border-bottom: solid 1px rgba(0, 0, 0, .1);
+    position: relative;
 }
+
+.meal-item::before {
+    content: counter(meal-item-counter);
+    display: inline-block; 
+    background-color: #4682b4;
+    color: white;
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    line-height: 30px; 
+    text-align: center; 
+    margin-right: 10px; 
+  }
 
 .mealplan-container, .add-meal-form, .add-recipes {
     display: flex;
