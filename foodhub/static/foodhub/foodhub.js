@@ -851,11 +851,11 @@ document.addEventListener("DOMContentLoaded", function() {
         const communitySectionTop = communitySection.getBoundingClientRect().top;
 
         if (recipeCardContainerTop < windowHeight * 0.75) {
-            recipeCardContainer.classList.add("visible");
+            recipeCardContainer.classList.add("show-recipes");
         }
 
         if (communitySectionTop < windowHeight * 0.80) {
-            communitySection.classList.add("visible-community");
+            communitySection.classList.add("show-community");
         }
     }
 

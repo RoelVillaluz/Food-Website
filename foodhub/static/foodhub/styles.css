@@ -234,7 +234,7 @@ header label {
     transition: opacity 1s, transform 1s;
 }
 
-.visible {
+.show-recipes {
     opacity: 1;
     transform: translateX(0);
 }
@@ -311,7 +311,7 @@ header label {
     transition: opacity 0.75s, transform 1.25s;
 }
 
-.visible-community {
+.show-community {
     opacity: 1;
     transform: translateY(0);
 }
@@ -3594,7 +3594,7 @@ ul.meal-list {
 
 .visible {
     bottom: var(--visible-bottom);
-    transform: translate(-50%, 50%);
+    transform: translate(-50%, 55%);
 }
 
 .add-meal-form .left {
@@ -3788,7 +3788,11 @@ ul.meal-list {
     color: white;
     font-size: 16px;
     padding: 10px 20px;
+    position: sticky;
     float: right;
+    top: 10px;
+    right: 5%;
+    z-index: 1000; 
     border: none;
     outline: none;
     cursor: pointer;
@@ -4591,6 +4595,10 @@ footer {
 
     .profile-popular-recipes {
         margin-top: 20px;
+    }
+
+    .add-recipes-form .header {
+        font-size: 20px;
     }
 }
 
