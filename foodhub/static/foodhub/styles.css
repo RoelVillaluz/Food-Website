@@ -2144,11 +2144,12 @@ border-radius: 50%;
 
 .profile-container {
     display: flex;
+    justify-content: center; 
     width: 100%;
     box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.1);
     padding: 20px;
     margin: 40px 0px;
-    flex-wrap: wrap; /* Allows the content to wrap on smaller screens */
+    flex-wrap: wrap; 
 }
 
 .profile-image-container {
@@ -2160,8 +2161,8 @@ border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0; /* Prevents the image container from shrinking */
-    margin-bottom: 20px; /* Adds space below the image container on small screens */
+    flex-shrink: 0; 
+    margin-bottom: 20px; 
 }
 
 .profile-image-container img {
@@ -2200,9 +2201,9 @@ border-radius: 50%;
 .profile-info {
     padding: 20px;
     margin-left: 10px;
-    flex-grow: 1; /* Allows the bio container to grow and take available space */
-    flex-basis: 0; /* Ensures the container can shrink below its content size */
-    min-width: 300px; /* Ensures the bio container does not get too small */
+    flex-grow: 1; 
+    flex-basis: 0; 
+    min-width: 300px; 
 }
 
 .profile-info h1 {
@@ -4563,7 +4564,45 @@ footer {
         top: -5%;
         left: 0;
     }
-    
+
+    .more-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .info-header {
+        text-align: center;
+    }
+
+    .more-info {
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .socials {
+        text-align: center;
+    }
+
+    .social-links {
+        display: flex;
+        justify-content: center; 
+        align-items: center;
+    }
+
+    .profile-popular-recipes {
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .profile-info {
+        text-align: center; 
+    }
+
+    .profile-name {
+        text-align: center;
+        justify-content: center; 
+    }
 }
 
 @media (max-width:480px) {
