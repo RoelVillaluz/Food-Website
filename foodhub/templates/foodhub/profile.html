@@ -59,7 +59,9 @@
         </div>
     </div>
     <div class="edit-recipes-container">
-        <h1>Choose Featured Recipe</h1>
+        <div class="header">
+            <h1>Choose Featured Recipe</h1>
+        </div>
         <form id="edit-featured-recipe-form" method="post" action="{% url 'profile' username=user.username %}">
         {% csrf_token %}
         <div class="recipes-grid">

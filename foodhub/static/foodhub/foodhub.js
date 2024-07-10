@@ -963,14 +963,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const editButton = document.querySelector('.edit-featured');
     const editContainer = document.querySelector('.edit-recipes-container');
 
-    // Function to toggle the visibility of the edit container
     function toggleEditContainer() {
-        if (editContainer.style.bottom === '0px') {
-            editContainer.style.bottom = '-600px';
-            document.body.classList.remove('blurred'); // Remove blur when hiding edit container
+        if (editContainer.classList.contains('visible')) {
+            editContainer.classList.remove('visible');
+            document.body.classList.remove('blurred'); 
         } else {
-            editContainer.style.bottom = '0px';
-            document.body.classList.add('blurred'); // Add blur when showing edit container
+            editContainer.classList.add('visible');
+            document.body.classList.add('blurred'); 
         }
     }
 
