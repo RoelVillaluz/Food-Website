@@ -109,6 +109,11 @@ header nav ul li ul li a {
     display: block;
 }
 
+header nav ul li:last-child ul {
+    right: 0; 
+    left: auto; 
+}
+
 header label {
     display: none;
 }
