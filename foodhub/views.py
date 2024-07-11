@@ -10,12 +10,14 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models import Count, Q, Avg
 from django.contrib import messages
+from collections import defaultdict
+
 
 import json
 
 from django.urls import reverse
 
-from .models import User, Ingredient, Step, Recipe, Profile, Allergen, Review, MealPlan
+from .models import User, Ingredient, Step, Recipe, Profile, Allergen, Review, MealPlan, ShoppingList
 
 class NewRecipeForm(forms.ModelForm):
     class Meta:
@@ -139,6 +141,10 @@ def register(request):
         profile = Profile()
         profile.user = user
         profile.save()
+
+        shopping_list = ShoppingList()
+        shopping_list.user = user
+        shopping_list.save()
 
         return HttpResponseRedirect(reverse("index"))
     else:
@@ -822,4 +828,27 @@ def recipe_recommender(request):
         "include_allergens": include_allergens,
         "recipe_allergens": recipe.allergens.all(),
         "recipe_allergens_match_user": recipe_allergens_match_user
+    })
+
+def add_ingredients_to_list(request, recipe_name):
+    recipe = Recipe.objects.get(name=recipe_name)
+    ingredients = Ingredient.objects.filter(recipe=recipe)
+    if request.method == 'POST':
+        shopping_list = ShoppingList.objects.get(user=request.user)
+        shopping_list.ingredients.add(*ingredients)
+        return redirect('my_shopping_list')
+
+def my_shopping_list(request):
+    shopping_list, created = ShoppingList.objects.get_or_create(user=request.user)
+    ingredients = shopping_list.ingredients.all().order_by('name')
+
+    ingredient_dict = defaultdict(list)
+
+    for ingredient in ingredients:
+        ingredient_dict[ingredient.name.lower()].append(ingredient)
+
+    return render(request, "foodhub/my_shopping_list.html", {
+        "shopping_list": shopping_list,
+        "ingredients": ingredient_dict,
+        "ingredient_count": len(ingredient_dict)
     })

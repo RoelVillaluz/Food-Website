@@ -45,7 +45,7 @@
                     <a href="{% url 'profile' request.user.username %}" class="user-icon"><i class="fa fa-user" aria-hidden="true"></i></a>
                     <ul>
                         <li class="nav-btn"><a href="">Edit Profile</a></li>
-                        <li class="nav-btn"><a href="">Shopping List</a></li>
+                        <li class="nav-btn"><a href="{% url 'my_shopping_list' %}">Shopping List</a></li>
                         <li class="nav-btn"><a href="{% url 'logout' %}">Logout</a></li>
                     </ul>
                 </li>

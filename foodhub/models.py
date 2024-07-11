@@ -43,7 +43,14 @@ class Ingredient(models.Model):
 
     def __str__(self):
         return f"{self.quantity} {self.unit_of_measurement} of {self.name}"
+    
+class ShoppingList(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='shopping_lists')
+    ingredients = models.ManyToManyField(Ingredient)
 
+    def __str__(self):
+        return f"{self.user}'s ingredient shopping list"
+    
 class Step(models.Model):
     recipe = models.ForeignKey('Recipe', on_delete=models.CASCADE, related_name="recipe_step", default=None)
     description = models.TextField()  

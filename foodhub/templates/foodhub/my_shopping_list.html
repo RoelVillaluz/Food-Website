@@ -1,0 +1,13 @@
+{% extends 'foodhub/layout.html' %}
+
+{% block title %}My Shopping List{% endblock %}
+
+{% block body %}    
+<h1>My shopping list</h1>
+<h3>{{ ingredient_count }} Ingredients</h3>
+    <ul>
+        {% for ingredient in ingredients %}
+            <li>{{ ingredient|title }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

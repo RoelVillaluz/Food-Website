@@ -28,5 +28,7 @@ urlpatterns = [
     path("create_mealplan", views.create_mealplan, name="create_mealplan"),
     path('api/mealplan/<str:date>/', views.get_mealplan_by_date, name='get_mealplan_by_date'),
     path('api/upcoming_mealplans/<str:date>/', views.upcoming_mealplans, name='upcoming_mealplans'),
-    path('recipe_recommender', views.recipe_recommender, name="recipe_recommender")
+    path('recipe_recommender', views.recipe_recommender, name="recipe_recommender"),
+    path('add_ingredients_to_list/<str:recipe_name>/', views.add_ingredients_to_list, name="add_ingredients_to_list"),
+    path('my_shopping_list', views.my_shopping_list, name="my_shopping_list")
 ]
