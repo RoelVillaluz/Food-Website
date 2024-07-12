@@ -3,11 +3,28 @@
 {% block title %}My Shopping List{% endblock %}
 
 {% block body %}    
-<h1>My shopping list</h1>
-<h3>{{ ingredient_count }} Ingredients</h3>
-    <ul>
-        {% for ingredient in ingredients %}
-            <li>{{ ingredient|title }}</li>
-        {% endfor %}
+<div class="shopping-list-container">
+    <ul class="shopping-list">
+        <div class="header">
+            <h1>My shopping list</h1>
+            <h3>{{ ingredient_count }} Ingredients</h3>
+        </div>
+        {% if ingredients %}
+            {% for recipe_name, ingredient_list in ingredients.items %}
+                <h2>{{ recipe_name }}</h2>
+                <ul>
+                    {% for ingredient in ingredient_list %}
+                        {% if ingredient.unit_of_measurement == 'none' %}
+                            <li>{{ ingredient.quantity }} {{ ingredient.name }}</li>
+                        {% else %}
+                            <li>{{ ingredient.quantity }} {{ ingredient.get_unit_of_measurement_display }} of {{ ingredient.name }}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+        {% else %}
+            <p>No ingredients in your shopping list.</p>
+        {% endif %}
     </ul>
+</div>
 {% endblock %}

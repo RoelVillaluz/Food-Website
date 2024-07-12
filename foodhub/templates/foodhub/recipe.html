@@ -89,11 +89,15 @@
         </div>
     </div>
     <div class="ingredients-container">
-        <h1>Ingredients</h1>
-        <form action="{% url 'add_ingredients_to_list' recipe.name %}" method="post">
-            {% csrf_token %}
-            <button type="submit">Add ingredients to shopping list</button>
-        </form>
+        <div class="header">
+            <h1>Ingredients</h1>
+            {% if recipe.user == request.user %}
+            <button class="add-btn">
+                <a href="{% url 'add_ingredient' recipe.name %}">Add Ingredient</a>
+                <i class="fa-solid fa-plus"></i>
+            </button>
+            {% endif %}
+        </div>
         <ul class="ingredients-list">
             {% for ingredient in ingredients %}
                 {% if ingredient.unit_of_measurement == 'none' %}
@@ -102,16 +106,22 @@
                     <li>{{ ingredient }}</li>
                 {% endif %}
             {% endfor %}
+            <form action="{% url 'add_ingredients_to_list' recipe.name %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="shopping-list-btn">Add ingredients to shopping list</button>
+            </form>
         </ul>
-        {% if recipe.user == request.user %}
-        <button class="add-btn">
-            <a href="{% url 'add_ingredient' recipe.name %}">Add Ingredient</a>
-            <i class="fa-solid fa-plus"></i>
-        </button>
-        {% endif %}
     </div>
     <div class="directions-container">
-        <h1>Directions</h1>
+        <div class="header">
+            <h1>Directions</h1>
+            {% if recipe.user == request.user %}
+            <button class="add-btn">
+                <a href="{% url 'add_step' recipe.name %}">Add Directions</a>
+                <i class="fa-solid fa-plus"></i>
+            </button>
+            {% endif %}
+        </div>
         <ul class="directions-list">
             {% for step in steps %}
                 <li>{{ step.description }}</li>
@@ -132,15 +142,17 @@
                 {% endif %}
             {% endfor %}
         </ul>
-        {% if recipe.user == request.user %}
-        <button class="add-btn">
-            <a href="{% url 'add_step' recipe.name %}">Add Directions</a>
-            <i class="fa-solid fa-plus"></i>
-        </button>
-        {% endif %}
     </div>
     <div class="allergens-container">
-        <h1>Allergens</h1>
+        <div class="header">
+            <h1>Allergens</h1>
+            {% if recipe.user == request.user %}
+            <button class="add-btn">
+                <a href="{% url 'add_allergens' recipe.name %}">Add Allergens</a>
+                <i class="fa-solid fa-plus"></i>
+            </button>
+            {% endif %}
+        </div>
         <ul class="allergens-list">
             {% if allergens %}
                 {% for allergen in allergens %}
@@ -150,12 +162,6 @@
                 <p>No Allergens</p>
             {% endif %}
         </ul>
-        {% if recipe.user == request.user %}
-        <button class="add-btn">
-            <a href="{% url 'add_allergens' recipe.name %}">Add Allergens</a>
-            <i class="fa-solid fa-plus"></i>
-        </button>
-        {% endif %}
     </div>
     <div id="recipe-id" style="display: none;">{{ recipe.id }}</div>
     <div class="review-container">

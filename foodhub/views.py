@@ -840,15 +840,15 @@ def add_ingredients_to_list(request, recipe_name):
 
 def my_shopping_list(request):
     shopping_list, created = ShoppingList.objects.get_or_create(user=request.user)
-    ingredients = shopping_list.ingredients.all().order_by('name')
+    ingredients = shopping_list.ingredients.select_related('recipe').order_by('recipe__name', 'name')
 
     ingredient_dict = defaultdict(list)
 
     for ingredient in ingredients:
-        ingredient_dict[ingredient.name.lower()].append(ingredient)
+        ingredient_dict[ingredient.recipe.name].append(ingredient)
 
     return render(request, "foodhub/my_shopping_list.html", {
         "shopping_list": shopping_list,
-        "ingredients": ingredient_dict,
-        "ingredient_count": len(ingredient_dict)
+        "ingredients": dict(ingredient_dict),  
+        "ingredient_count": len(ingredients),
     })
