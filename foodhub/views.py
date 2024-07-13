@@ -838,6 +838,7 @@ def add_ingredients_to_list(request, recipe_name):
         shopping_list.ingredients.add(*ingredients)
         return redirect('my_shopping_list')
 
+@login_required(login_url='/login')
 def my_shopping_list(request):
     shopping_list, created = ShoppingList.objects.get_or_create(user=request.user)
     ingredients = shopping_list.ingredients.select_related('recipe').order_by('recipe__name', 'name')
@@ -847,8 +848,17 @@ def my_shopping_list(request):
     for ingredient in ingredients:
         ingredient_dict[ingredient.recipe.name].append(ingredient)
 
+    if request.method == 'POST':
+        delete_recipe_name = request.POST.get('recipe_name')
+        
+        if delete_recipe_name:
+            ingredients_to_remove = shopping_list.ingredients.filter(recipe__name=delete_recipe_name)
+            for ingredient in ingredients_to_remove:
+                shopping_list.ingredients.remove(ingredient)
+            return redirect('my_shopping_list')
+
     return render(request, "foodhub/my_shopping_list.html", {
         "shopping_list": shopping_list,
-        "ingredients": dict(ingredient_dict),  
+        "ingredients": dict(ingredient_dict),
         "ingredient_count": len(ingredients),
     })

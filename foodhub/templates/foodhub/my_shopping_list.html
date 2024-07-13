@@ -11,7 +11,12 @@
         </div>
         {% if ingredients %}
             {% for recipe_name, ingredient_list in ingredients.items %}
-                <h2>{{ recipe_name }}</h2>
+                <form method="post" action="{% url 'my_shopping_list' %}">
+                    {% csrf_token %}
+                    <h2>{{ recipe_name }}</h2>
+                    <input type="hidden" name="recipe_name" value="{{ recipe_name }}">
+                    <button type="submit">Remove Recipe</button>
+                </form>
                 <ul>
                     {% for ingredient in ingredient_list %}
                         {% if ingredient.unit_of_measurement == 'none' %}

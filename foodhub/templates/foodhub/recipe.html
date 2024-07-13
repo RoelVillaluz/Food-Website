@@ -106,10 +106,12 @@
                     <li>{{ ingredient }}</li>
                 {% endif %}
             {% endfor %}
-            <form action="{% url 'add_ingredients_to_list' recipe.name %}" method="post">
-                {% csrf_token %}
-                <button type="submit" class="shopping-list-btn">Add ingredients to shopping list</button>
-            </form>
+            {% if ingredients %}
+                <form action="{% url 'add_ingredients_to_list' recipe.name %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="shopping-list-btn">Add ingredients to shopping list</button>
+                </form>
+            {% endif %}
         </ul>
     </div>
     <div class="directions-container">
