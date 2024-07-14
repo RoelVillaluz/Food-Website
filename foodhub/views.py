@@ -74,16 +74,11 @@ class ProfileForm(forms.ModelForm):
     
 # Create your views here.
 def index(request):
-    recipes_with_ratings = []
-    for recipe in Recipe.objects.all():
-        average_rating = Review.average_rating(recipe)
-        recipes_with_ratings.append((recipe, average_rating))
-    
-    # Sort recipes by average rating in descending order
-    recipes_with_ratings.sort(key=lambda x: x[1], reverse=True)
-    
     # Select the top 3 recipes with the highest average rating
-    popular_recipes = [recipe for recipe, _ in recipes_with_ratings[:3]]
+    popular_recipes = Recipe.objects.annotate(
+        avg_rating=Avg('ratings__rating'), 
+        review_count=Count('ratings__rating'), 
+        like_count=Count('likes')).order_by('-avg_rating', '-review_count', '-like_count')[:3]
 
     # Get the top 5 categories with the most recipes
     category_counts = Recipe.objects.values('category').annotate(total=Count('category')).order_by('-total')[:5]
@@ -873,4 +868,10 @@ def my_shopping_list(request):
         "shopping_list": shopping_list,
         "ingredients": dict(ingredient_dict),
         "ingredient_count": len(ingredients),
+    })
+
+def practice(request):
+    most_liked_recipes = Recipe.objects.annotate(like_count=Count('likes')).exclude(like_count__lt=1).order_by('-like_count')[:10]
+    return render(request, "foodhub/practice.html", {
+        "most_liked_recipes":  most_liked_recipes
     })

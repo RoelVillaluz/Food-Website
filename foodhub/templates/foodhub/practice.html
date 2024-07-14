@@ -1,0 +1,10 @@
+{% extends 'foodhub/layout.html' %}
+
+{% block title %}Practice{% endblock %}
+{% block body %}
+    <ol>
+        {% for recipe in most_liked_recipes %}
+            <li>{{ recipe }} - {{ recipe.like_count }}</li>
+        {% endfor %}
+    </ol>
+{% endblock %}
