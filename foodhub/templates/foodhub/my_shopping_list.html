@@ -19,11 +19,14 @@
                 </form>
                 <ul>
                     {% for ingredient in ingredient_list %}
-                        {% if ingredient.unit_of_measurement == 'none' %}
-                            <li>{{ ingredient.quantity }} {{ ingredient.name }}</li>
-                        {% else %}
-                            <li>{{ ingredient.quantity }} {{ ingredient.get_unit_of_measurement_display }} of {{ ingredient.name }}</li>
-                        {% endif %}
+                        <li>
+                            <input type="checkbox" id="ingredient-{{ forloop.counter }}" name="ingredients" value="{{ ingredient.id }}">
+                            {% if ingredient.unit_of_measurement == 'none' %}
+                                {{ ingredient.quantity }} {{ ingredient.name }}
+                            {% else %}
+                                {{ ingredient.quantity }} {{ ingredient.get_unit_of_measurement_display }} of {{ ingredient.name }}
+                            {% endif %}
+                        </li>
                     {% endfor %}
                 </ul>
             {% endfor %}
