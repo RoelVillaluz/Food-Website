@@ -1,0 +1,22 @@
+{% extends 'foodhub/layout.html' %}
+
+{% block title %}Edit {{ user }}'s Profile {% endblock %}
+{% block body %}
+    <div class="edit-profile-container">
+        <div class="left">
+            <img src="{{ profile.image.url }}" alt="" width="200px" height="200px" style="border-radius: 50%;">
+            <div class="user">
+                <h3>{{ user }}</h3>
+                <h4>{{ user.email }}</h4>
+            </div>
+        </div>
+        <div class="main">
+            <h1>Edit your profile</h1>
+            <form action="{% url 'edit_profile' request.user.username %}" method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Save Changes</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

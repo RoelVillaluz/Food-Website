@@ -66,6 +66,11 @@ class MealPlanForm(forms.ModelForm):
         widgets = {
             'date': forms.DateInput(),
         }
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['bio', 'image', 'allergens', 'culinary_level', 'location', 'education']
     
 # Create your views here.
 def index(request):
@@ -654,12 +659,19 @@ def profile_allergen(request, username):
     return render(request, "foodhub/profile_allergen.html", context)
 
         
-def profile_info(request, username):
+def edit_profile(request, username):
     user = User.objects.get(username=username)
     profile = Profile.objects.get(user=user)
-    # # add code for editing user cuisine preferences (add favorite categories to profile model) 
-    # and allergens, user profile expertise level, 
-    pass
+    if request.method == "POST":
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            profile.save()
+    else:
+        form = ProfileForm(instance=profile)
+    return render(request, "foodhub/edit_profile.html", {
+        "profile": profile,
+        "form": form
+    })
 
 @login_required(login_url='/login')
 def create_mealplan(request):
