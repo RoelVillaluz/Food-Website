@@ -2,9 +2,14 @@
 
 {% block title %}Practice{% endblock %}
 {% block body %}
-    <ol>
-        {% for recipe in most_liked_recipes %}
-            <li>{{ recipe }} - {{ recipe.like_count }}</li>
-        {% endfor %}
-    </ol>
+<ol>
+    {% for recipe in liked_recipes %}
+        <li>{{ recipe }}</li>
+        <ul>
+            {% for user in users_who_liked %}
+                <li>{{ user }}</li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+</ol>
 {% endblock %}

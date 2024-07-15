@@ -871,7 +871,11 @@ def my_shopping_list(request):
     })
 
 def practice(request):
-    most_liked_recipes = Recipe.objects.annotate(like_count=Count('likes')).exclude(like_count__lt=1).order_by('-like_count')[:10]
+    liked_recipes = Recipe.objects.prefetch_related('likes').annotate(like_count=Count('likes'))
+
+    for recipe in liked_recipes:
+        users_who_liked = recipe.likes.all()    
     return render(request, "foodhub/practice.html", {
-        "most_liked_recipes":  most_liked_recipes
+        "liked_recipes": liked_recipes,
+        "users_who_liked": users_who_liked
     })

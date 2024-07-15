@@ -3883,6 +3883,16 @@ ul.meal-list {
     color: white;
 }
 
+
+.edit-mealplan-btn {
+    display: inline-block;
+    margin: 10px;
+    padding: 10px 20px;
+    background-color: var(--secondary-color);
+    color: white;
+    cursor: pointer;
+}
+
 .mealplan-recipes {
     flex: 2;
     height: 100%; 
@@ -4058,7 +4068,6 @@ ul.meal-list {
     width: auto;
     height: 200px;
 }
-
 
 footer {
     background-color: #4682b4;
