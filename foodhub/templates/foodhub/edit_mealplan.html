@@ -1,0 +1,10 @@
+{% extends 'foodhub/layout.html' %}
+
+{% block title %} Edit Mealplan {% endblock %}
+{% block body %}
+    <form action="{% url 'edit_mealplan' mealplan.date %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save Changes</button>
+    </form>
+{% endblock %}

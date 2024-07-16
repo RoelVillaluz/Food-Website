@@ -627,7 +627,8 @@ document.addEventListener('DOMContentLoaded', function() {
         mealplanSidebar.appendChild(editMealplanBtn);
     
         editMealplanBtn.addEventListener('click', function() {
-            console.log(`You are about to edit ${data.mealplan.name}`);
+            const date = data.mealplan.date; 
+            window.location.href = `/edit_mealplan/${date}/`;
         });
     
         data.recipes.forEach(recipe => {
@@ -784,27 +785,26 @@ document.addEventListener('DOMContentLoaded', function() {
         addRecipesForm.style.display = 'block';
     });
     
-    window.addEventListener('click', function(event) {
+    function hideElements(event) {
         if (!mealplanContainer.contains(event.target) && !viewMealplanBtn.contains(event.target)) {
             mealplanContainer.classList.remove('visible');
         }
-
+    
         if (!addMealForm.contains(event.target) && !addMealPlanBtn.contains(event.target)) {
             addMealForm.classList.remove('visible');
         }
-
+    
         if (!addRecipesForm.contains(event.target) && event.target !== nextBtn) {
             addRecipesForm.style.display = 'none';
             mainForm.style.display = 'block';
             mainFormLeft.style.display = 'block';
         }
     
-        // Remove body blur if no modals are visible
         if (!mealplanContainer.classList.contains('visible') &&
             !addMealForm.classList.contains('visible')) {
             document.body.classList.remove('blurred');
         }
-    });
+    }
     
     function addMealPlanDetails(date) {
         const header = document.querySelector('.add-meal-form h1');
@@ -852,6 +852,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     upcomingMealplans(currentMonth, currentDay, currentYear);
+    window.addEventListener('click', hideElements);
 });
 
 document.addEventListener("DOMContentLoaded", function() {

@@ -14,7 +14,7 @@
             <h1>Edit your profile</h1>
             <form action="{% url 'edit_profile' request.user.username %}" method="POST">
                 {% csrf_token %}
-                {{ form.as_p }}
+                {{ edit_form.as_p }}
                 <button type="submit">Save Changes</button>
             </form>
         </div>

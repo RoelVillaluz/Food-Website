@@ -26,6 +26,7 @@ urlpatterns = [
     path("profile/<str:username>/edit", views.edit_profile, name="edit_profile"),
     path("edit_bio", views.edit_bio, name="edit_bio"),
     path("create_mealplan", views.create_mealplan, name="create_mealplan"),
+    path('edit_mealplan/<str:date>/', views.edit_mealplan, name='edit_mealplan'),
     path('api/mealplan/<str:date>/', views.get_mealplan_by_date, name='get_mealplan_by_date'),
     path('api/upcoming_mealplans/<str:date>/', views.upcoming_mealplans, name='upcoming_mealplans'),
     path('recipe_recommender', views.recipe_recommender, name="recipe_recommender"),

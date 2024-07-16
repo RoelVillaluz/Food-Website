@@ -695,7 +695,45 @@ def create_mealplan(request):
         "form": form,
         "all_recipes": all_recipes
     })
+
+@login_required(login_url='/login')
+def edit_mealplan(request, date):
+    try:
+        mealplan = MealPlan.objects.get(date=date, user=request.user)
+    except MealPlan.DoesNotExist:
+        return JsonResponse({"error": "Meal plan not found"}, status=404)
+
+    all_recipes = Recipe.objects.all()
+    if request.method == 'POST':
+        form = MealPlanForm(request.POST)
+        if form.is_valid():
+            mealplan.name = form.cleaned_data["name"]
+            mealplan.description = form.cleaned_data["description"]
+            mealplan.date = form.cleaned_data["date"]
+            recipes_ids = request.POST.getlist("recipes")
+
+            mealplan.recipes.set(recipes_ids)
+            mealplan.save()
+
+            return render(request, "foodhub/create_mealplan.html", {
+                "all_recipes": all_recipes,
+                "form": form,
+            })
+    else:
+        form = MealPlanForm(initial={
+            "name": mealplan.name,
+            "description": mealplan.description,
+            "date": mealplan.date,
+        })
+
+    return render(request, "foodhub/edit_mealplan.html", {
+        "form": form,
+        "all_recipes": all_recipes,
+        "selected_recipes": mealplan.recipes.all(),
+        "mealplan": mealplan,
+    })
     
+@login_required(login_url='/login')
 def get_mealplan_by_date(request, date):
     if request.method == 'GET':
         try:
@@ -705,6 +743,7 @@ def get_mealplan_by_date(request, date):
                 "mealplan": {
                     "name": mealplan.name,
                     "description": mealplan.description,
+                    "date": mealplan.date
                 },
                 "recipes": []
             }
@@ -735,7 +774,8 @@ def get_mealplan_by_date(request, date):
             return JsonResponse(mealplan_data)
         except MealPlan.DoesNotExist:
             return JsonResponse({"mealplan": None})
-        
+
+@login_required(login_url='/login')       
 def upcoming_mealplans(request, date):
     if request.method == "GET":
         try:
@@ -751,8 +791,7 @@ def upcoming_mealplans(request, date):
         except MealPlan.DoesNotExist:
             return JsonResponse({"error": "No meal plans found"}, status=404)
         except Exception as e:
-            return JsonResponse({"error": str(e)}, status=500)
-
+            return JsonResponse({"error": str(e)}, status=500)        
         
 def recipe_recommender(request):
     categories = [
