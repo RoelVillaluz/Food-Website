@@ -77,7 +77,7 @@ def index(request):
     # Select the top 3 recipes with the highest average rating
     popular_recipes = Recipe.objects.annotate(
         avg_rating=Avg('ratings__rating'), 
-        review_count=Count('ratings__rating'), 
+        review_count=Count('ratings', distinct=True), 
         like_count=Count('likes')).order_by('-avg_rating', '-review_count', '-like_count')[:3]
 
     # Get the top 5 categories with the most recipes
@@ -910,11 +910,9 @@ def my_shopping_list(request):
     })
 
 def practice(request):
-    liked_recipes = Recipe.objects.prefetch_related('likes').annotate(like_count=Count('likes'))
+    recipes = Recipe.objects.annotate(review_count=Count('ratings', distinct=True),avg_rating=Avg(
+        'ratings__rating')).filter(review_count__gt=0).order_by('-avg_rating', '-review_count')
 
-    for recipe in liked_recipes:
-        users_who_liked = recipe.likes.all()    
     return render(request, "foodhub/practice.html", {
-        "liked_recipes": liked_recipes,
-        "users_who_liked": users_who_liked
+        "recipes": recipes
     })
