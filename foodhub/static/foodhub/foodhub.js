@@ -646,56 +646,60 @@ document.addEventListener('DOMContentLoaded', function() {
             const recipeView = document.querySelector('.mealplan-recipe-view');
     
             recipeElement.addEventListener('click', function() {
-                // Hide mealplanRecipes and show recipeView with the recipe details
-                mealplanRecipes.style.display = 'none';
-                recipeView.style.display = 'block';
-    
-                recipeView.innerHTML = `
-                    <div class="meal-image">
-                        ${recipe.image ? `<a href="/recipe/${recipe.name}"><img src="${recipe.image}" alt="${recipe.name}"></a>` : ''}
-                        <div class="image-overlay">
-                            <p>View full recipe</p>
-                        </div>
-                    </div>
-                    <div class="meal-header">
-                        <h1>${recipe.name}</h1>
-                        <h2>${recipe.category}</h2>
-                    </div>
-                    <div class="meal-ingredients">
-                        <h3>Ingredients:</h3>
-                        <ul class="checklist">
-                            ${recipe.ingredients.map((ingredient, index) => `
-                                <li>
-                                    <input type="checkbox" id="ingredient${index}" name="ingredient${index}">
-                                    <label for="ingredient${index}">
-                                        ${ingredient.unit === 'none' ? `${ingredient.quantity} ${ingredient.name}` : `${ingredient.quantity} ${ingredient.unit} of ${ingredient.name}`}
-                                    </label>
-                                </li>
-                            `).join('')}
-                        </ul>
-                    </div>
-                    <div class="meal-steps">
-                        <h3>Steps:</h3>
-                        <ol>
-                            ${recipe.steps.map((step, index) => `
-                                <li>
-                                    <p>${step.description}</p>
-                                    ${step.image ? `<img src="${step.image}">` : ''}
-                                    ${step.video ? `<video src="${step.video}" controls></video>` : ''}
-                                </li>
-                            `).join('')}
-                        </ol>
-                    </div>
-                    <button class="back-btn"><i class="fa-solid fa-caret-left"></i></button>
-                `;
-    
-                // Add event listener to the back button to show mealplanRecipes again
-                const backBtn = recipeView.querySelector('.back-btn');
-                backBtn.addEventListener('click', function() {
-                    mealplanRecipes.style.display = 'grid';
-                    recipeView.style.display = 'none';
-                });
+                viewRecipe(recipe, mealplanRecipes, recipeView)
             });
+        });
+    }
+
+    function viewRecipe(recipe, mealplanRecipes, recipeView) {
+        // Hide mealplanRecipes and show recipeView with the recipe details
+        mealplanRecipes.style.display = 'none';
+        recipeView.style.display = 'block';
+
+        recipeView.innerHTML = `
+            <div class="meal-image">
+                ${recipe.image ? `<a href="/recipe/${recipe.name}"><img src="${recipe.image}" alt="${recipe.name}"></a>` : ''}
+                <div class="image-overlay">
+                    <p>View full recipe</p>
+                </div>
+            </div>
+            <div class="meal-header">
+                <h1>${recipe.name}</h1>
+                <h2>${recipe.category}</h2>
+            </div>
+            <div class="meal-ingredients">
+                <h3>Ingredients:</h3>
+                <ul class="checklist">
+                    ${recipe.ingredients.map((ingredient, index) => `
+                        <li>
+                            <input type="checkbox" id="ingredient${index}" name="ingredient${index}">
+                            <label for="ingredient${index}">
+                                ${ingredient.unit === 'none' ? `${ingredient.quantity} ${ingredient.name}` : `${ingredient.quantity} ${ingredient.unit} of ${ingredient.name}`}
+                            </label>
+                        </li>
+                    `).join('')}
+                </ul>
+            </div>
+            <div class="meal-steps">
+                <h3>Steps:</h3>
+                <ol>
+                    ${recipe.steps.map((step, index) => `
+                        <li>
+                            <p>${step.description}</p>
+                            ${step.image ? `<img src="${step.image}">` : ''}
+                            ${step.video ? `<video src="${step.video}" controls></video>` : ''}
+                        </li>
+                    `).join('')}
+                </ol>
+            </div>
+            <button class="back-btn"><i class="fa-solid fa-caret-left"></i></button>
+        `;
+
+        // Add event listener to the back button to show mealplanRecipes again
+        const backBtn = recipeView.querySelector('.back-btn');
+        backBtn.addEventListener('click', function() {
+            mealplanRecipes.style.display = 'grid';
+            recipeView.style.display = 'none';
         });
     }
     

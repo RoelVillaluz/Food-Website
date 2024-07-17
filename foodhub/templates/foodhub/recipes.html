@@ -160,7 +160,7 @@
                         <img src="{{ recipe.image.url }}" alt="">
                         {% if recipe.avg_rating %}
                             <div class="rating">
-                                <p>{{ recipe.avg_rating|floatformat:2 }}</p>
+                                <p>{{ recipe.avg_rating|floatformat:1 }}</p>
                                 <i class="fa-solid fa-star"></i>
                             </div>
                         {% endif %}

@@ -167,7 +167,8 @@
     </div>
     <div class="all-recipes-card-container">
         {% for recipe in profile_recipes %}
-            <div class="recipe-item">
+        <div class="recipe-item">
+            <div class="image">
                 {% if request.user in recipe.likes.all %}
                     <div class="like-btn liked" data-id="{{ recipe.id }}"><i class="fa-regular fa-heart"></i></div>
                 {% else %}
@@ -175,9 +176,17 @@
                 {% endif %}
                 <a href="{% url 'recipe' recipe.name %}">
                     <img src="{{ recipe.image.url }}" alt="">
+                    {% if recipe.avg_rating %}
+                        <div class="rating">
+                            <p>{{ recipe.avg_rating|floatformat:2 }}</p>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                    {% endif %}
                 </a>
-                <h2>{{ recipe.name }}</h2>
             </div>
+            <h2>{{ recipe.name }}</h2>
+            <span>{{ recipe.category }}</span>
+        </div>
         {% endfor %}
-    </div>
+    </div>       
 {% endblock %}
