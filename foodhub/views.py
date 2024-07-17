@@ -911,7 +911,7 @@ def my_shopping_list(request):
 
 def practice(request):
     recipes = Recipe.objects.annotate(review_count=Count('ratings', distinct=True),avg_rating=Avg(
-        'ratings__rating')).filter(review_count__gt=0).order_by('-avg_rating', '-review_count')
+        'ratings__rating')).filter(review_count__gt=0).order_by('-avg_rating', '-review_count')[:10]
 
     return render(request, "foodhub/practice.html", {
         "recipes": recipes

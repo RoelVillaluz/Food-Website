@@ -265,9 +265,7 @@ header label {
 }
 
 .recipe-card-content {
-    padding: 1rem;
-    display: flex;
-    justify-content: space-between;
+    padding: 0.5rem 1rem;
     width: 100%;
 }
 
@@ -280,8 +278,31 @@ header label {
 }
 
 .recipe-card-name {
-    font-size: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+}
+
+.recipe-card-name h3 {
+    color: black;
+}
+
+.recipe-card-name .rating {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.recipe-card-name .rating i {
+    color: #007bff;
+    margin-bottom: 3px;
+}
+
+.recipe-card-name  .rating span {
     font-weight: 700;
+    margin-left: 20px;
+    margin-right: 4px;
 }
 
 .recipe-card-category {

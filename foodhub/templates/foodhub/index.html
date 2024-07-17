@@ -30,7 +30,13 @@
                         </a>
                     </div>
                     <div class="recipe-card-content">
-                        <div class="recipe-card-name">{{ recipe.name }}</div>
+                        <div class="recipe-card-name">
+                            <h3>{{ recipe.name }}</h3>
+                            <div class="rating">
+                                <i class="fa-solid fa-star"></i>
+                                <span>{{ recipe.avg_rating|floatformat:1 }}</span>
+                            </div>
+                        </div>
                         {% if recipe.category %}
                             <div class="recipe-card-category">
                                 <a href="{% url 'category' recipe.category %}">{{ recipe.category }}</a>
