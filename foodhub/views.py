@@ -296,7 +296,10 @@ def recipes(request):
             liked_recipes = Recipe.objects.filter(likes=request.user)
             recipes = liked_recipes
 
-    # Calculate average ratings for each recipe and filter by selected rating
+    # Calculate average ratings for each recipe
+    recipes = recipes.annotate(avg_rating=Avg('ratings__rating'))
+
+    # Filter by selected rating
     if selected_rating:
         # Convert selected_rating to an integer (if necessary)
         selected_rating = int(selected_rating)
@@ -304,7 +307,7 @@ def recipes(request):
         rating_start = selected_rating
         rating_end = selected_rating + 0.9
         # Filter recipes by average rating within the range
-        recipes = recipes.annotate(avg_rating=Avg('ratings__rating')).filter(avg_rating__gte=rating_start, avg_rating__lt=rating_end)
+        recipes = recipes.filter(avg_rating__gte=rating_start, avg_rating__lt=rating_end)
 
     # Sort filters
     sort_type = request.GET.get('sort', 'name')
@@ -328,7 +331,7 @@ def recipes(request):
         "costs": costs,
         "toggle_allergens": toggle_allergens,
         "toggle_likes": toggle_likes,
-        "query": query
+        "query": query,
     })
 
     

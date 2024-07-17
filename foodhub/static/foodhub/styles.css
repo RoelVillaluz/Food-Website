@@ -1829,7 +1829,6 @@ border-radius: 50%;
 }
 
 .recipe-item {
-    position: relative;
     background-color: #fff;
     border-radius: 5px;
     padding: 10px;
@@ -1842,6 +1841,10 @@ border-radius: 50%;
     font-weight: 500;
 }
 
+.recipe-item .image {
+    position: relative;
+}
+
 .recipe-item img {
     width: 100%;
     height: 200px;
@@ -1850,6 +1853,31 @@ border-radius: 50%;
 
 .recipe-item span {
     text-transform: uppercase;
+}
+
+.recipe-item .rating {
+    position: absolute;
+    bottom: 12px;
+    left: 8px;
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.5); 
+    padding: 3px 6px; 
+    margin-bottom: 2px;
+}
+
+.recipe-item .rating i {
+    color: gold;
+    margin-bottom: 3px;
+    margin-right: 2px;
+}
+
+.recipe-item .rating p {
+    color: white;
+    
+    border-radius: 5px;
 }
 
 .like-btn {
@@ -1867,6 +1895,7 @@ border-radius: 50%;
     cursor: pointer;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     transition: 0.3s;
+    z-index: 10;
 }
 
 .like-btn i {
