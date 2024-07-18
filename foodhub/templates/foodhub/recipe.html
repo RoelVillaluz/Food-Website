@@ -106,7 +106,7 @@
                     <li>{{ ingredient }}</li>
                 {% endif %}
             {% endfor %}
-            {% if ingredients %}
+            {% if ingredients and request.user.is_authenticated %}
                 <form action="{% url 'add_ingredients_to_list' recipe.name %}" method="post">
                     {% csrf_token %}
                     <button type="submit" class="shopping-list-btn">Add ingredients to shopping list</button>

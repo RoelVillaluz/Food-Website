@@ -690,6 +690,7 @@ def create_mealplan(request):
             return render(request, "foodhub/create_mealplan.html", {
                 "all_recipes": all_recipes,
                 "form": form,
+                "message": f"Mealplan for {mealplan.date} created"
             })
     else:
         form = MealPlanForm()
@@ -721,6 +722,7 @@ def edit_mealplan(request, date):
             return render(request, "foodhub/create_mealplan.html", {
                 "all_recipes": all_recipes,
                 "form": form,
+                "message": f"Mealplan for {mealplan.date} updated"
             })
     else:
         form = MealPlanForm(initial={

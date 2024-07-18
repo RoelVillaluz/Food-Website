@@ -964,6 +964,16 @@ function showNotification(message) {
     }, 3000);
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+    const messageElement = document.getElementById('login-message');
+    if (messageElement) {
+        const message = messageElement.value;
+        if (message) {
+            showNotification(message);
+        }
+    }
+});
+
 document.addEventListener('DOMContentLoaded', function () {
     const toggleAllergensBtn = document.getElementById('toggle-allergens-btn');
     toggleAllergensBtn.addEventListener('change', function () {
