@@ -582,6 +582,7 @@ document.addEventListener('DOMContentLoaded', function() {
         backBtn.addEventListener('click', function() {
             eventDateDisplay.style.display = 'none';
             upcomingMealplans(currentMonth, currentDay, currentYear);
+            viewMealplanBtn.style.display = 'none';
         });
     }
 
@@ -645,6 +646,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Function for displaying recipe details inside mealplan
             const recipeView = document.querySelector('.mealplan-recipe-view');
     
+            // Call function to view recipe details in mealplan
             recipeElement.addEventListener('click', function() {
                 viewRecipe(recipe, mealplanRecipes, recipeView)
             });
