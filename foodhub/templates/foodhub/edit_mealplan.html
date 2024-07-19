@@ -1,12 +1,20 @@
 {% extends "foodhub/layout.html" %}
 
-{% block title %} Edit Mealplan {% endblock %}
+{% block title %} Edit Mealplan - {{ mealplan.name }}{% endblock %}
 {% block body %}
 <div class="edit-mealplan-container">
-    <h1>Edit Mealplan: {{ mealplan.name }}</h1>
+    <div class="header">
+        <h1>Edit Mealplan: {{ mealplan.name }}</h1>
+        <h2>Date: {{ mealplan.date }}</h2>
+    </div>
     <form action="{% url 'edit_mealplan' mealplan.date %}" method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        <h3>Name: {{ form.name }}</h3>
+        <h3>Description: {{ form.description }}</h3>
+        <div class="form-date" style="display: none;">
+            {{ form.date }}
+        </div>
+        <h3>Recipes: {{ form.recipes }}</h3>
         <button type="submit">Save Changes</button>
     </form>
 </div>

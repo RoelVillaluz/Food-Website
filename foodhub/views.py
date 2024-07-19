@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models import Count, Q, Avg
@@ -796,7 +797,7 @@ def upcoming_mealplans(request, date):
         except MealPlan.DoesNotExist:
             return JsonResponse({"error": "No meal plans found"}, status=404)
         except Exception as e:
-            return JsonResponse({"error": str(e)}, status=500)        
+            return JsonResponse({"error": str(e)}, status=500)    
         
 def recipe_recommender(request):
     categories = [
