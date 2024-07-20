@@ -1019,6 +1019,22 @@ header label {
     position: relative;
     padding-left: 40px;
     margin-bottom: 14px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.ingredients-container li i, .directions-container li i, .allergens-container li i {
+    margin-left: 6px;
+    font-size: 16px;
+    background-color: #b1b1b1;
+    color: white;
+    padding: 8px;
+    border-radius: 50%;
+    display: none;
+}
+
+.ingredients-container li:hover i , .directions-container li:hover i, .allergens-container li:hover i{
+    display: inline-block;
 }
 
 .ingredients-container li::before, .directions-container li::before, .allergens-container li::before {
@@ -4127,6 +4143,18 @@ ul.meal-list {
 
 .edit-mealplan-container .header {
     margin-bottom: 20px;
+}
+
+.edit-mealplan-container .header .title {
+    display: flex;
+    align-items: center;
+}
+
+.edit-mealplan-container .header .title i {
+    margin-left: 10px;
+    font-size: 28px;
+    color: #333;
+    cursor: pointer;
 }
 
 .edit-mealplan-container .header h1 {

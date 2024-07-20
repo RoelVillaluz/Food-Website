@@ -56,7 +56,7 @@
     <h1>Directions</h1>
     <ul class="directions-list">
         {% for step in steps %}
-            <li>{{ step.description }}</li>
+            <li>{{ step.description }}<i class="fa-solid fa-minus"></i></li>
             {% if step.image %}
                 <div class="direction-image">
                     <img src="{{ step.image.url }}" alt="Step Image">

@@ -192,23 +192,33 @@ def create_recipe(request):
 @login_required(login_url='/login')
 def add_ingredient(request, recipe_name):
     recipe = Recipe.objects.get(name=recipe_name)
-    if request.method == 'POST':
+    
+    # Handle POST request for adding an ingredient
+    if request.method == 'POST' and 'add_ingredient' in request.POST:
         form = IngredientForm(request.POST)
         if form.is_valid():
             ingredient = form.save(commit=False)
-            name = form.cleaned_data["name"]
-            quantity = form.cleaned_data["quantity"]
-            unit_of_measurement = form.cleaned_data["unit_of_measurement"]
             ingredient.recipe = recipe
-            Ingredient.objects.create(name=name, quantity=quantity, unit_of_measurement=unit_of_measurement, recipe=recipe)
+            ingredient.save()
             return redirect("add_ingredient", recipe_name=recipe_name)
+
+    # Handle POST request for deleting an ingredient
+    elif request.method == 'POST' and 'delete_ingredient' in request.POST:
+        ingredient_id = request.POST.get('delete_ingredient')
+        ingredient = Ingredient.objects.get(id=ingredient_id, recipe=recipe)
+        ingredient.delete()
+        return redirect("add_ingredient", recipe_name=recipe_name)
+    
     else:
         form = IngredientForm()
+    
+    ingredients = Ingredient.objects.filter(recipe=recipe)
+    
     return render(request, "foodhub/add_ingredient.html", { 
-                "form": form, 
-                "recipe": recipe,
-                "ingredients": Ingredient.objects.filter(recipe=recipe)              
-        })
+        "form": form, 
+        "recipe": recipe,
+        "ingredients": ingredients,
+    })
 
 @login_required(login_url='/login')
 def add_step(request, recipe_name):
@@ -449,7 +459,6 @@ def follow(request, id):
 
     profile.save()
     return JsonResponse({"followed": followed, "followers_count": profile.followers.count()})
-
 
 @login_required(login_url='/login_view')
 def create_review(request, recipe_name):
