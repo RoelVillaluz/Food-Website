@@ -1,0 +1,33 @@
+{% extends "foodhub/layout.html" %}
+
+{% block title%} Practice {% endblock%}
+{% block body %}   
+    <h1>Recipes with {{ num_of_ingredients }} ingredients</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="ingredient_range">Number of Ingredients:</label>
+        <select id="ingredient_range" name="ingredient_range">
+            <option value="all" {% if selected_range == 'all' %}selected{% endif %}>All recipes</option>
+            {% for range_name, range_values in ingredient_ranges.items %}
+                {% with min=range_values.0 max=range_values.1 %}
+                    <option value="{{ range_name }}" {% if range_name == selected_range %}selected{% endif %}>
+                        {% if max %}
+                            {{ min }} to {{ max }} ingredients
+                        {% else %}
+                            {{ min }}+ ingredients
+                        {% endif %}
+                    </option>
+                {% endwith %}
+            {% endfor %}
+        </select>
+        <button type="submit">Filter Recipes</button>
+    </form>
+    <ol>
+        {% for recipe in recipes %}
+            <li>
+                <h3>{{ recipe.name }}</h3>
+                <p>Num of Ingredients: {{ recipe.ingredient_count }}</p>
+            </li>
+        {% endfor %}
+    </ol>
+{% endblock %}

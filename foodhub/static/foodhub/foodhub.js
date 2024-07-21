@@ -943,13 +943,24 @@ function follow(element) {
     .catch(error => console.error("Error:", error));
 }
 
-document.querySelectorAll('.delete-icon').forEach(function(icon) {
+// delete icon for ingredients
+document.querySelectorAll('.ingredients-list .delete-icon').forEach(function(icon) {
     icon.addEventListener('click', function() {
         const ingredientId = this.getAttribute('data-ingredient-id');
         document.getElementById('delete-ingredient-id').value = ingredientId;
         document.getElementById('delete-ingredient-form').submit();
     });
 });
+
+// delete icon for directions
+document.querySelectorAll('.directions-list .delete-icon').forEach(function(icon) {
+    icon.addEventListener('click', function() {
+        const stepId = this.closest('li').getAttribute('data-step-id');
+        document.getElementById('delete-step-id').value = stepId;
+        document.getElementById('delete-step-form').submit();
+    })
+})
+
 
 function showNotification(message) {
     // Create notification element if it doesn't exist

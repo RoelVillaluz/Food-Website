@@ -223,7 +223,7 @@ def add_ingredient(request, recipe_name):
 @login_required(login_url='/login')
 def add_step(request, recipe_name):
     recipe = Recipe.objects.get(name=recipe_name)
-    if request.method == 'POST':
+    if request.method == 'POST' and 'add_step' in request.POST:
         form = StepForm(request.POST)
         if form.is_valid():
             step = form.save(commit=False)
@@ -233,6 +233,13 @@ def add_step(request, recipe_name):
             step.recipe = recipe
             Step.objects.create(description=description, image=image, video=video, recipe=recipe)
             return redirect("add_step", recipe_name=recipe_name)
+        
+    elif request.method == 'POST' and 'delete_step' in request.POST:
+        step_id = request.POST.get('delete_step')
+        step = Step.objects.get(id=step_id, recipe=recipe)
+        step.delete()
+        return redirect("add_step", recipe_name=recipe_name)
+    
     else:
         form = StepForm()
     return render(request, "foodhub/add_step.html", {
@@ -925,9 +932,34 @@ def my_shopping_list(request):
     })
 
 def practice(request):
-    recipes = Recipe.objects.annotate(review_count=Count('ratings', distinct=True),avg_rating=Avg(
-        'ratings__rating')).filter(review_count__gt=0).order_by('-avg_rating', '-review_count')[:10]
+    ingredient_ranges = {
+        '3': (1, 3),
+        '5': (5, 10),
+        '10+': (10, None)  
+    }
+    if request.method == 'POST':
+        choice = request.POST.get('ingredient_range', 'all')
+        
+        if choice == 'all':
+            recipes = Recipe.objects.all()
+        else:
+            range_min, range_max = ingredient_ranges.get(choice, (3, 3))
 
+            if range_max is None:
+                recipes = Recipe.objects.annotate(ingredient_count=Count('recipe_ingredient')).filter(
+                    ingredient_count__gte=range_min, 
+                )
+            else:
+                recipes = Recipe.objects.annotate(ingredient_count=Count('recipe_ingredient')).filter(
+                    ingredient_count__gte=range_min, 
+                    ingredient_count__lte=range_max
+                ).order_by('-ingredient_count')
+
+    else:
+        choice = 'all'
+        recipes = Recipe.objects.all()
     return render(request, "foodhub/practice.html", {
-        "recipes": recipes
+        "recipes": recipes,
+        "ingredient_ranges": ingredient_ranges,
+        "selected_range": choice
     })
