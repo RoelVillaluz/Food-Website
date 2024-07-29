@@ -967,6 +967,3 @@ def practice(request):
     })
 
 
-class RecipeListCreateApiView(generics.ListCreateAPIView):
-    queryset = Recipe.objects.all()
-    serializer_class = RecipeSerializer

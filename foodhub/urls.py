@@ -1,5 +1,6 @@
 from django.urls import path, re_path
 from .views import views
+from .views.api_views import IngredientListCreateApiView, RecipeListCreateApiView, RecipeRetrieveUpdateDestroyApiView, StepListCreateApiView
 
 urlpatterns = [
     path("", views.index, name="index"),
@@ -34,5 +35,8 @@ urlpatterns = [
     path('my_shopping_list', views.my_shopping_list, name="my_shopping_list"),
     path('practice', views.practice, name="practice"),
 
-    path('api/recipes/', views.RecipeListCreateApiView.as_view(), name='recipes-api')
+    path('api/recipes/', RecipeListCreateApiView.as_view(), name='recipes-api'),
+    path('api/recipes/<int:pk>', RecipeRetrieveUpdateDestroyApiView.as_view(), name='recipes-api-update'),
+    path('api/ingredients/', IngredientListCreateApiView.as_view(), name='ingredients-api'),
+    path('api/steps/', StepListCreateApiView.as_view(), name='steps-api'),
 ]

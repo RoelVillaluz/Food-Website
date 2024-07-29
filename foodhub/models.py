@@ -148,6 +148,9 @@ class Recipe(models.Model):
     def first_letter(self):
         return self.category and self.category[0]
     
+    def avg_rating(self):
+        return self.ratings.aggregate(Avg('rating'))['rating__avg'] or 0
+    
 
 class Allergen(models.Model):
     name = models.CharField(max_length=100)

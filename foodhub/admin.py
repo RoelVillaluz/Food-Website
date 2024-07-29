@@ -1,10 +1,12 @@
+import math
 from typing import Any
 from django.contrib import admin
 from django.db.models.query import QuerySet
 from django.http import HttpRequest
 from .models import User, Ingredient, Step, Recipe, Profile, Allergen, Review, MealPlan, ShoppingList
 from django.contrib.admin import SimpleListFilter
-from django.db.models import Q, Count
+from django.db.models import Q, Count, Avg
+from django.utils.translation import gettext_lazy as _
 
 # Register your models here.
 admin.site.register(User)
@@ -64,16 +66,58 @@ class RecipeInShoppingListFilter(RelatedObjectFilter):
         if self.value():
             return queryset.filter(ingredients__recipe_id=self.value()).distinct()
         return queryset
+    
+class RatingRangeFilter(admin.SimpleListFilter):
+    title = _('Rating')
+    parameter_name = 'rating'
+
+    def lookups(self, request, model_admin):
+        return [
+            ('1-1.9', _('1 to 1.9')),
+            ('2-2.9', _('2 to 2.9')),
+            ('3-3.9', _('3 to 3.9')),
+            ('4-4.9', _('4 to 4.9')),
+            ('5', _('5')),
+        ]
+
+    def queryset(self, request, queryset):
+        if self.value() == '1-1.9':
+            return queryset.annotate(avg_rating=Avg('ratings__rating')).filter(avg_rating__gte=1, avg_rating__lt=2)
+        elif self.value() == '2-2.9':
+            return queryset.annotate(avg_rating=Avg('ratings__rating')).filter(avg_rating__gte=2, avg_rating__lt=3)
+        elif self.value() == '3-3.9':
+            return queryset.annotate(avg_rating=Avg('ratings__rating')).filter(avg_rating__gte=3, avg_rating__lt=4)
+        elif self.value() == '4-4.9':
+            return queryset.annotate(avg_rating=Avg('ratings__rating')).filter(avg_rating__gte=4, avg_rating__lt=5)
+        elif self.value() == '5':
+            return queryset.annotate(avg_rating=Avg('ratings__rating')).filter(avg_rating__gte=5)
+        return queryset
+
+    
+class RecipeInMealPlanFilter(RelatedObjectFilter):
+    """Filter for recipes that are present in a  mealplan."""
+
+    def __init__(self, *args, **kwargs):
+        pass
 
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
-    list_display = ('name', 'category', 'difficulty', 'display_allergens')
+    list_display = ('name', 'category', 'difficulty', 'display_allergens', 'display_avg_rating')
     search_fields = ('name', 'category')
-    list_filter = ('category', 'user', 'allergens', 'difficulty')
+    list_filter = ('category', 'user', 'allergens', 'difficulty', RatingRangeFilter)
+
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        queryset = queryset.annotate(avg_rating=Avg('ratings__rating'))
+        return queryset
 
     def display_allergens(self, obj):
         return ", ".join([allergen.name for allergen in obj.allergens.all()])
     display_allergens.short_description = 'Allergens'
+
+    def display_avg_rating(self, obj):
+        return round(obj.avg_rating, 1) if obj.avg_rating else 'No Ratings Yet'
+    display_avg_rating.short_description = 'Ratings'
 
 @admin.register(Ingredient)
 class IngredientAdmin(admin.ModelAdmin):
