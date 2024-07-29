@@ -965,3 +965,8 @@ def practice(request):
         "ingredient_ranges": ingredient_ranges,
         "selected_range": choice
     })
+
+
+class RecipeListCreateApiView(generics.ListCreateAPIView):
+    queryset = Recipe.objects.all()
+    serializer_class = RecipeSerializer
