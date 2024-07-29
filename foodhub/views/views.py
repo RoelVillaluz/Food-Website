@@ -12,13 +12,15 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models import Count, Q, Avg
 from django.contrib import messages
 from collections import defaultdict
-
+from rest_framework import generics
 
 import json
 
 from django.urls import reverse
 
-from .models import User, Ingredient, Step, Recipe, Profile, Allergen, Review, MealPlan, ShoppingList
+from foodhub.serializers import RecipeSerializer
+
+from ..models import User, Ingredient, Step, Recipe, Profile, Allergen, Review, MealPlan, ShoppingList
 
 class NewRecipeForm(forms.ModelForm):
     class Meta:

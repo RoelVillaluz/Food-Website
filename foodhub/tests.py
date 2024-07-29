@@ -1,7 +1,7 @@
 from django.test import Client, TestCase
 from django.urls import reverse
 
-from foodhub.views import IngredientForm, NewRecipeForm, StepForm
+from foodhub.views.views import IngredientForm, NewRecipeForm, StepForm
 from .models import User, Recipe, Ingredient, Step
 
 # Create your tests here.

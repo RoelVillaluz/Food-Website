@@ -11,7 +11,6 @@ admin.site.register(User)
 admin.site.register(Step)
 admin.site.register(Profile)
 admin.site.register(Allergen)
-admin.site.register(Review)
 
 class RelatedObjectFilter(SimpleListFilter):
     """Base class for filters that depend on the presence of related objects."""
@@ -66,7 +65,6 @@ class RecipeInShoppingListFilter(RelatedObjectFilter):
             return queryset.filter(ingredients__recipe_id=self.value()).distinct()
         return queryset
 
-
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
     list_display = ('name', 'category', 'difficulty', 'display_allergens')
@@ -83,11 +81,19 @@ class IngredientAdmin(admin.ModelAdmin):
     search_fields = ('name', 'recipe')
     list_filter = ('name', 'recipe')
 
+@admin.register(Review)
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = ('user', 'recipe', 'rating')
+    search_fields = ('user', 'recipe')
+    list_filter = ('user', 'recipe', 'rating')
+    # update code later to show only recipes with ratings in list filter
+
 @admin.register(MealPlan)
 class MealPlanAdmin(admin.ModelAdmin):
     list_display = ('name', 'user', 'date', 'display_recipes')
     search_fields = ('name', 'recipes__name', 'date')
     list_filter = ('recipes', 'user')
+    # update code later to show only recipes in mealplans in list filter
 
     def display_recipes(self, obj):
         recipes = obj.recipes.all()[:3]
