@@ -67,17 +67,38 @@ class RecipeInShoppingListFilter(RelatedObjectFilter):
             return queryset.filter(ingredients__recipe_id=self.value()).distinct()
         return queryset
     
+class RecipeInMealPlanFilter(RelatedObjectFilter):
+    """Filter for recipes that are present in a  mealplan."""
+
+    def __init__(self, *args, **kwargs):
+        kwargs['related_field_name'] = 'recipes'
+        kwargs['related_model'] = Recipe
+        kwargs['related_lookup_field'] = 'id'
+        kwargs['parameter_name'] = 'recipe'
+        kwargs['title'] = 'Recipes in Mealplan'
+        super().__init__(*args, **kwargs)
+
+    def lookups(self, request, *args, **kwargs):
+        mealplans = MealPlan.objects.all()
+        recipes_in_mealplans = Recipe.objects.filter(mealplan__in=mealplans).distinct()
+        return [(recipe.id, recipe.name) for recipe in recipes_in_mealplans]
+    
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(recipes__id=self.value()).distinct()
+        return queryset
+    
 class RatingRangeFilter(admin.SimpleListFilter):
     title = _('Rating')
     parameter_name = 'rating'
 
     def lookups(self, request, model_admin):
         return [
-            ('1-1.9', _('1 to 1.9')),
-            ('2-2.9', _('2 to 2.9')),
-            ('3-3.9', _('3 to 3.9')),
-            ('4-4.9', _('4 to 4.9')),
-            ('5', _('5')),
+            ('1-1.9', _('1 to 1.9 Stars')),
+            ('2-2.9', _('2 to 2.9 Stars')),
+            ('3-3.9', _('3 to 3.9 Stars')),
+            ('4-4.9', _('4 to 4.9 Stars')),
+            ('5', _('5 Stars')),
         ]
 
     def queryset(self, request, queryset):
@@ -92,13 +113,6 @@ class RatingRangeFilter(admin.SimpleListFilter):
         elif self.value() == '5':
             return queryset.annotate(avg_rating=Avg('ratings__rating')).filter(avg_rating__gte=5)
         return queryset
-
-    
-class RecipeInMealPlanFilter(RelatedObjectFilter):
-    """Filter for recipes that are present in a  mealplan."""
-
-    def __init__(self, *args, **kwargs):
-        pass
 
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
@@ -136,8 +150,7 @@ class ReviewAdmin(admin.ModelAdmin):
 class MealPlanAdmin(admin.ModelAdmin):
     list_display = ('name', 'user', 'date', 'display_recipes')
     search_fields = ('name', 'recipes__name', 'date')
-    list_filter = ('recipes', 'user')
-    # update code later to show only recipes in mealplans in list filter
+    list_filter = (RecipeInMealPlanFilter, 'user')
 
     def display_recipes(self, obj):
         recipes = obj.recipes.all()[:3]

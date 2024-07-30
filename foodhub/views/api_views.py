@@ -1,4 +1,4 @@
-from foodhub.models import Ingredient, Recipe, Step
+from foodhub.models import Allergen, Ingredient, Recipe, Step
 from foodhub.serializers import IngredientSerializer, RecipeSerializer, StepSerializer
 from rest_framework import generics
 
