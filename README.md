@@ -4,6 +4,9 @@
 
 Foodhub is an innovative platform designed to allow users to explore, discover, and share recipes tailored to their dietary preferences, culinary skills, and allergens. Whether you're a seasoned chef or a beginner in the kitchen, Foodhub helps you find the perfect recipes that fit your needs.
 
+https://github.com/user-attachments/assets/72092065-6707-418d-8dc6-aa496bbea958
+
+
 ## Authors
 
 - **Roel Villaluz** - [@RoelVillaluz](https://github.com/RoelVillaluz)
