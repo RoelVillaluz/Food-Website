@@ -2139,6 +2139,14 @@ border-radius: 50%;
     width: 100%;
 }
 
+#username-success {
+    color: green;
+}
+
+#username-error {
+    color: red;
+}
+
 .login-forms .form-group i {
     position: absolute;
     left: 10px;

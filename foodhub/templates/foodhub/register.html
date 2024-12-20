@@ -11,9 +11,9 @@
             {% csrf_token %}
             <div class="form-group">
                 <i class="fas fa-user"></i>
-                <input class="form-control" autofocus type="text" name="username" placeholder="Username"
+                <input class="form-control" autofocus type="text" name="username" placeholder="Username" autocomplete="off"
                 hx-post="/check_username/"
-                hx-trigger="keyup"
+                hx-trigger="keyup changed delay:0.5s"
                 hx-target="#username-error"
                 >
             </div>
