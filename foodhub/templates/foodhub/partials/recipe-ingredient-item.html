@@ -1,0 +1,12 @@
+{% if ingredient.unit_of_measurement == 'none' %}
+    <li data-ingredient-id="{{ ingredient.id }}">
+        {{ ingredient.quantity }} 
+        {{ ingredient.name  }}
+        <i class="fa-solid fa-minus delete-icon" data-ingredient-id="{{ ingredient.id }}"></i>
+    </li>
+{% else %}
+    <li data-ingredient-id="{{ ingredient.id }}">
+        {{ ingredient }}
+        <i class="fa-solid fa-minus delete-icon" data-ingredient-id="{{ ingredient.id }}"></i>
+    </li>
+{% endif %}

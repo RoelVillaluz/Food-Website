@@ -9,18 +9,22 @@
             <img src="{{ recipe.image.url }}" alt="" width="100%" height="100%">
         </div>
         <div class="ingredient-form">
-            <form action="{% url 'add_ingredient' recipe.name %}" method="post">
+            <form method="post" 
+                hx-post="{% url 'add_ingredient' recipe.name %}" 
+                hx-target=".ingredients-list" 
+                hx-swap="beforeend" 
+                hx-on="htmx:afterRequest: this.reset()">
                 {% csrf_token %}
                 <div id="ingredient-forms">
                     <div class="ingredient-form">
-                        <h3>Ingredient: </h3>{{ form.name }}
-                        <h3>Quantity: </h3>{{ form.quantity }}
-                        <h3>Unit of Measurment: </h3>{{ form.unit_of_measurement }}
+                        <h3>Ingredient:</h3> {{ form.name }}
+                        <h3>Quantity:</h3> {{ form.quantity }}
+                        <h3>Unit of Measurement:</h3> {{ form.unit_of_measurement }}
                     </div>
                 </div>
                 <button type="submit" name="add_ingredient">Submit</button>
             </form>
-        </div>
+        </div>        
     </div>
     <div class="button-container">
         <button title="next-form">
@@ -37,18 +41,7 @@
         <form action="{% url 'add_ingredient' recipe.name %}" method="post" id="delete-ingredient-form">
             {% csrf_token %}
             {% for ingredient in ingredients %}
-                {% if ingredient.unit_of_measurement == 'none' %}
-                    <li data-ingredient-id="{{ ingredient.id }}">
-                        {{ ingredient.quantity }} 
-                        {{ ingredient.name  }}
-                        <i class="fa-solid fa-minus delete-icon" data-ingredient-id="{{ ingredient.id }}"></i>
-                    </li>
-                {% else %}
-                    <li data-ingredient-id="{{ ingredient.id }}">
-                        {{ ingredient }}
-                        <i class="fa-solid fa-minus delete-icon" data-ingredient-id="{{ ingredient.id }}"></i>
-                    </li>
-                {% endif %}
+                {% include 'foodhub/partials/recipe-ingredient-item.html' %}
             {% endfor %}
             <input type="hidden" name="delete_ingredient" id="delete-ingredient-id">
         </form>

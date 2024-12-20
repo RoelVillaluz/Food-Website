@@ -192,36 +192,64 @@ def create_recipe(request):
             "featured_categories": Recipe.CATEGORY_CHOICES[:6]
         })
     
-@login_required(login_url='/login')
 def add_ingredient(request, recipe_name):
-    recipe = Recipe.objects.get(name=recipe_name)
-    
+    recipe = get_object_or_404(Recipe, name=recipe_name)
+
     # Handle POST request for adding an ingredient
-    if request.method == 'POST' and 'add_ingredient' in request.POST:
+    if request.method == "POST":
         form = IngredientForm(request.POST)
         if form.is_valid():
             ingredient = form.save(commit=False)
             ingredient.recipe = recipe
             ingredient.save()
-            return redirect("add_ingredient", recipe_name=recipe_name)
+            
+            # If the request is made via HTMX, return the partial HTML for the new ingredient
+            if request.headers.get('HX-Request'):
+                return render(request, 'foodhub/partials/recipe-ingredient-item.html', {
+                    'ingredient': ingredient,
+                })
 
-    # Handle POST request for deleting an ingredient
-    elif request.method == 'POST' and 'delete_ingredient' in request.POST:
-        ingredient_id = request.POST.get('delete_ingredient')
-        ingredient = Ingredient.objects.get(id=ingredient_id, recipe=recipe)
-        ingredient.delete()
-        return redirect("add_ingredient", recipe_name=recipe_name)
-    
-    else:
-        form = IngredientForm()
-    
+    form = IngredientForm()
     ingredients = Ingredient.objects.filter(recipe=recipe)
-    
-    return render(request, "foodhub/add_ingredient.html", { 
-        "form": form, 
-        "recipe": recipe,
-        "ingredients": ingredients,
+
+    return render(request, 'foodhub/add_ingredient.html', {
+        'form': form,
+        'recipe': recipe,
+        'ingredients': ingredients,
     })
+
+    
+    
+# @login_required(login_url='/login')
+# def add_ingredient(request, recipe_name):
+#     recipe = Recipe.objects.get(name=recipe_name)
+    
+#     # Handle POST request for adding an ingredient
+#     if request.method == 'POST' and 'add_ingredient' in request.POST:
+#         form = IngredientForm(request.POST)
+#         if form.is_valid():
+#             ingredient = form.save(commit=False)
+#             ingredient.recipe = recipe
+#             ingredient.save()
+#             return redirect("add_ingredient", recipe_name=recipe_name)
+
+#     # Handle POST request for deleting an ingredient
+#     elif request.method == 'POST' and 'delete_ingredient' in request.POST:
+#         ingredient_id = request.POST.get('delete_ingredient')
+#         ingredient = Ingredient.objects.get(id=ingredient_id, recipe=recipe)
+#         ingredient.delete()
+#         return redirect("add_ingredient", recipe_name=recipe_name)
+    
+#     else:
+#         form = IngredientForm()
+    
+#     ingredients = Ingredient.objects.filter(recipe=recipe)
+    
+#     return render(request, "foodhub/add_ingredient.html", { 
+#         "form": form, 
+#         "recipe": recipe,
+#         "ingredients": ingredients,
+#     })
 
 @login_required(login_url='/login')
 def add_step(request, recipe_name):
@@ -971,6 +999,6 @@ def practice(request):
 def check_username(request):
     username = request.POST.get('username')
     if get_user_model().objects.filter(username=username).exists():
-        return HttpResponse('Username already exists')
+        return HttpResponse('<div id="username-error">Username already exists</div>')
     else:
-        return HttpResponse('Username is available!')
+        return HttpResponse('<div id="username-success">Username is available!</div>')
