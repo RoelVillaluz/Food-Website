@@ -11,8 +11,13 @@
             {% csrf_token %}
             <div class="form-group">
                 <i class="fas fa-user"></i>
-                <input class="form-control" autofocus type="text" name="username" placeholder="Username">
+                <input class="form-control" autofocus type="text" name="username" placeholder="Username"
+                hx-post="/check_username/"
+                hx-trigger="keyup"
+                hx-target="#username-error"
+                >
             </div>
+            <div id="username-error"></div>
             <div class="form-group">
                 <i class="fa-solid fa-envelope"></i>
                 <input class="form-control" type="email" name="email" placeholder="Email Address">

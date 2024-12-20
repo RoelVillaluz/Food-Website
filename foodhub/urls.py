@@ -39,4 +39,5 @@ urlpatterns = [
     path('api/recipes/<int:pk>', RecipeRetrieveUpdateDestroyApiView.as_view(), name='recipes-api-update'),
     path('api/ingredients/', IngredientListCreateApiView.as_view(), name='ingredients-api'),
     path('api/steps/', StepListCreateApiView.as_view(), name='steps-api'),
+    path('check_username/', views.check_username, name="check_username")
 ]

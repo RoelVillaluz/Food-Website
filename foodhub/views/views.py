@@ -13,6 +13,7 @@ from django.db.models import Count, Q, Avg
 from django.contrib import messages
 from collections import defaultdict
 from rest_framework import generics
+from django.contrib.auth import get_user_model
 
 import json
 
@@ -967,3 +968,9 @@ def practice(request):
     })
 
 
+def check_username(request):
+    username = request.POST.get('username')
+    if get_user_model().objects.filter(username=username).exists():
+        return HttpResponse('Username already exists')
+    else:
+        return HttpResponse('Username is available!')
